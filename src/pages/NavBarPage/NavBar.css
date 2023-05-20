@@ -1,0 +1,18 @@
+.navbar{
+    display: flex;
+    background-color:black ;
+}
+.navbar-main{
+    display: flex;
+    justify-content: space-evenly;
+    
+}
+.search-container{
+    display: flex;
+    align-items: center;
+}
+.navbar-right{
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+}
