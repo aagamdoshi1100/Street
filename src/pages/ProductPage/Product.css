@@ -1,18 +1,50 @@
 
 .container{
     display: flex;
-    flex-wrap: wrap;
-}
-
-.box-btn{
-    width: 100%;
     
 }
+
+.product-cards{
+    margin-top: 30px;
+    display: flex;
+    flex-wrap: wrap;
+}
+.box-btn{
+    width: 100%;
+    padding: 5px;
+    color: white;
+    background-color:#2371f7;
+    border: #2371f7
+}
 .box{
-    border: 1px solid black; 
+    border: 1px solid grey; 
     margin: 3px;
     border-radius:5px ;
     text-align: left;
     justify-content: space-between;
-    padding: 5px;
+  
+}
+.filters{
+    display: flex;
+    flex-direction: column;
+    width:50%;
+    padding: 15px;
+}
+.row{
+    display: flex;
+    
+}
+.head{
+    display: flex;
+    justify-content: space-between;
+}
+.row-price{
+    display: flex;
+    justify-content: space-between;
+    color: grey;
+}
+.col{ 
+    display: flex;
+    flex-direction: column;
+   
 }
