@@ -1,11 +1,12 @@
-.navbar{
-    display: flex;
-    background-color:black ;
-}
 .navbar-main{
     display: flex;
-    justify-content: space-evenly;
-    
+    background-color: black;
+    width: 100%;
+    height: 60px;
+}
+.navbar-left{
+    display: flex;
+    align-items: flex-start;
 }
 .search-container{
     display: flex;
@@ -13,6 +14,9 @@
 }
 .navbar-right{
     display: flex;
-    justify-content: flex-end;
-    align-items: center;
+}
+.link{
+    color: white;
+    text-decoration: none;
+    margin: 5px;
 }
