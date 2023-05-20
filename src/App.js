@@ -1,4 +1,5 @@
 import "./App.css";
+import Landing from "./pages/LandingPage/Landing";
 import NavBar from "./pages/NavBarPage/NavBar";
 import Product from "./pages/ProductPage/Product";
 import Mockman from "mockman-js"
@@ -9,9 +10,9 @@ function App() {
     <div className="App">
       <NavBar />
       <Routes>
-      <Route path="/" element={<Product />} />
+      <Route path="/" element={<Landing />} />
       <Route path="/mockman" element={<Mockman />} />
-      <Route path="/ProductPage/Product" element={<Product />} />
+      <Route path="/pages/ProductPage/Product" element={<Product />} />
       </Routes>
     </div>
   );
