@@ -1,18 +1,21 @@
-export default  function FilterReduce(state,action){
+ export default  function FilterReduce(state,action){
+ 
     switch(action.type){
         case "PRODUCTS" :
-        //    console.log([...action.payload],"reducer")
+            console.log(action.payload,"ac")
             return {...state, arrProducts: [...action.payload]}
         case "CATEGORIES" :
-        //    console.log([...action.payload],"Catreducer")
             return {...state, arrCategories : [...action.payload]}
         case "HTL" :
-            console.log([...action.payload],"Catreducer")
             return {...state, arrProducts : [...action.payload.sort((a,b)=>b.price - a.price)]}
         case "LTH" :
-            console.log([...action.payload],"Catreducer")
             return {...state, arrProducts : [...action.payload.sort((a,b)=>a.price - b.price)]}
-     
+        case "1" :
+        case "2" :
+        case "3" :
+        case "4" :
+            return {...state, ratingSelected : action.type}
+
         default:
             return state
     }

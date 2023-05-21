@@ -1,10 +1,30 @@
-import { createContext, useContext,useEffect, useReducer } from "react";
+import { createContext, useContext,useEffect, useReducer, useState } from "react";
 import FilterReducer from "../Reducer/FilterReducer";
 
 const FetchContext = createContext();
 
 export default function FetchContextProvider({children}){
-    const [productState , productDispatcher] = useReducer(FilterReducer,{arrProducts:[],arrCategories:[]})
+    
+    const [productState , productDispatcher] = useReducer(FilterReducer,{arrProducts:[],arrCategories:[],ratingSelected:null})
+    
+    const [checkboxes,setCheckBoxes] = useState({menCategory :false,womenCategory:false,kidCategory:false})
+
+    const checkboxSorter = (e)=>{
+        switch(e.target.value){
+            case "Men":
+                setCheckBoxes({...checkboxes,menCategory : !checkboxes.menCategory})
+                break;
+        case "Women":
+                setCheckBoxes({...checkboxes,womenCategory : !checkboxes.womenCategory})
+                break;
+        case "Kid":
+                setCheckBoxes({...checkboxes,kidCategory : !checkboxes.kidCategory})
+                break;
+                 
+        }
+        
+    }
+
     const sorter =(e)=>{
         productDispatcher({type: e.target.value,payload:productState.arrProducts})
     }
@@ -12,11 +32,9 @@ export default function FetchContextProvider({children}){
         try{
             const responseProduct = await fetch("/api/products")
             const responseProductData =  await responseProduct.json()
-            console.log(responseProductData.products,"pro")
 
             const responseCategories = await fetch("/api/categories")
-            const responseCategoriesData =  await responseCategories.json()
-            console.log(responseCategoriesData.categories,"cat")
+            const responseCategoriesData= await responseCategories.json()
          productDispatcher({type : "PRODUCTS" , payload : responseProductData.products})
          productDispatcher({type : "CATEGORIES" , payload : responseCategoriesData.categories})
         }
@@ -28,8 +46,43 @@ export default function FetchContextProvider({children}){
     useEffect(()=>{
         fetching()
     },[])
+    
+ 
+    const filteredData=(all)=>{
+        let filtered = [...all]
+        if(productState.ratingSelected !==null){
+            filtered = filtered.filter(({rating}) => rating > Number(productState.ratingSelected))
+        }
+        if(checkboxes.menCategory && checkboxes.kidCategory){
+            filtered = filtered.filter(({type})=> type ==="Men" && type === "Kid")
+        }        
+        if(checkboxes.kidCategory && checkboxes.menCategory){
+            filtered = filtered.filter(({type})=> type ==="Kid" && type ==="Men" )
+        }           
+        if(checkboxes.kidCategory && checkboxes.womenCategory){
+            filtered = filtered.filter(({type})=> type ==="Kid" && type ==="Women")
+        }        
+        if(checkboxes.womenCategory && checkboxes.kidCategory){
+            filtered = filtered.filter(({type})=> type ==="Women" &&  type ==="Kid")
+        }
+        if(checkboxes.menCategory && checkboxes.womenCategory){
+            filtered = filtered.filter(({type})=> type ==="Men" && type ==="Women")
+        }  
+        if(checkboxes.womenCategory ){
+            filtered = filtered.filter(({type})=> type ==="Women" )
+        }
+        if( checkboxes.kidCategory){
+            filtered = filtered.filter(({type})=>   type ==="Kid")
+        }
+        if(checkboxes.menCategory  ){
+            filtered = filtered.filter(({type})=> type ==="Men" )
+        }  
+        return filtered
+    }
+  const data = filteredData(productState.arrProducts)
+  console.log(data)
 
-    return(<FetchContext.Provider value={{productState,sorter}}>{children}</FetchContext.Provider>
+    return(<FetchContext.Provider value={{checkboxes,data, productState,sorter,checkboxSorter}}>{children}</FetchContext.Provider>
     )
 }
 
