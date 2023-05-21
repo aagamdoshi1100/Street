@@ -1,9 +1,13 @@
-import { createContext, useContext, useState,useEffect } from "react";
+import { createContext, useContext,useEffect, useReducer } from "react";
+import FilterReducer from "../Reducer/FilterReducer";
 
 const FetchContext = createContext();
 
 export default function FetchContextProvider({children}){
-    const [allData,setAllData] =useState({arrProducts:[],arrCategories:[]})
+    const [productState , productDispatcher] = useReducer(FilterReducer,{arrProducts:[],arrCategories:[]})
+    const sorter =(e)=>{
+        productDispatcher({type: e.target.value,payload:productState.arrProducts})
+    }
     const fetching =async()=>{
         try{
             const responseProduct = await fetch("/api/products")
@@ -13,8 +17,8 @@ export default function FetchContextProvider({children}){
             const responseCategories = await fetch("/api/categories")
             const responseCategoriesData =  await responseCategories.json()
             console.log(responseCategoriesData.categories,"cat")
-
-            setAllData({...allData, arrProducts: responseProductData.products, arrCategories: responseCategoriesData.categories })
+         productDispatcher({type : "PRODUCTS" , payload : responseProductData.products})
+         productDispatcher({type : "CATEGORIES" , payload : responseCategoriesData.categories})
         }
         catch(e){
             console.log(e)
@@ -25,7 +29,7 @@ export default function FetchContextProvider({children}){
         fetching()
     },[])
 
-    return(<FetchContext.Provider value={{allData}}>{children}</FetchContext.Provider>
+    return(<FetchContext.Provider value={{productState,sorter}}>{children}</FetchContext.Provider>
     )
 }
 

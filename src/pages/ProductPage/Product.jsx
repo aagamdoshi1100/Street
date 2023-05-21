@@ -2,8 +2,8 @@ import "./Product.css"
 import { useFetchContext } from "../../contexts/FetchContext"
 
 export default function Product(){
-    const {allData} = useFetchContext()
-    // console.log(allData.categories)
+    const {productState,sorter} = useFetchContext()
+     console.log(productState.arrProducts)
     return(<div className="container"> 
     <div className="filters">
     <div className="head">
@@ -40,15 +40,15 @@ export default function Product(){
     </div>
     <div> 
         <h3>Sort By</h3> 
-        <input type="radio" name="sort" value="HTL" />
+        <input type="radio" name="sort" value="HTL" onChange={(e)=>sorter(e)} />
         <label> High To Low</label>
-        <input type="radio" name="sort" value="LTH" />
+        <input type="radio" name="sort" value="LTH" onChange={(e)=>sorter(e)} />
         <label> Low To High</label>
     </div>
     </div>
     <div className="product-cards">
         {
-            allData.arrProducts.map((item)=>{
+            productState.arrProducts.map((item)=>{
                 const {_id,image,price,title,Material} = item;
                 return(<div className="box" key={_id}>
                     <img src={`${image}`} width="100%" height="160px" alt="" />
