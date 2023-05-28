@@ -2,7 +2,7 @@
  
     switch(action.type){
         case "PRODUCTS" :
-            console.log(action.payload,"ac")
+          
             return {...state, arrProducts: [...action.payload]}
         case "CATEGORIES" :
             return {...state, arrCategories : [...action.payload]}

@@ -19,17 +19,15 @@ export default function FetchContextProvider({children}){
                 break;
         case "Kid":
                 setCheckBoxes({...checkboxes,kidCategory : !checkboxes.kidCategory})
-                break;
-                 
-        }
-        
+                break;     
+        }    
     }
 
     const sorter =(e)=>{
         productDispatcher({type: e.target.value,payload:productState.arrProducts})
     }
     const fetching =async()=>{
-        try{
+        try{   
             const responseProduct = await fetch("/api/products")
             const responseProductData =  await responseProduct.json()
 
@@ -39,48 +37,45 @@ export default function FetchContextProvider({children}){
          productDispatcher({type : "CATEGORIES" , payload : responseCategoriesData.categories})
         }
         catch(e){
-            console.log(e)
+            console.error(e)
         }
     }
-
     useEffect(()=>{
         fetching()
+     
     },[])
-    
- 
+
+
     const filteredData=(all)=>{
         let filtered = [...all]
         if(productState.ratingSelected !==null){
             filtered = filtered.filter(({rating}) => rating > Number(productState.ratingSelected))
         }
         if(checkboxes.menCategory && checkboxes.kidCategory){
-            filtered = filtered.filter(({type})=> type ==="Men" && type === "Kid")
+            filtered = filtered.filter(({type})=> type ==="Men" || type === "Kid")
         }        
         if(checkboxes.kidCategory && checkboxes.menCategory){
-            filtered = filtered.filter(({type})=> type ==="Kid" && type ==="Men" )
+            filtered = filtered.filter(({type})=> type ==="Kid" || type ==="Men" )
         }           
         if(checkboxes.kidCategory && checkboxes.womenCategory){
-            filtered = filtered.filter(({type})=> type ==="Kid" && type ==="Women")
+            filtered = filtered.filter(({type})=> type ==="Kid" || type ==="Women")
         }        
         if(checkboxes.womenCategory && checkboxes.kidCategory){
-            filtered = filtered.filter(({type})=> type ==="Women" &&  type ==="Kid")
+            filtered = filtered.filter(({type})=> type ==="Women" ||  type ==="Kid")
         }
         if(checkboxes.menCategory && checkboxes.womenCategory){
-            filtered = filtered.filter(({type})=> type ==="Men" && type ==="Women")
+            filtered = filtered.filter(({type})=> type ==="Men" || type ==="Women")
         }  
-        if(checkboxes.womenCategory ){
-            filtered = filtered.filter(({type})=> type ==="Women" )
-        }
+    
         if( checkboxes.kidCategory){
             filtered = filtered.filter(({type})=>   type ==="Kid")
         }
-        if(checkboxes.menCategory  ){
-            filtered = filtered.filter(({type})=> type ==="Men" )
-        }  
+     
+    
         return filtered
     }
   const data = filteredData(productState.arrProducts)
-  console.log(data)
+
 
     return(<FetchContext.Provider value={{checkboxes,data, productState,sorter,checkboxSorter}}>{children}</FetchContext.Provider>
     )

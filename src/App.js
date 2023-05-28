@@ -1,4 +1,5 @@
 import "./App.css";
+import Cart from "./pages/CartPage/Cart";
 import Landing from "./pages/LandingPage/Landing";
 import NavBar from "./pages/NavBarPage/NavBar";
 import Product from "./pages/ProductPage/Product";
@@ -12,6 +13,7 @@ function App() {
       <Routes>
       <Route path="/" element={<Landing />} />
       <Route path="/mockman" element={<Mockman />} />
+      <Route path="/pages/CartPage/Cart" element={<Cart />} />
       <Route path="/pages/ProductPage/Product" element={<Product />} />
       </Routes>
     </div>

@@ -1,8 +1,11 @@
 import "./Product.css"
 import { useFetchContext } from "../../contexts/FetchContext"
+import useCartContext from "../../contexts/CartContext"
 
 export default function Product(){
     const {checkboxes,data, productState,sorter,checkboxSorter} = useFetchContext()
+
+    const {addToCart,cartItem} = useCartContext()
 
     return(<div className="container"> 
     <div className="filters">
@@ -56,7 +59,8 @@ export default function Product(){
                     <p style={{textAlign:"center"}}>{rating}⭐</p>
 
                     <p>Price: Rs {price}</p>
-                    <button className="box-btn">Add to Cart</button>
+                    {cartItem.cartArray.find((thing)=>thing._id === _id) ? <button>Go to Cart</button> :
+                    <button className="box-btn" onClick={()=>addToCart(item)}>Add to Cart</button>}
                 </div>
 
             )
