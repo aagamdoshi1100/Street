@@ -14,7 +14,7 @@ export default function NavBar(){
             </div>
             <ul className="navbar-right">
                <NavLink className="link" to="/pages/CartPage/Cart">Cart</NavLink>
-               <NavLink className="link"to="#">Wishlist</NavLink>
+               <NavLink className="link"to="/pages/WishListPage/WishList">Wishlist</NavLink>
                <NavLink className="link" to="/mockman">Mockman</NavLink>
             </ul>
         </div>

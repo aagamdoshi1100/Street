@@ -1,11 +1,13 @@
 import "./Product.css"
 import { useFetchContext } from "../../contexts/FetchContext"
 import useCartContext from "../../contexts/CartContext"
+import useWishListContext from "../../contexts/WishListContext"
 
 export default function Product(){
     const {checkboxes,data, productState,sorter,checkboxSorter} = useFetchContext()
 
     const {addToCart,cartItem} = useCartContext()
+    const {addToWishList} = useWishListContext()
 
     return(<div className="container"> 
     <div className="filters">
@@ -54,6 +56,7 @@ export default function Product(){
             data.map((item)=>{
                 const {_id,image,price,rating,title,Material} = item;
                 return(<div className="box" key={_id}>
+                    <h3 onClick={()=>addToWishList(item)} >W</h3>
                     <img src={`${image}`} width="100%" height="160px" alt="" />
                     <p>{title}</p>
                     <p style={{textAlign:"center"}}>{rating}⭐</p>

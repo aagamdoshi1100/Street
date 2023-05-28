@@ -5,6 +5,7 @@ import NavBar from "./pages/NavBarPage/NavBar";
 import Product from "./pages/ProductPage/Product";
 import Mockman from "mockman-js"
 import { Route,Routes } from "react-router-dom";
+import WishList from "./pages/WishListPage/WishList";
 
 function App() {
   return (
@@ -15,6 +16,7 @@ function App() {
       <Route path="/mockman" element={<Mockman />} />
       <Route path="/pages/CartPage/Cart" element={<Cart />} />
       <Route path="/pages/ProductPage/Product" element={<Product />} />
+      <Route path="/pages/WishListPage/WishList" element={<WishList />} />
       </Routes>
     </div>
   );
