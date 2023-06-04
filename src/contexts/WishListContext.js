@@ -6,9 +6,7 @@ const WishListContext = createContext();
 
 export const WishListContextProvider = ({children})=>{
     const [wishListItem,setWishListItem]  = useState({WishListArray:[]})
-    const addToWishList = async(item) =>{
-        console.log(item)
-        let product = item;
+    const addToWishList = async(product) =>{
         try{
         let aa = localStorage.getItem("encodedToken")
         const res = await fetch("/api/user/wishlist",{

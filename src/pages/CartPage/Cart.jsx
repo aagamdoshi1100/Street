@@ -2,9 +2,11 @@
 import { useEffect } from "react"
  import { NavLink } from "react-router-dom"
 import useCartContext from "../../contexts/CartContext"
+import useWishListContext from "../../contexts/WishListContext";
 
 export default function Cart(){
-        const { cartItem,setCartItem,qtyControl,removeFromCart } = useCartContext();
+        const { cartItem,setCartItem,qtyControl,removeFromCart,totalBill } = useCartContext();
+        const {addToWishList} = useWishListContext();
         const setToCart = async() =>{
             try{ 
             const aa= localStorage.getItem("encodedToken")
@@ -43,13 +45,26 @@ useEffect(()=>{
                     {qty > 1 ? <button onClick={()=>qtyControl(item,"decrement")}>-</button> : <button onClick={()=>qtyControl(item,"decrement")} disabled>-</button>}
                     </div>
                     <button onClick={()=>removeFromCart(item)}>Remove From Cart</button>
-                    <button>Add To WishList</button>
+                    <button onClick={()=>addToWishList(item)}>Add To WishList</button>
                     
                 </div>
 
             )
         })
          }
-        </div>
+        </div>{totalBill.qty > 0 ?
+        <div>
+            <h4>Price Details</h4>
+            <p>Price ({totalBill.qty } items)</p>
+            <p> {totalBill.price } </p>
+            <p>Discount  </p>
+            <p>-1000</p>
+            <p>Delivery Charges</p>
+            <p>499</p>
+            <p>Total Amount</p>
+            <p>{totalBill.price-1000+499}</p>
+            <p>you will save 1000 Rs on this order</p>
+            <button>Place Order</button>            
+        </div> : <p></p>} 
     </div>)
 }

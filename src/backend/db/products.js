@@ -7,7 +7,7 @@ import { v4 as uuid } from "uuid";
 
 export const products = [
   {
-    _id: "1234",
+    _id: uuid(),
     title: "Men's striped fit T-shirt",
     image: "https://m.media-amazon.com/images/I/61rSf7lBx1L._UY500_.jpg",
     price: "1990",

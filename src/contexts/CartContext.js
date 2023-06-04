@@ -8,6 +8,13 @@ const CartContext = createContext();
 export const CartContextProvider = ({children})=>{
     const [cartItem,setCartItem]  = useState({cartArray:[]});
 
+    const totalBill = cartItem.cartArray.reduce((acc,cur)=>{
+        acc.price  =   Number(acc.price)+Number(cur.price*cur.qty)
+        acc.qty  =   acc.qty + cur.qty
+        return acc 
+    },{price:0,qty:0})
+    console.log("🚀 ~ file: CartContext.js:15 ~ totalBill ~ totalBill:", totalBill)
+
     const qtyControl = async(product,act) =>{
         let productId = product._id
         console.log(productId,"Aaa")
@@ -65,7 +72,7 @@ export const CartContextProvider = ({children})=>{
         } 
     
     }
-    return(<CartContext.Provider value={{addToCart,cartItem,setCartItem,qtyControl,removeFromCart}}>{children}</CartContext.Provider>)
+    return(<CartContext.Provider value={{addToCart,cartItem,setCartItem,qtyControl,removeFromCart,totalBill}}>{children}</CartContext.Provider>)
 }
 
 
