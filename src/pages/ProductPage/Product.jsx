@@ -2,10 +2,12 @@ import "./Product.css"
 import { useFetchContext } from "../../contexts/FetchContext"
 import useCartContext from "../../contexts/CartContext"
 import useWishListContext from "../../contexts/WishListContext"
+import useAuthContext from "../../contexts/AuthContext"
+import { Navigate } from "react-router-dom"
 
 export default function Product(){
     const {checkboxes,data, productState,sorter,checkboxSorter} = useFetchContext()
-
+    const {isLoggedIn} = useAuthContext()
     const {addToCart,cartItem} = useCartContext()
     const {addToWishList} = useWishListContext()
 
@@ -62,8 +64,9 @@ export default function Product(){
                     <p style={{textAlign:"center"}}>{rating}⭐</p>
 
                     <p>Price: Rs {price}</p>
-                    {cartItem.cartArray.find((thing)=>thing._id === _id) ? <button>Go to Cart</button> :
-                    <button className="box-btn" onClick={()=>addToCart(item)}>Add to Cart</button>}
+                   
+                    {cartItem?.cartArray?.find((thing)=>thing._id === _id) ? <button>Go to Cart</button> :
+                     <button className="box-btn" onClick={()=>addToCart(item)}>Add to Cart</button> }  
                 </div>
 
             )

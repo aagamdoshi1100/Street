@@ -28,7 +28,7 @@ useEffect(()=>{
         <h3>WishList page</h3>
         <div className="box-container">
          {
-            wishListItem?.WishListArray.map((item)=>{
+            wishListItem?.WishListArray?.map((item)=>{
                 const {_id,image,price,rating,title,Material} = item;
                 return(<div className="box" key={_id}>
                     <img src={`${image}`} width="100%" height="160px" alt="" />
