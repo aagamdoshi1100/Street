@@ -7,12 +7,12 @@ import { v4 as uuid } from "uuid";
 
 export const products = [
   {
-    _id: uuid(),
+    _id: "1234",
     title: "Men's striped fit T-shirt",
     image: "https://m.media-amazon.com/images/I/61rSf7lBx1L._UY500_.jpg",
     price: "1990",
     rating:4.5,
-    type : "Men",
+    type : "Men", 
     Material: "Cotton",
   },
   {
@@ -21,7 +21,7 @@ export const products = [
     image: "https://m.media-amazon.com/images/I/61UDal8a8oL._UY550_.jpg",
     price: "1399",
     rating:4,
-    type : "Men",
+    type : "Men", 
     Material: "Cotton",
   },
   {
@@ -30,7 +30,7 @@ export const products = [
     image: "https://m.media-amazon.com/images/I/81QN4uIauwL._AC_UL400_.jpg",
     price: "1999",
     rating:2,
-    type : "Women",
+    type : "Women", 
     Material: "Cotton",
   },
   {
