@@ -5,7 +5,8 @@ import useWishListContext from "../../contexts/WishListContext"
  
 
 export default function WishList(){
-        const {wishListItem,setWishListItem} = useWishListContext()
+        const {wishListItem,setWishListItem,removeFromWishList,moveToCart} = useWishListContext()
+        
         const setToWishList = async() =>{
             try{ 
             const aa= localStorage.getItem("encodedToken")
@@ -31,12 +32,13 @@ useEffect(()=>{
             wishListItem?.WishListArray?.map((item)=>{
                 const {_id,image,price,rating,title,Material} = item;
                 return(<div className="box" key={_id}>
+                    <p onClick={()=>removeFromWishList(item)}>W</p>
                     <img src={`${image}`} width="100%" height="160px" alt="" />
                     <p>{title}</p>
                     <p style={{textAlign:"center"}}>{rating}⭐</p>
 
                     <p>Price: Rs {price}</p>
-                
+                    <button onClick={()=>moveToCart(item)}>Move To Cart</button>
                 </div>
 
             )
