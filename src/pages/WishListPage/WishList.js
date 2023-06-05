@@ -1,12 +1,10 @@
 
-import { useEffect } from "react"
- import { NavLink } from "react-router-dom"
+import { useEffect } from "react" 
 import useWishListContext from "../../contexts/WishListContext"
- 
 
 export default function WishList(){
         const {wishListItem,setWishListItem,removeFromWishList,moveToCart} = useWishListContext()
-        
+         
         const setToWishList = async() =>{
             try{ 
             const aa= localStorage.getItem("encodedToken")
@@ -35,12 +33,10 @@ useEffect(()=>{
                     <p onClick={()=>removeFromWishList(item)}>W</p>
                     <img src={`${image}`} width="100%" height="160px" alt="" />
                     <p>{title}</p>
-                    <p style={{textAlign:"center"}}>{rating}⭐</p>
-
+                    <p style={{textAlign:"center"}}>{rating}⭐</p> 
                     <p>Price: Rs {price}</p>
-                    <button onClick={()=>moveToCart(item)}>Move To Cart</button>
+                    <button onClick={()=>moveToCart(item,"increment")}>Move To Cart</button>
                 </div>
-
             )
         })
          }

@@ -36,11 +36,25 @@ export const WishListContextProvider = ({children})=>{
         }
     }
 
-    const moveToCart=()=>{}
+    const moveToCart=async(product,act)=>{
+        const productId = product._id
+        console.log("🚀 ~ file: WishListContext.js:40 ~ moveToCart ~ act:", act)
+
+        try{
+            const res = await fetch(`/api/user/cart/${productId}`,{
+                method:"POST",          
+                headers: {authorization: myToken },
+                body: {action:{type : act}}
+            })
+            console.log("🚀 ~ file: WishListContext.js:44 ~ moveToCart ~ res:", res)
+        }catch(e){
+        console.log("🚀 ~ file: WishListContext.js:49 ~ moveToCart ~ e:", e)
+        }
+    }
     return(<WishListContext.Provider value={{addToWishList,wishListItem,setWishListItem,removeFromWishList,moveToCart}}>{children}</WishListContext.Provider>)
 }
 
 
  const useWishListContext =()=> useContext(WishListContext)
 
-export default useWishListContext;
+export default useWishListContext; 
