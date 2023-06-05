@@ -6,7 +6,7 @@ import useAuthContext from "../../contexts/AuthContext"
 import { Navigate } from "react-router-dom"
 
 export default function Product(){
-    const {checkboxes,data, productState,sorter,checkboxSorter} = useFetchContext()
+    const {checkboxes,data, productState,sorter,checkboxSorter,showClickedProduct} = useFetchContext()
     const {isLoggedIn} = useAuthContext()
     const {addToCart,cartItem} = useCartContext()
     const {addToWishList} = useWishListContext()
@@ -57,7 +57,7 @@ export default function Product(){
         {
             data.map((item)=>{
                 const {_id,image,price,rating,title,Material} = item;
-                return(<div className="box" key={_id}>
+                return(<div className="box" key={_id} onClick={()=>showClickedProduct(item)}>
                     <h3 onClick={()=>addToWishList(item)} >W</h3>
                     <img src={`${image}`} width="100%" height="160px" alt="" />
                     <p>{title}</p>

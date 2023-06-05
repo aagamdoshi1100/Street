@@ -1,13 +1,17 @@
 import { createContext, useContext,useEffect, useReducer, useState } from "react";
 import FilterReducer from "../Reducer/FilterReducer";
+import { useNavigate } from "react-router-dom";
 
 const FetchContext = createContext();
 
 export default function FetchContextProvider({children}){
+    const navigate = useNavigate()
     
     const [productState , productDispatcher] = useReducer(FilterReducer,{arrProducts:[],arrCategories:[],ratingSelected:null})
     
     const [checkboxes,setCheckBoxes] = useState({menCategory :false,womenCategory:false,kidCategory:false})
+
+    const [singleProduct , setSingleProduct] =useState({clickedProduct:[]})
 
     const checkboxSorter = (e)=>{
         switch(e.target.value){
@@ -25,6 +29,17 @@ export default function FetchContextProvider({children}){
 
     const sorter =(e)=>{
         productDispatcher({type: e.target.value,payload:productState.arrProducts})
+    }
+    const showClickedProduct =async(products)=>{
+        const productId = products._id
+        try{
+            const res = await fetch(`/api/products/${productId}`,{method:"GET"})
+            const getProduct = await res.json()
+            setSingleProduct({...singleProduct, clickedProduct: [getProduct.product]})
+            navigate("/pages/ProductPage/ShowSingleProduct")
+        }catch(e){
+            console.log("🚀 ~ file: FetchContext.js:35 ~ showClickedProduct ~ e:", e)
+        }
     }
     const fetching =async()=>{
         try{   
@@ -77,7 +92,7 @@ export default function FetchContextProvider({children}){
   const data = filteredData(productState.arrProducts)
 
 
-    return(<FetchContext.Provider value={{checkboxes,data, productState,sorter,checkboxSorter}}>{children}</FetchContext.Provider>
+    return(<FetchContext.Provider value={{checkboxes,data, productState,sorter,checkboxSorter,showClickedProduct,singleProduct}}>{children}</FetchContext.Provider>
     )
 }
 
