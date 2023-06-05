@@ -30,9 +30,9 @@ useEffect(()=>{
          {
             wishListItem?.WishListArray?.map((item)=>{
                 const {_id,image,price,rating,title,Material} = item;
-                return(<div className="box" key={_id} onClick={()=>showClickedProduct(item)}>
+                return(<div className="box" key={_id}>
                     <p onClick={()=>removeFromWishList(item)}>W</p>
-                    <img src={`${image}`} width="100%" height="160px" alt="" />
+                    <img src={`${image}`} width="100%" height="160px" alt=""  onClick={()=>showClickedProduct(item)}/>
                     <p>{title}</p>
                     <p style={{textAlign:"center"}}>{rating}⭐</p> 
                     <p>Price: Rs {price}</p>

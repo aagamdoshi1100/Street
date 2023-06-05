@@ -34,8 +34,8 @@ useEffect(()=>{
          {
             cartItem?.cartArray?.map((item)=>{
                 const {_id,image,price,rating,title,qty,Material} = item;
-                return(<div className="box" key={_id} onClick={()=>showClickedProduct(item)}>
-                    <img src={`${image}`} width="100%" height="160px" alt="" />
+                return(<div className="box" key={_id} >
+                    <img src={`${image}`} width="100%" height="160px" alt="" onClick={()=>showClickedProduct(item)}/>
                     <p>{title}</p>
                     <p style={{textAlign:"center"}}>{rating}⭐</p>
                     <p>Price: Rs {price}</p>
