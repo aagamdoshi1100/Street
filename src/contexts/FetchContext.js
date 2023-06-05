@@ -7,26 +7,26 @@ const FetchContext = createContext();
 export default function FetchContextProvider({children}){
     const navigate = useNavigate()
     
-    const [productState , productDispatcher] = useReducer(FilterReducer,{arrProducts:[],arrCategories:[],ratingSelected:null})
-    
-    const [checkboxes,setCheckBoxes] = useState({menCategory :false,womenCategory:false,kidCategory:false})
-
+    const [productState , productDispatcher] = useReducer(FilterReducer,{
+    arrProducts:[],
+    arrCategories:[],
+    ratingSelected:null,
+    checkboxes:[],
+    selectedRange : null,
+    selectedClearFilter : false
+    })
+    console.log("🚀 ~ file: FetchContext.js:18 ~ FetchContextProvider ~ selectedClearFilter:", productState.selectedClearFilter)
+   
+    const {checkboxes} = productState; 
     const [singleProduct , setSingleProduct] =useState({clickedProduct:[]})
-
+    
     const checkboxSorter = (e)=>{
-        switch(e.target.value){
-            case "Men":
-                setCheckBoxes({...checkboxes,menCategory : !checkboxes.menCategory})
-                break;
-        case "Women":
-                setCheckBoxes({...checkboxes,womenCategory : !checkboxes.womenCategory})
-                break;
-        case "Kid":
-                setCheckBoxes({...checkboxes,kidCategory : !checkboxes.kidCategory})
-                break;     
-        }    
+        const checkboxValue = e.target.value 
+            productDispatcher({type : "TOGGLE_CATEGORY", payload: checkboxValue})   
     }
+    const clearFilter=()=>{
 
+    }
     const sorter =(e)=>{
         productDispatcher({type: e.target.value,payload:productState.arrProducts})
     }
@@ -57,42 +57,30 @@ export default function FetchContextProvider({children}){
     }
     useEffect(()=>{
         fetching()
-     
     },[])
 
 
     const filteredData=(all)=>{
         let filtered = [...all]
+        
         if(productState.ratingSelected !==null){
             filtered = filtered.filter(({rating}) => rating > Number(productState.ratingSelected))
         }
-        if(checkboxes.menCategory && checkboxes.kidCategory){
-            filtered = filtered.filter(({type})=> type ==="Men" || type === "Kid")
-        }        
-        if(checkboxes.kidCategory && checkboxes.menCategory){
-            filtered = filtered.filter(({type})=> type ==="Kid" || type ==="Men" )
-        }           
-        if(checkboxes.kidCategory && checkboxes.womenCategory){
-            filtered = filtered.filter(({type})=> type ==="Kid" || type ==="Women")
-        }        
-        if(checkboxes.womenCategory && checkboxes.kidCategory){
-            filtered = filtered.filter(({type})=> type ==="Women" ||  type ==="Kid")
+
+        if(productState.checkboxes.length > 0 ){
+            filtered= filtered.filter(({type})=> productState.checkboxes.includes(type))
+
         }
-        if(checkboxes.menCategory && checkboxes.womenCategory){
-            filtered = filtered.filter(({type})=> type ==="Men" || type ==="Women")
-        }  
-    
-        if( checkboxes.kidCategory){
-            filtered = filtered.filter(({type})=>   type ==="Kid")
+        if(productState.selectedRange !==null){
+            filtered = filtered.filter(({price}) => Number(price) > productState.selectedRange) 
         }
-     
-    
+ 
         return filtered
     }
   const data = filteredData(productState.arrProducts)
 
 
-    return(<FetchContext.Provider value={{checkboxes,data, productState,sorter,checkboxSorter,showClickedProduct,singleProduct}}>{children}</FetchContext.Provider>
+    return(<FetchContext.Provider value={{checkboxes,data,clearFilter ,productState,sorter,checkboxSorter,showClickedProduct,singleProduct,productDispatcher}}>{children}</FetchContext.Provider>
     )
 }
 

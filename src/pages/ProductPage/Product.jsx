@@ -2,12 +2,9 @@ import "./Product.css"
 import { useFetchContext } from "../../contexts/FetchContext"
 import useCartContext from "../../contexts/CartContext"
 import useWishListContext from "../../contexts/WishListContext"
-import useAuthContext from "../../contexts/AuthContext"
-import { Navigate } from "react-router-dom"
 
 export default function Product(){
-    const {checkboxes,data, productState,sorter,checkboxSorter,showClickedProduct} = useFetchContext()
-    const {isLoggedIn} = useAuthContext()
+    const {checkboxes,data, clearFilter,sorter,checkboxSorter,showClickedProduct,productDispatcher} = useFetchContext()
     const {addToCart,cartItem} = useCartContext()
     const {addToWishList} = useWishListContext()
 
@@ -15,7 +12,7 @@ export default function Product(){
     <div className="filters">
     <div className="head">
         <h3>Filters</h3>
-        <h3>Clear</h3>
+        <h3 onClick={clearFilter}>Clear</h3>
     </div>
     <h3>Price</h3>
     <div className="row-price">
@@ -23,15 +20,15 @@ export default function Product(){
         <div>1500</div>
         <div>3000</div>
     </div>
-    <input type="range" min="100" max="3000" className="slider"/>
+    <input type="range" min="100" max="3000" className="slider" onChange={(e)=>productDispatcher({type :"RANGE", payload:e.target.value})}/>
     
         <h3>Category</h3>
     <div className="col">
-       <span><input type="checkbox" value="Men" checked={checkboxes.menCategory} onChange={(e)=>checkboxSorter(e)}  />  
+       <span><input type="checkbox" value="menCategory" checked={checkboxes.menCategory} onChange={(e)=>checkboxSorter(e)}  />  
         Men Clothing</span>  
-        <span><input type="checkbox"value="Women" checked={checkboxes.womenCategory} onChange={(e)=>checkboxSorter(e)}  />   
+        <span><input type="checkbox" value="womenCategory" checked={checkboxes.womenCategory} onChange={(e)=>checkboxSorter(e)}  />   
         Women Clothing</span>  
-        <span><input type="checkbox" value="Kid" checked={checkboxes.kidCategory} onChange={(e)=>checkboxSorter(e)}  />     
+        <span><input type="checkbox" value="kidCategory" checked={checkboxes.kidCategory} onChange={(e)=>checkboxSorter(e)}  />     
         Kid's Clothing</span>
     </div>
         <h3>Ratings</h3>
@@ -57,9 +54,9 @@ export default function Product(){
         {
             data.map((item)=>{
                 const {_id,image,price,rating,title,Material} = item;
-                return(<div className="box" key={_id} onClick={()=>showClickedProduct(item)}>
+                return(<div className="box" key={_id}>
                     <h3 onClick={()=>addToWishList(item)} >W</h3>
-                    <img src={`${image}`} width="100%" height="160px" alt="" />
+                    <img src={`${image}`} width="100%" height="160px" alt=""  onClick={()=>showClickedProduct(item)}/>
                     <p>{title}</p>
                     <p style={{textAlign:"center"}}>{rating}⭐</p>
 
