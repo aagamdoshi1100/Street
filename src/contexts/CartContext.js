@@ -8,7 +8,7 @@ const CartContext = createContext();
 export const CartContextProvider = ({children})=>{
     const [cartItem,setCartItem]  = useState({cartArray:[]});
 
-    const totalBill = cartItem.cartArray.reduce((acc,cur)=>{
+    const totalBill = cartItem?.cartArray?.reduce((acc,cur)=>{
         acc.price  =   Number(acc.price)+Number(cur.price*cur.qty)
         acc.qty  =   acc.qty + cur.qty
         return acc 

@@ -8,6 +8,7 @@ import { Route,Routes } from "react-router-dom";
 import WishList from "./pages/WishListPage/WishList";
 import RequiresAuth from "./pages/Authentication/RequiresAuth";
 import Login from "./pages/Authentication/Login";
+import Signup from "./pages/Authentication/Signup";
 
 function App() {
   return (
@@ -17,6 +18,7 @@ function App() {
       <Route path="/" element={<Landing />} />
       <Route path="/mockman" element={<Mockman />} />
       <Route path="/pages/Authentication/Login" element={<Login />} />
+      <Route path="/pages/Authentication/Signup" element={<Signup />} />
       <Route path="/pages/CartPage/Cart" element={<RequiresAuth><Cart /></RequiresAuth>} />
       <Route path="/pages/ProductPage/Product" element={<Product />} />
       <Route path="/pages/WishListPage/WishList" element={<RequiresAuth><WishList /></RequiresAuth>} />

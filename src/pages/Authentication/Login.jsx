@@ -6,10 +6,10 @@ export default function Login(){
     return(<div>
         <h3>Login</h3>
         <label>Email Address</label>
-        <input type="text" id="email" value={"a"}/>
+        <input type="text" id="email" />
         <label>Password</label>
-        <input type="text" id="password" value="b"/>
+        <input type="text" id="password" />
         <button onClick={()=>setTokenToLocalStorage(document.querySelector("#email").value,document.querySelector("#password").value)}>Login</button>
-        <NavLink>Create new account {"">""}</NavLink>
+        <NavLink to="/pages/Authentication/Signup">Create new account {"">""}</NavLink>
     </div>)
 }
