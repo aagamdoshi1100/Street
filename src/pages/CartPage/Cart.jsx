@@ -3,10 +3,12 @@ import { useEffect } from "react"
  import { NavLink } from "react-router-dom"
 import useCartContext from "../../contexts/CartContext"
 import useWishListContext from "../../contexts/WishListContext";
+import { useFetchContext } from "../../contexts/FetchContext";
 
 export default function Cart(){
         const { cartItem,setCartItem,qtyControl,removeFromCart,totalBill } = useCartContext();
         const {addToWishList} = useWishListContext();
+        const {showClickedProduct} = useFetchContext()
         const setToCart = async() =>{
             try{ 
             const aa= localStorage.getItem("encodedToken")
@@ -32,7 +34,7 @@ useEffect(()=>{
          {
             cartItem?.cartArray?.map((item)=>{
                 const {_id,image,price,rating,title,qty,Material} = item;
-                return(<div className="box" key={_id}>
+                return(<div className="box" key={_id} onClick={()=>showClickedProduct(item)}>
                     <img src={`${image}`} width="100%" height="160px" alt="" />
                     <p>{title}</p>
                     <p style={{textAlign:"center"}}>{rating}⭐</p>

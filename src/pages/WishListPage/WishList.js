@@ -1,10 +1,11 @@
 
 import { useEffect } from "react" 
 import useWishListContext from "../../contexts/WishListContext"
+import { useFetchContext } from "../../contexts/FetchContext"
 
 export default function WishList(){
         const {wishListItem,setWishListItem,removeFromWishList,moveToCart} = useWishListContext()
-         
+        const {showClickedProduct} = useFetchContext()
         const setToWishList = async() =>{
             try{ 
             const aa= localStorage.getItem("encodedToken")
@@ -29,7 +30,7 @@ useEffect(()=>{
          {
             wishListItem?.WishListArray?.map((item)=>{
                 const {_id,image,price,rating,title,Material} = item;
-                return(<div className="box" key={_id}>
+                return(<div className="box" key={_id} onClick={()=>showClickedProduct(item)}>
                     <p onClick={()=>removeFromWishList(item)}>W</p>
                     <img src={`${image}`} width="100%" height="160px" alt="" />
                     <p>{title}</p>
