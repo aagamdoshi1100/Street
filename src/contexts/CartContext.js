@@ -13,7 +13,6 @@ export const CartContextProvider = ({children})=>{
         acc.qty  =   acc.qty + cur.qty
         return acc 
     },{price:0,qty:0})
-    console.log("🚀 ~ file: CartContext.js:15 ~ totalBill ~ totalBill:", totalBill)
 
     const qtyControl = async(product,act) =>{
         let productId = product._id
@@ -27,12 +26,10 @@ export const CartContextProvider = ({children})=>{
             })
             const cartdetails =await res.json()
             console.log("🚀 ~ file: CartContext.js:22 ~ qtyControl ~ cartdetails:", cartdetails.cart)
-            setCartItem({...cartItem, cartArray:cartdetails.cart})
-            // console.log("🚀 ~ file: CartContext.js:21 ~ inc ~ res:",await res.json())
+            setCartItem({...cartItem, cartArray:cartdetails.cart}) 
         }catch(e){
             console.log(e,"error while removing")
-        }
-
+        } 
     }
 
     const removeFromCart = async(product) =>{
@@ -44,8 +41,7 @@ export const CartContextProvider = ({children})=>{
                 method:"DELETE",
                 headers: {authorization: aa }  
             })
-            const cartdetails =await res.json()
-            console.log("🚀 ~ file: CartContext.js:65 ~ removeFromCart ~ cartdetails:", cartdetails)
+            const cartdetails =await res.json() 
             setCartItem({...cartItem, cartArray:cartdetails.cart})
         }catch(e){
             console.log(e,"error while removing")
@@ -54,17 +50,14 @@ export const CartContextProvider = ({children})=>{
 
     const addToCart = async(item) =>{
         console.log(item)
-        let product = item;
-    
+        let product = item; 
         try{
         let aa = localStorage.getItem("encodedToken")
         const res = await fetch("/api/user/cart",{
             method:"POST",
             headers: {authorization: aa },
-            body:  JSON.stringify({product}) 
-             
-        })
-        
+            body:  JSON.stringify({product})    
+        }) 
            console.log("🚀 ~ file: CartContext.js:21 ~ addToCart ~ res:", res)
        
         }catch(e){

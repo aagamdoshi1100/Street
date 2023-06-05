@@ -52,7 +52,7 @@ useEffect(()=>{
             )
         })
          }
-        </div>{totalBill.qty > 0 ?
+        </div>{totalBill?.qty > 0 ?
         <div>
             <h4>Price Details</h4>
             <p>Price ({totalBill.qty } items)</p>

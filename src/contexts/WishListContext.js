@@ -38,15 +38,15 @@ export const WishListContextProvider = ({children})=>{
 
     const moveToCart=async(product,act)=>{
         const productId = product._id
-        console.log("🚀 ~ file: WishListContext.js:40 ~ moveToCart ~ act:", act)
-
+        console.log("🚀 ~ file: WishListContext.js:40 ~ moveToCart ~ act:", act) 
         try{
             const res = await fetch(`/api/user/cart/${productId}`,{
                 method:"POST",          
                 headers: {authorization: myToken },
-                body: {action:{type : act}}
+                body: JSON.stringify({action:{type : act}})
             })
-            console.log("🚀 ~ file: WishListContext.js:44 ~ moveToCart ~ res:", res)
+            const removeWishListItemAfterMoving = await fetch(`/api/user/wishlist/${productId}`,{method:"DELETE",headers:{authorization:myToken}})
+            setWishListItem({...wishListItem,WishListArray: removeWishListItemAfterMoving.json().wishlist})
         }catch(e){
         console.log("🚀 ~ file: WishListContext.js:49 ~ moveToCart ~ e:", e)
         }
