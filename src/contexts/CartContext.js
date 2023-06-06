@@ -1,8 +1,6 @@
 import { useContext } from "react";
 import { createContext } from "react";
-import { useState } from "react"
-import useAuthContext from "./AuthContext";
-import { Navigate } from "react-router-dom";
+import { useState } from "react";
 const CartContext = createContext();
 
 export const CartContextProvider = ({children})=>{

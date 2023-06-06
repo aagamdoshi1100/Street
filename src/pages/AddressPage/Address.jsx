@@ -2,7 +2,7 @@ import useAddressManagementContext from "../../contexts/AddressManagementcontext
 import useCartContext from "../../contexts/CartContext"
 import "./Address.css"
 export default function Address(){
-    const {totalBill,cartItem} = useCartContext()
+    const {totalBill} = useCartContext()
     const {updateAdd,deliveryAddress,updateInputAddress,showNewAddField,addNewAdd}= useAddressManagementContext()
     
     return(<div ><h4>Delivery Address: <button onClick={()=>showNewAddField()}>Add Address</button></h4>

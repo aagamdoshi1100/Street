@@ -15,8 +15,6 @@ export const WishListContextProvider = ({children})=>{
             body:  JSON.stringify({product}) 
              
         })
-        console.log("🚀 ~ file: CartContext.js:21 ~ addToCart ~ res:", res)
-
         }catch(e){
             console.log("🚀 ~ file: CartContext.js:19 ~ addToCart ~ e:", e)
         }

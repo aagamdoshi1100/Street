@@ -1,5 +1,5 @@
 import { useState } from "react"
-import { useContext,useEffect } from "react"
+import { useContext } from "react"
 import { createContext } from "react"
 import { useNavigate } from "react-router-dom"
 
@@ -14,8 +14,6 @@ export function AuthContextProvider({children}){
     const createAcc =async(mail,pass,user)=>{
         try{
         const res = await fetch("/api/auth/signup",{method:"POST",body:JSON.stringify({email :mail,password:pass,someUserAttribute1:user})})
-        const {encodedToken} =  await res.json()  
-        // localStorage.setItem("encodedToken", encodedToken)
         navigate("/pages/Authentication/Login")
         }catch(e){
             console.log("🚀 ~ file: AuthContext.js:15 ~ createAcc ~ e:", e)

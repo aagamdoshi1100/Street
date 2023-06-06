@@ -9,7 +9,7 @@ export default function ShowSingleProduct(){
     return(<div  className="product-cards">
        {
             singleProduct?.clickedProduct.map((item)=>{
-                const {_id,image,price,rating,title,Material} = item;
+                const {_id,image,price,rating,title} = item;
                 return(<div  className="box" key={_id}>
                     <h3 onClick={()=>addToWishList(item)} >W</h3>  
                     <img src={`${image}`} width="100%" height="160px" alt="" />

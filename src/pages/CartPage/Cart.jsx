@@ -1,6 +1,6 @@
 
 import { useEffect } from "react"
- import { NavLink, useNavigate } from "react-router-dom"
+ import { useNavigate } from "react-router-dom"
 import useCartContext from "../../contexts/CartContext"
 import useWishListContext from "../../contexts/WishListContext";
 import { useFetchContext } from "../../contexts/FetchContext";
@@ -34,7 +34,7 @@ useEffect(()=>{
             <h4>MY CART ({cartItem?.cartArray?.length})</h4>
          {
             cartItem?.cartArray?.map((item)=>{
-                const {_id,image,price,rating,title,qty,Material} = item;
+                const {_id,image,price,rating,title,qty} = item;
                 return(<div className="box" key={_id} >
                     <img src={`${image}`} width="100%" height="160px" alt="" onClick={()=>showClickedProduct(item)}/>
                     <p>{title}</p>
