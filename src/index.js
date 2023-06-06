@@ -8,6 +8,7 @@ import FetchContextProvider from "./contexts/FetchContext";
 import { CartContextProvider } from "./contexts/CartContext";
 import { AuthContextProvider } from "./contexts/AuthContext";
 import { WishListContextProvider } from "./contexts/WishListContext";
+import { AddressManagementContextProvider } from "./contexts/AddressManagementcontext"
 
 // Call make Server
 makeServer();
@@ -19,7 +20,9 @@ ReactDOM.render(
         <FetchContextProvider>
             <CartContextProvider>
               <WishListContextProvider>
-                  <App />
+                  <AddressManagementContextProvider>
+                      <App />
+                  </AddressManagementContextProvider>
                </WishListContextProvider>
             </CartContextProvider>
         </FetchContextProvider>

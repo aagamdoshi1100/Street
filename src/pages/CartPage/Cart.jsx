@@ -1,12 +1,13 @@
 
 import { useEffect } from "react"
- import { NavLink } from "react-router-dom"
+ import { NavLink, useNavigate } from "react-router-dom"
 import useCartContext from "../../contexts/CartContext"
 import useWishListContext from "../../contexts/WishListContext";
 import { useFetchContext } from "../../contexts/FetchContext";
 
 export default function Cart(){
         const { cartItem,setCartItem,qtyControl,removeFromCart,totalBill } = useCartContext();
+        const navigate =useNavigate()
         const {addToWishList} = useWishListContext();
         const {showClickedProduct} = useFetchContext()
         const setToCart = async() =>{
@@ -55,7 +56,7 @@ useEffect(()=>{
         })
          }
         </div>{totalBill?.qty > 0 ?
-        <div>
+        <div className="box">
             <h4>Price Details</h4>
             <p>Price ({totalBill.qty } items)</p>
             <p> {totalBill.price } </p>
@@ -66,7 +67,7 @@ useEffect(()=>{
             <p>Total Amount</p>
             <p>{totalBill.price-1000+499}</p>
             <p>you will save 1000 Rs on this order</p>
-            <button>Place Order</button>            
+            <button onClick={()=>navigate("/pages/AddressPage/Address")}>Place Order</button>            
         </div> : <p></p>} 
     </div>)
 }
