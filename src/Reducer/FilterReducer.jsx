@@ -37,6 +37,9 @@
             return {...state,selectedRange : action.payload}
         case "CLEAR":
             return {...state, selectedClearFilter : action.payload}
+        case "SERCH_VALUE":
+            console.log(action.payload.toLowerCase().trim())
+            return {...state,searchValue: action.payload.toLowerCase().trim()}
         default:
             return state
     }

@@ -1,8 +1,8 @@
- import useCartContext from "../../contexts/CartContext"
+import { useFetchContext } from "../../contexts/FetchContext"
 import "./NavBar.css"
 import {NavLink} from "react-router-dom"
 export default function NavBar(){
-     
+     const {productDispatcher} = useFetchContext();
     return(<div className="nav-header">
         <div className="navbar-main">
             <div className="navbar-left">
@@ -11,7 +11,7 @@ export default function NavBar(){
                 </NavLink>
             </div>
             <div className="search-container">
-                <input type="text" className="search-bar" placeholder="Search for products" />
+                <input type="text" className="search-bar" onChange={(e)=>productDispatcher({type:"SERCH_VALUE",payload: e.target.value})} placeholder="Search for products" />
             </div>
             <ul className="navbar-right">
                <NavLink className="link" to="/pages/CartPage/Cart">Cart</NavLink>

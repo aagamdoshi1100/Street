@@ -13,7 +13,8 @@ export default function FetchContextProvider({children}){
     ratingSelected:null,
     checkboxes:[],
     selectedRange : null,
-    selectedClearFilter : false
+    selectedClearFilter : false,
+    searchValue:null
     })
     console.log("🚀 ~ file: FetchContext.js:18 ~ FetchContextProvider ~ selectedClearFilter:", productState.selectedClearFilter)
    
@@ -66,7 +67,9 @@ export default function FetchContextProvider({children}){
         if(productState.ratingSelected !==null){
             filtered = filtered.filter(({rating}) => rating > Number(productState.ratingSelected))
         }
-
+        if(productState.searchValue !== null){
+            filtered = filtered.filter(({title})=>title.toLowerCase().includes(productState.searchValue))
+        }
         if(productState.checkboxes.length > 0 ){
             filtered= filtered.filter(({type})=> productState.checkboxes.includes(type))
 
