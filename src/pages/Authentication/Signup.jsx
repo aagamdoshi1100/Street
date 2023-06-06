@@ -6,11 +6,11 @@ export default function Signup(){
     return(<div>
         <h3>Signup</h3>
         <label>Name</label>
-        <input type="text" value="aagamdoshi" id="username" />
+        <input type="text"   id="username" />
         <label>Email Address</label>
-        <input type="text" value="aagamdoshi@gmail.com" id="mail"/>
+        <input type="text"   id="mail"/>
         <label>Password</label>
-        <input type="text" value="12344!@##" id="password" />
+        <input type="text"   id="password" />
         <button onClick={()=>createAcc(document.querySelector("#mail").value,document.querySelector("#password").value,document.querySelector("#username").value)}>Create new account</button>
         <NavLink to="/pages/Authentication/Login" >Already has an account {"">""}</NavLink>
     </div>)
