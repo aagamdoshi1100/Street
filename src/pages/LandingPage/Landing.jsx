@@ -5,7 +5,6 @@ export default function Landing() {
     const { productState } = useFetchContext()
     return (<div className="categories-container">
         <div className="categories">
-
             {
                 productState.arrCategories.map((item) => {
                     const { _id, categoryName, image, description } = item;
@@ -15,10 +14,8 @@ export default function Landing() {
                             <NavLink to="../pages/ProductPage/Product" className="heading-name">{categoryName}</NavLink>
                         </div>
                     </div>
-
                     )
                 })
-
             }
         </div>
         <div>
