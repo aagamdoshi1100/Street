@@ -18,7 +18,7 @@ export default function Landing() {
                 })
             }
         </div>
-        <div>
+        <div className="offer-image">
             <img src="https://shorturl.at/cxPT1" width="100%" height="100%" />
         </div>
 
