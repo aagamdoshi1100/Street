@@ -1,22 +1,53 @@
-.navbar-main{
-    display: flex;
-    background-color: black;
-    width: 100%;
-    height: 60px;
+.navbar-main {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background-color: black;
+  width: 100%;
+  height: 60px;
+  padding: 0px 20px;
+  box-sizing: border-box;
 }
-.navbar-left{
-    display: flex;
-    align-items: flex-start;
+.navbar-left {
+  color: white;
+  font-family: "Pacifico", cursive;
 }
-.search-container{
-    display: flex;
-    align-items: center;
+input.search-bar {
+  width: 250px;
+  height: 30px;
+  padding: 3px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  background-color: #fff;
+  ::placeholder {
+    color: #999; /* Placeholder text color */
+  }
 }
-.navbar-right{
-    display: flex;
+input.search-bar:focus {
+  outline: none;
+  border-color: #007bff;
 }
-.link{
-    color: white;
-    text-decoration: none;
-    margin: 5px;
+.navbar-right {
+  display: flex;
+}
+.nav-icons {
+  color: white;
+  font-size: 30px;
+  padding: 0px 15px;
+  cursor: pointer;
+}
+.nav-icon-search {
+  display: none;
+}
+
+@media only screen and (max-width: 768px) {
+  .nav-icon-search {
+    display: block;
+  }
+  input.search-bar {
+    display: none;
+  }
+  .nav-icons {
+    padding: 0px 8px;
+  }
 }

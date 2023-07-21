@@ -1,24 +1,29 @@
+import useAuthContext from "../../contexts/AuthContext";
 import { useFetchContext } from "../../contexts/FetchContext"
+import useIconContext from "../../contexts/IconContext";
 import "./NavBar.css"
-import {NavLink} from "react-router-dom"
-export default function NavBar(){
-     const {productDispatcher} = useFetchContext();
-    return(<div className="nav-header">
+import { NavLink } from "react-router-dom"
+export default function NavBar() {
+    const { productDispatcher } = useFetchContext();
+    const { AiOutlineShoppingCart, AiOutlineHeart, BiLogOut, BiLogIn, BiSearch } = useIconContext();
+    const { navigate } = useAuthContext();
+    return (<div className="nav-header">
         <div className="navbar-main">
             <div className="navbar-left">
-                <NavLink className="link" to="/pages/ProductPage/Product">
-                    <h2>AD</h2>
-                </NavLink>
+                <h2 onClick={() => navigate("/pages/ProductPage/Product")}>STREET</h2>
             </div>
             <div className="search-container">
-                <input type="text" className="search-bar" onChange={(e)=>productDispatcher({type:"SERCH_VALUE",payload: e.target.value})} placeholder="Search for products" />
+                <input type="text" className="search-bar" onChange={(e) => productDispatcher({ type: "SERCH_VALUE", payload: e.target.value })} placeholder="Search for products" />
             </div>
-            <ul className="navbar-right">
-               <NavLink className="link" to="/pages/CartPage/Cart">Cart</NavLink>
-               <NavLink className="link"to="/pages/WishListPage/WishList">Wishlist</NavLink>
-               <NavLink className="link" to="/mockman">Mockman</NavLink>
-            {localStorage.getItem("encodedToken") ? <NavLink className="link" onClick={()=>localStorage.removeItem("encodedToken")} to="/pages/ProductPage/Product">Logout</NavLink> : <NavLink className="link" to="/pages/Authentication/Login" >Login</NavLink>}
-            </ul>
+            <div className="navbar-right">
+                <BiSearch className="nav-icons nav-icon-search" />
+                <AiOutlineShoppingCart className="nav-icons" onClick={() => navigate("/pages/CartPage/Cart")} />
+                <AiOutlineHeart className="nav-icons" onClick={() => navigate("/pages/WishListPage/WishList")} />
+                {localStorage.getItem("encodedToken") ?
+                    <BiLogOut className="nav-icons" onClick={() => localStorage.removeItem("encodedToken")} /> : <BiLogIn className="nav-icons" onClick={() => navigate("/pages/Authentication/Login")} />}
+
+                {/* <NavLink className="link" to="/mockman">Mockman</NavLink> */}
+            </div>
         </div>
-        </div>)
+    </div>)
 }
