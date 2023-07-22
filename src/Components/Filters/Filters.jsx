@@ -1,7 +1,7 @@
 import { useFetchContext } from "../../contexts/FetchContext"
 import "./Filters.css"
 export default function Filters() {
-    const { checkboxes, data, clearFilter, sorter, checkboxSorter, showClickedProduct, productDispatcher } = useFetchContext();
+    const { checkboxes, data, clearFilter, sorter, productDispatcher, productState } = useFetchContext();
     return (<div className="filters">
         <div className="head">
             <h2>Filters</h2>
@@ -17,11 +17,11 @@ export default function Filters() {
 
         <p>Category</p>
         <div className="col">
-            <span><input type="checkbox" value="Men" checked={checkboxes.menCategory} onChange={(e) => checkboxSorter(e)} />
+            <span><input type="checkbox" value="Men" checked={productState.checkboxes.includes("Men")} onChange={(e) => productDispatcher({ type: "TOGGLE_CATEGORY", payload: e.target.value })} />
                 Men Clothing</span>
-            <span><input type="checkbox" value="Women" checked={checkboxes.womenCategory} onChange={(e) => checkboxSorter(e)} />
+            <span><input type="checkbox" value="Women" checked={productState.checkboxes.includes("Women")} onChange={(e) => productDispatcher({ type: "TOGGLE_CATEGORY", payload: e.target.value })} />
                 Women Clothing</span>
-            <span><input type="checkbox" value="Kids" checked={checkboxes.kidCategory} onChange={(e) => checkboxSorter(e)} />
+            <span><input type="checkbox" value="Kids" checked={productState.checkboxes.includes("Kids")} onChange={(e) => productDispatcher({ type: "TOGGLE_CATEGORY", payload: e.target.value })} />
                 Kid's Clothing</span>
         </div>
         <p>Ratings</p>

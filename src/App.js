@@ -32,10 +32,7 @@ function App() {
             </RequiresAuth>
           }
         />
-        <Route
-          path="/ProductPage/Product/:categoryType"
-          element={<Product />}
-        />
+        <Route path="/ProductPage/Product" element={<Product />} />
         <Route
           path="/pages/WishListPage/WishList"
           element={

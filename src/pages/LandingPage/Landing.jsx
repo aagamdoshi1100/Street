@@ -1,11 +1,11 @@
 import { NavLink } from "react-router-dom";
 import { useFetchContext } from "../../contexts/FetchContext"
-import useAuthContext from "../../contexts/AuthContext";
-import "./Landing.css"
 import NavBar from "../../Components/NavBarPage/NavBar";
+import "./Landing.css"
+
 export default function Landing() {
     const { productState } = useFetchContext();
-    const { navigate } = useAuthContext();
+    const { productDispatcher } = useFetchContext();
     return (<div className="categories-container">
         <NavBar />
         <div className="categories">
@@ -15,7 +15,13 @@ export default function Landing() {
                     return (<div className="circle" key={_id}  >
                         <img className="pic" src={`${image}`} width="100%" height="100%" alt="" />
                         <div className="heading">
-                            <NavLink to={`../ProductPage/Product/${categoryName}`} className="heading-name">{categoryName}</NavLink>
+                            <NavLink
+                                to={`../ProductPage/Product`}
+                                onClick={() => productDispatcher({ type: "TOGGLE_CATEGORY", payload: categoryName === "View all" ? ["Men", "Women", "Kids"] : categoryName })}
+                                className="heading-name"
+                            >
+                                {categoryName}
+                            </NavLink>
                         </div>
                     </div>
                     )

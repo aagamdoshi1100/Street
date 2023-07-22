@@ -2,16 +2,14 @@ import "./Product.css"
 import { useFetchContext } from "../../contexts/FetchContext"
 import useCartContext from "../../contexts/CartContext"
 import useWishListContext from "../../contexts/WishListContext"
-import { useParams } from "react-router-dom"
 import Filters from "../../Components/Filters/Filters"
 import NavBar from "../../Components/NavBarPage/NavBar"
 import useIconContext from "../../contexts/IconContext"
 
 export default function Product() {
-    const { checkboxes, data, clearFilter, sorter, checkboxSorter, showClickedProduct, productDispatcher } = useFetchContext();
+    const { data, showClickedProduct } = useFetchContext();
     const { addToCart, cartItem } = useCartContext();
     const { addToWishList } = useWishListContext();
-    const { categoryType } = useParams();
     const { AiOutlineHeart } = useIconContext();
 
     return (<div className="parent-container">
@@ -22,13 +20,7 @@ export default function Product() {
             </div>
 
             <div className="products-container">
-                {data.filter(products => {
-                    if (categoryType === "View all") {
-                        return products
-                    } else {
-                        return products.type === categoryType
-                    }
-                }).map((item) => {
+                {data.map((item) => {
                     const { _id, image, price, rating, title, Material } = item;
                     return (<div className="card" key={_id}>
                         <AiOutlineHeart className="wishlist" onClick={() => addToWishList(item)} />
