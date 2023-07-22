@@ -1,10 +1,9 @@
 import "./App.css";
+import { Route, Routes } from "react-router-dom";
+import Mockman from "mockman-js";
 import Cart from "./pages/CartPage/Cart";
 import Landing from "./pages/LandingPage/Landing";
-import NavBar from "./Components/NavBarPage/NavBar";
 import Product from "./pages/ProductPage/Product";
-import Mockman from "mockman-js";
-import { Route, Routes } from "react-router-dom";
 import WishList from "./pages/WishListPage/WishList";
 import RequiresAuth from "./pages/Authentication/RequiresAuth";
 import Login from "./pages/Authentication/Login";
@@ -33,7 +32,10 @@ function App() {
             </RequiresAuth>
           }
         />
-        <Route path="/pages/ProductPage/Product" element={<Product />} />
+        <Route
+          path="/ProductPage/Product/:categoryType"
+          element={<Product />}
+        />
         <Route
           path="/pages/WishListPage/WishList"
           element={
