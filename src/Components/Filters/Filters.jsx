@@ -17,11 +17,11 @@ export default function Filters() {
 
         <p>Category</p>
         <div className="col">
-            <span><input type="checkbox" value="menCategory" checked={checkboxes.menCategory} onChange={(e) => checkboxSorter(e)} />
+            <span><input type="checkbox" value="Men" checked={checkboxes.menCategory} onChange={(e) => checkboxSorter(e)} />
                 Men Clothing</span>
-            <span><input type="checkbox" value="womenCategory" checked={checkboxes.womenCategory} onChange={(e) => checkboxSorter(e)} />
+            <span><input type="checkbox" value="Women" checked={checkboxes.womenCategory} onChange={(e) => checkboxSorter(e)} />
                 Women Clothing</span>
-            <span><input type="checkbox" value="kidCategory" checked={checkboxes.kidCategory} onChange={(e) => checkboxSorter(e)} />
+            <span><input type="checkbox" value="Kids" checked={checkboxes.kidCategory} onChange={(e) => checkboxSorter(e)} />
                 Kid's Clothing</span>
         </div>
         <p>Ratings</p>
