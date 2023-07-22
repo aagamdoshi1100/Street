@@ -6,56 +6,74 @@ import { useNavigate } from "react-router-dom";
 const AuthContext = createContext();
 
 export function AuthContextProvider({ children }) {
-  const [isLoggedIn, setIsloggedIn] = useState(false);
+  const [user, setUser] = useState({
+    isLoggedIn: false,
+    userDetails: {
+      username: "",
+      email: "",
+      password: "",
+      name: "",
+    },
+    error: "",
+  });
 
   const navigate = useNavigate();
 
-  const createAcc = async (mail, pass, user) => {
+  const signUp = async () => {
     try {
-      const res = await fetch("/api/auth/signup", {
+      const response = await fetch("/api/auth/signup", {
         method: "POST",
         body: JSON.stringify({
-          email: mail,
-          password: pass,
-          someUserAttribute1: user,
+          email: user.userDetails.email,
+          password: user.userDetails.password,
+          someUserAttribute1: user.userDetails.name,
         }),
       });
-      navigate("/pages/Authentication/Login");
+      if (response.status === 201) {
+        const { encodedToken } = await response.json();
+        localStorage.setItem("encodedToken", encodedToken);
+        setUser({ ...user, isLoggedIn: true, error: "" });
+        navigate("/pages/LandingPage/Landing");
+      } else if (response.status === 422) {
+        setUser({ ...user, error: "User Already Exists" });
+      }
     } catch (e) {
-      console.log("🚀 ~ file: AuthContext.js:15 ~ createAcc ~ e:", e);
+      console.error(e);
     }
   };
 
-  const setTokenToLocalStorage = async (user, pass) => {
-    console.log(
-      "🚀 ~ file: AuthContext.js:11 ~ setTokenToLocalStorage ~ user,pass:",
-      user,
-      pass
-    );
+  const signIn = async () => {
     try {
       const cred = {
-        email: user,
-        password: pass,
+        email: user.userDetails.email,
+        password: user.userDetails.password,
       };
-      const restoken = await fetch("/api/auth/login", {
+      const response = await fetch("/api/auth/login", {
         method: "POST",
         body: JSON.stringify(cred),
       });
-      const { encodedToken } = await restoken.json();
-      localStorage.setItem("encodedToken", encodedToken);
-      setIsloggedIn(true);
+      if (response.status === 200) {
+        const { encodedToken } = await response.json();
+        localStorage.setItem("encodedToken", encodedToken);
+        setUser({ ...user, isLoggedIn: true, error: "" });
+        navigate("/pages/LandingPage/Landing");
+      } else if (response.status === 404) {
+        setUser({ ...user, error: "User not found" });
+      } else if (response.status === 401) {
+        setUser({ ...user, error: "Invalid credentials" });
+      }
     } catch (e) {
-      console.log(e);
+      console.error(e);
     }
   };
 
   return (
     <AuthContext.Provider
       value={{
-        isLoggedIn,
-        setTokenToLocalStorage,
-        setIsloggedIn,
-        createAcc,
+        user,
+        setUser,
+        signIn,
+        signUp,
         navigate,
       }}
     >

@@ -2,7 +2,7 @@ import { NavLink } from "react-router-dom";
 import useAuthContext from "../../contexts/AuthContext";
 
 export default function Signup() {
-    const { createAcc } = useAuthContext()
+    const { signUp, user, setUser } = useAuthContext();
     return (<div className="auth-container">
         <div className="Brandname">
             <h1>STREET</h1>
@@ -10,13 +10,13 @@ export default function Signup() {
         <div className="form">
             <h2>Sign up</h2>
             <label>Name</label>
-            <input type="text" id="username" />
+            <input type="text" onChange={(e) => setUser({ ...user, userDetails: { ...user.userDetails, name: e.target.value } })} />
             <label>Email Address</label>
-            <input type="text" id="mail" />
+            <input type="text" onChange={(e) => setUser({ ...user, userDetails: { ...user.userDetails, email: e.target.value } })} />
             <label>Password</label>
-            <input type="text" id="password" />
-            <button onClick={() => createAcc(document.querySelector("#mail").value, document.querySelector("#password").value, document.querySelector("#username").value)}>Create new account</button>
-            <NavLink to="/pages/Authentication/Login" >
+            <input type="text" onChange={(e) => setUser({ ...user, userDetails: { ...user.userDetails, password: e.target.value } })} />
+            <button onClick={signUp}>Create new account</button>
+            <NavLink to="/" >
                 Already have an account? Sign in {"" > ""}</NavLink>
         </div>
         <div className="form-footer">
