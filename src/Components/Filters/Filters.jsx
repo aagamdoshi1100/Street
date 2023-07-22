@@ -4,10 +4,10 @@ export default function Filters() {
     const { checkboxes, data, clearFilter, sorter, checkboxSorter, showClickedProduct, productDispatcher } = useFetchContext();
     return (<div className="filters">
         <div className="head">
-            <h3>Filters</h3>
+            <h2>Filters</h2>
             <h3 onClick={clearFilter}>Clear</h3>
         </div>
-        <h3>Price</h3>
+        <p>Price</p>
         <div className="row-price">
             <div>100</div>
             <div>1500</div>
@@ -15,7 +15,7 @@ export default function Filters() {
         </div>
         <input type="range" min="100" max="3000" className="slider" onChange={(e) => productDispatcher({ type: "RANGE", payload: e.target.value })} />
 
-        <h3>Category</h3>
+        <p>Category</p>
         <div className="col">
             <span><input type="checkbox" value="menCategory" checked={checkboxes.menCategory} onChange={(e) => checkboxSorter(e)} />
                 Men Clothing</span>
@@ -24,7 +24,7 @@ export default function Filters() {
             <span><input type="checkbox" value="kidCategory" checked={checkboxes.kidCategory} onChange={(e) => checkboxSorter(e)} />
                 Kid's Clothing</span>
         </div>
-        <h3>Ratings</h3>
+        <p>Ratings</p>
         <div className="col">
             <span><input type="radio" name="myids" value="4" onChange={(e) => sorter(e)} />
                 4⭐ & above</span>
@@ -35,12 +35,10 @@ export default function Filters() {
             <span><input type="radio" name="myids" value="1" onChange={(e) => sorter(e)} />
                 1⭐ & above</span>
         </div>
-        <div>
-            <h3>Sort By Price</h3>
-            <input type="radio" name="sort" value="HTL" onChange={(e) => sorter(e)} />
-            <label> High To Low</label>
-            <input type="radio" name="sort" value="LTH" onChange={(e) => sorter(e)} />
-            <label> Low To High</label>
+        <p>Sort By Price</p>
+        <div className="col">
+            <span><input type="radio" name="sort" value="HTL" onChange={(e) => sorter(e)} /> High To Low</span>
+            <span><input type="radio" name="sort" value="LTH" onChange={(e) => sorter(e)} /> Low To High</span>
         </div>
     </div>)
 }

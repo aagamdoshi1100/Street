@@ -1,22 +1,22 @@
 .filters {
   display: flex;
   flex-direction: column;
-  width: 50%;
-  padding: 15px;
+  margin: 20px;
 }
-.row {
-  display: flex;
-}
-.head {
-  display: flex;
-  justify-content: space-between;
-}
+.head,
 .row-price {
   display: flex;
   justify-content: space-between;
-  color: grey;
+}
+.filters > p {
+  font-size: 16px;
+  margin: 10px 0px;
+  font-weight: bold;
 }
 .col {
   display: flex;
   flex-direction: column;
+}
+.col > * {
+  padding: 4px 0;
 }
