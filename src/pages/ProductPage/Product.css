@@ -54,4 +54,7 @@
     width: 80%;
     justify-self: center;
   }
+  .card > p {
+    margin: 8px 0px;
+  }
 }

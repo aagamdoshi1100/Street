@@ -25,15 +25,13 @@ export default function Product() {
                     return (<div className="card" key={_id}>
                         <AiOutlineHeart className="wishlist" onClick={() => addToWishList(item)} />
                         <img src={`${image}`} width="100%" height="200px" alt="" onClick={() => showClickedProduct(item)} />
-                        <div className="description">
-                            <p className="productName">{title}</p>
-                            <h3>{rating}⭐</h3>
-                            <h3>Price: Rs {price}</h3>
-                            <div className="btns">
-                                {cartItem?.cartArray?.find((thing) => thing._id === _id) ? <button className="card-btn card-btn-single">Go to Cart</button> :
-                                    <button className="card-btn card-btn-single" onClick={() => addToCart(item)}>Add to Cart</button>}
-                            </div>
-                        </div>
+                        <p >{title}</p>
+                        <p>{rating}⭐</p>
+                        <p>Price: Rs {price}</p>
+                        {cartItem?.cartArray?.find((thing) => thing._id === _id) ?
+                            <button className="card-btn">Go to Cart</button> :
+                            <button className="card-btn" onClick={() => addToCart(item)}>Add to Cart</button>}
+
                     </div>
 
                     )
