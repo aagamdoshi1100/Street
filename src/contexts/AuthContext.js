@@ -66,7 +66,10 @@ export function AuthContextProvider({ children }) {
       console.error(e);
     }
   };
-
+  const signOutHandler = () => {
+    localStorage.removeItem("encodedToken");
+    navigate("/");
+  };
   return (
     <AuthContext.Provider
       value={{
@@ -75,6 +78,7 @@ export function AuthContextProvider({ children }) {
         signIn,
         signUp,
         navigate,
+        signOutHandler,
       }}
     >
       {children}

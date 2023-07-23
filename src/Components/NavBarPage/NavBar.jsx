@@ -6,7 +6,7 @@ import { NavLink } from "react-router-dom"
 export default function NavBar() {
     const { productDispatcher } = useFetchContext();
     const { AiOutlineShoppingCart, AiOutlineHeart, BiLogOut, BiLogIn, BiSearch } = useIconContext();
-    const { navigate } = useAuthContext();
+    const { navigate, signOutHandler } = useAuthContext();
     return (<div className="nav-header">
         <div className="navbar-main">
             <div className="navbar-left">
@@ -20,7 +20,7 @@ export default function NavBar() {
                 <AiOutlineShoppingCart className="nav-icons" onClick={() => navigate("/pages/CartPage/Cart")} />
                 <AiOutlineHeart className="nav-icons" onClick={() => navigate("/pages/WishListPage/WishList")} />
                 {localStorage.getItem("encodedToken") ?
-                    <BiLogOut className="nav-icons" onClick={() => localStorage.removeItem("encodedToken")} /> : <BiLogIn className="nav-icons" onClick={() => navigate("/pages/Authentication/Login")} />}
+                    <BiLogOut className="nav-icons" onClick={signOutHandler} /> : <BiLogIn className="nav-icons" onClick={() => navigate("/pages/Authentication/Login")} />}
 
                 {/* <NavLink className="link" to="/mockman">Mockman</NavLink> */}
             </div>
