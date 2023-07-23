@@ -16,7 +16,7 @@ export default function Landing() {
                         <img className="pic" src={`${image}`} width="100%" height="100%" alt="" />
                         <div className="heading">
                             <NavLink
-                                to={`../ProductPage/Product`}
+                                to={`../pages/ProductPage/Product`}
                                 onClick={() => productDispatcher({ type: "TOGGLE_CATEGORY", payload: categoryName === "View all" ? ["Men", "Women", "Kids"] : categoryName })}
                                 className="heading-name"
                             >
