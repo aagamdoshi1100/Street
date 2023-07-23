@@ -22,7 +22,7 @@ export default function FetchContextProvider({ children }) {
     selectedClearFilter: false,
     searchValue: null,
   });
-  console.log("🚀 ~ file: FetchContext.js:18 ~ :", productState);
+  // console.log("🚀 ~ file: FetchContext.js:18 ~ :", productState);
 
   const { checkboxes } = productState;
   const [singleProduct, setSingleProduct] = useState({ clickedProduct: [] });

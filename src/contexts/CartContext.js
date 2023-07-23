@@ -1,73 +1,83 @@
-import { useContext } from "react";
-import { createContext } from "react";
-import { useState } from "react";
+import { useContext, useReducer, createContext } from "react";
+import CartReducer, { initialCartStatus } from "../Reducer/CartReducer";
 const CartContext = createContext();
 
-export const CartContextProvider = ({children})=>{
-    const [cartItem,setCartItem]  = useState({cartArray:[]
-});
+export const CartContextProvider = ({ children }) => {
+  const [cartItem, cartDispacher] = useReducer(CartReducer, initialCartStatus);
+  console.log(
+    "🚀 ~ file: CartContext.js:7 ~ CartContextProvider ~ cartDispacher:",
+    cartItem
+  );
 
-    const totalBill = cartItem?.cartArray?.reduce((acc,cur)=>{
-        acc.price  =   Number(acc.price)+Number(cur.price*cur.qty)
-        acc.qty  =   acc.qty + cur.qty
-        return acc 
-    },{price:0,qty:0})
-
-    const qtyControl = async(product,act) =>{
-        let productId = product._id
-        console.log(productId,"Aaa")
-        try{
-            let aa = localStorage.getItem("encodedToken")
-            const res = await fetch(`/api/user/cart/${productId}`,{
-                method:"POST",
-                headers: {authorization: aa },
-                body:  JSON.stringify({action :{type:act}})
-            })
-            const cartdetails =await res.json()
-            console.log("🚀 ~ file: CartContext.js:22 ~ qtyControl ~ cartdetails:", cartdetails.cart)
-            setCartItem({...cartItem, cartArray:cartdetails.cart}) 
-        }catch(e){
-            console.log(e,"error while removing")
-        } 
+  const addToCart = async (item) => {
+    try {
+      const res = await fetch("/api/user/cart", {
+        method: "POST",
+        headers: { authorization: localStorage.getItem("encodedToken") },
+        body: JSON.stringify({ product: item }),
+      });
+      const cartProducts = await res.json();
+      cartDispacher({ type: "AADTOCART", payload: cartProducts.cart });
+    } catch (e) {
+      console.error(" addToCart ", e);
     }
+  };
 
-    const removeFromCart = async(product) =>{
-        let productId = product._id
-        console.log(productId,"Aaa")
-        try{
-            let aa = localStorage.getItem("encodedToken")
-            const res = await fetch(`/api/user/cart/${productId}`,{
-                method:"DELETE",
-                headers: {authorization: aa }  
-            })
-            const cartdetails =await res.json() 
-            setCartItem({...cartItem, cartArray:cartdetails.cart})
-        }catch(e){
-            console.log(e,"error while removing")
-        }
+  const removeFromCart = async (item) => {
+    let productId = item._id;
+    console.log(productId, "Aaa");
+    try {
+      const res = await fetch(`/api/user/cart/${productId}`, {
+        method: "DELETE",
+        headers: { authorization: localStorage.getItem("encodedToken") },
+      });
+      const cartProducts = await res.json();
+      cartDispacher({ type: "REMOVEFROMCART", payload: cartProducts.cart });
+    } catch (e) {
+      console.error(e, "error while removing");
     }
+  };
 
-    const addToCart = async(item) =>{
-        console.log(item)
-        let product = item; 
-        try{
-        let aa = localStorage.getItem("encodedToken")
-        const res = await fetch("/api/user/cart",{
-            method:"POST",
-            headers: {authorization: aa },
-            body:  JSON.stringify({product})    
-        }) 
-           console.log("🚀 ~ file: CartContext.js:21 ~ addToCart ~ res:", res)
-       
-        }catch(e){
-        console.log("🚀 ~ file: CartContext.js:19 ~ addToCart ~ e:", e)
-        } 
-    
+  const qtyControl = async (product, act) => {
+    let productId = product._id;
+    try {
+      const res = await fetch(`/api/user/cart/${productId}`, {
+        method: "POST",
+        headers: { authorization: localStorage.getItem("encodedToken") },
+        body: JSON.stringify({ action: { type: act } }),
+      });
+      const cartProducts = await res.json();
+      cartDispacher({ type: "QTYCONTROL", payload: cartProducts.cart });
+    } catch (e) {
+      console.error(e, "error while removing");
     }
-    return(<CartContext.Provider value={{addToCart,cartItem,setCartItem,qtyControl,removeFromCart,totalBill}}>{children}</CartContext.Provider>)
-}
+  };
 
+  const totalBill = cartItem?.cartArray?.reduce(
+    (acc, cur) => {
+      acc.price = Number(acc.price) + Number(cur.price * cur.qty);
+      acc.qty = acc.qty + cur.qty;
+      return acc;
+    },
+    { price: 0, qty: 0 }
+  );
 
- const useCartContext =()=> useContext(CartContext)
+  return (
+    <CartContext.Provider
+      value={{
+        addToCart,
+        removeFromCart,
+        qtyControl,
+        totalBill,
+        cartItem,
+        cartDispacher,
+      }}
+    >
+      {children}
+    </CartContext.Provider>
+  );
+};
 
-export default useCartContext
+const useCartContext = () => useContext(CartContext);
+
+export default useCartContext;

@@ -5,12 +5,14 @@ import useWishListContext from "../../contexts/WishListContext"
 import Filters from "../../Components/Filters/Filters"
 import NavBar from "../../Components/NavBarPage/NavBar"
 import useIconContext from "../../contexts/IconContext"
+import useAuthContext from "../../contexts/AuthContext"
 
 export default function Product() {
     const { data, showClickedProduct } = useFetchContext();
     const { addToCart, cartItem } = useCartContext();
     const { addToWishList } = useWishListContext();
     const { AiOutlineHeart } = useIconContext();
+    const { navigate } = useAuthContext();
 
     return (<div className="parent-container">
         <NavBar />
@@ -29,7 +31,7 @@ export default function Product() {
                         <p>{rating}⭐</p>
                         <p>Price: Rs {price}</p>
                         {cartItem?.cartArray?.find((thing) => thing._id === _id) ?
-                            <button className="card-btn">Go to Cart</button> :
+                            <button className="card-btn" onClick={() => navigate("/pages/CartPage/Cart")}>Go to Cart</button> :
                             <button className="card-btn" onClick={() => addToCart(item)}>Add to Cart</button>}
 
                     </div>
