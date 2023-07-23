@@ -44,9 +44,12 @@ export default function FetchContextProvider({ children }) {
         ...singleProduct,
         clickedProduct: [getProduct.product],
       });
-      navigate("/pages/ProductPage/ShowSingleProduct");
+      navigate("/pages/ProductPage/ProductDetailedView/ProductDetails");
     } catch (e) {
-      console.log("🚀 ~ file: FetchContext.js:35 ~ showClickedProduct ~ e:", e);
+      console.error(
+        "🚀 ~ file: FetchContext.js:35 ~ showClickedProduct ~ e:",
+        e
+      );
     }
   };
   const fetching = async () => {

@@ -8,8 +8,8 @@ import WishList from "./pages/WishListPage/WishList";
 import RequiresAuth from "./pages/Authentication/RequiresAuth";
 import Login from "./pages/Authentication/Login";
 import Signup from "./pages/Authentication/Signup";
-import ShowSingleProduct from "./pages/ProductPage/ShowSingleProduct";
 import Address from "./pages/AddressPage/Address";
+import ProductDetails from "./pages/ProductPage/ProductDetailedView/ProductDetails";
 
 function App() {
   return (
@@ -18,8 +18,8 @@ function App() {
         <Route path="/pages/LandingPage/Landing" element={<Landing />} />
         <Route path="/mockman" element={<Mockman />} />
         <Route
-          path="/pages/ProductPage/ShowSingleProduct"
-          element={<ShowSingleProduct />}
+          path="/pages/ProductPage/ProductDetailedView/ProductDetails"
+          element={<ProductDetails />}
         />
         <Route path="/pages/AddressPage/Address" element={<Address />} />
         <Route path="/" element={<Login />} />
