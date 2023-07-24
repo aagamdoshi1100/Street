@@ -8,6 +8,8 @@ export default function CartReducer(state, action) {
     case "REMOVEFROMCART":
     case "QTYCONTROL":
       return { ...state, cartArray: action.payload };
+    case "MOVEFROMWISHLIST":
+      return { ...state, cartArray: action.payload };
     default:
       return state;
   }
