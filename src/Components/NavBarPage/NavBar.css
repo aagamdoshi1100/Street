@@ -15,6 +15,7 @@
 .navbar-left {
   color: white;
   font-family: "Pacifico", cursive;
+  cursor: pointer;
 }
 input.search-bar {
   width: 250px;
