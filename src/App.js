@@ -10,6 +10,7 @@ import Login from "./pages/Authentication/Login";
 import Signup from "./pages/Authentication/Signup";
 import Address from "./pages/AddressPage/Address";
 import ProductDetails from "./pages/ProductPage/ProductDetailedView/ProductDetails";
+import CheckOut from "./pages/CheckOut/CheckOut";
 
 function App() {
   return (
@@ -38,6 +39,14 @@ function App() {
           element={
             <RequiresAuth>
               <WishList />
+            </RequiresAuth>
+          }
+        />
+        <Route
+          path="/CheckOut/CheckOut"
+          element={
+            <RequiresAuth>
+              <CheckOut />
             </RequiresAuth>
           }
         />

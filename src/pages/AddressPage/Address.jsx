@@ -2,11 +2,12 @@ import useAddressManagementContext from "../../contexts/AddressManagementcontext
 import useCartContext from "../../contexts/CartContext";
 import NavBar from "../../Components/NavBarPage/NavBar";
 import "./Address.css";
+import useAuthContext from "../../contexts/AuthContext";
 export default function Address() {
   const { totalBill } = useCartContext();
   const { deliveryState, deliveryDispacher, handleInputChange } =
     useAddressManagementContext();
-  const { cartItem } = useCartContext();
+  const { navigate } = useAuthContext();
   return (
     <div className="cart">
       <NavBar />
@@ -219,33 +220,13 @@ export default function Address() {
             <div className="placeorder">
               <button
                 className="card-btn"
-                onClick={() =>
-                  deliveryDispacher({
-                    type: "CHECKOUT",
-                    payload: deliveryState.checkout,
-                  })
-                }
+                onClick={() => navigate("/CheckOut/CheckOut")}
               >
                 Check out
               </button>
             </div>
           </div>
         </div>
-        {deliveryState.checkout ? (
-          <div className="checkout">
-            <h3>Order has been placed</h3>
-            {cartItem.cartArray.map((item) => {
-              return (
-                <div>
-                  <p>{item.title}</p>
-                </div>
-              );
-            })}
-            <p>Total Amount {totalBill?.price - 1000 + 499}</p>
-          </div>
-        ) : (
-          ""
-        )}
       </div>
     </div>
   );
