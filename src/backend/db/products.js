@@ -26,8 +26,8 @@ export const products = [
   },
   {
     _id: uuid(),
-    title: "Women's Cotton Kurta",
-    image: "https://m.media-amazon.com/images/I/81QN4uIauwL._AC_UL400_.jpg",
+    title: "Wedani Women's Casual Top",
+    image: "https://m.media-amazon.com/images/I/91vX8xWENOL._UY741_.jpg",
     price: "1999",
     rating: 2,
     type: "Women",
@@ -35,7 +35,7 @@ export const products = [
   },
   {
     _id: uuid(),
-    title: "AMERICAN Collar T-Shirt Men",
+    title: "AMERICAN Collar T-Shirt",
     image: "https://m.media-amazon.com/images/I/312kBG9174L.jpg",
     price: "1299",
     rating: 5,
@@ -44,8 +44,8 @@ export const products = [
   },
   {
     _id: uuid(),
-    title: "Girls Cotton T-Shirt - Combo of 5 (KUC-TSHRT-0143)",
-    image: "https://m.media-amazon.com/images/I/81eMNadh9EL._AC_UL400_.jpg",
+    title: "Nusyl Girls Rainbow Printed Tshirt",
+    image: "https://m.media-amazon.com/images/I/51cO10Ch7xL._UX679_.jpg",
     price: "999",
     rating: 4.4,
     type: "Kids",
@@ -53,7 +53,7 @@ export const products = [
   },
   {
     _id: uuid(),
-    title: "LEOTUDE Polo T-Shirt (Color Grey)",
+    title: "LEOTUDE Polo T-Shirt ",
     image: "https://m.media-amazon.com/images/I/71DNOWgs62L._UY550_.jpg",
     price: "314",
     rating: 3.8,
@@ -62,8 +62,8 @@ export const products = [
   },
   {
     _id: uuid(),
-    title: "Women's Synthetic Kurta",
-    image: "https://m.media-amazon.com/images/I/81ye3FMqvoL._AC_UL400_.jpg",
+    title: "Wedani Regular Round Neck Top",
+    image: "https://m.media-amazon.com/images/I/81dOdoQEB1L._UY741_.jpg",
     price: "999",
     rating: 4.1,
     type: "Women",
@@ -98,7 +98,7 @@ export const products = [
   },
   {
     _id: uuid(),
-    title: "LEOTUDE Men's Half Sleeve Polo T-Shirt",
+    title: "LEOTUDE Men's Half Sleeve T-Shirt",
     image: "https://m.media-amazon.com/images/I/71-TnQTYwML._UY550_.jpg",
     price: "899",
     rating: 2.8,
@@ -107,8 +107,8 @@ export const products = [
   },
   {
     _id: uuid(),
-    title: "Women's Synthetic Straight Kurta",
-    image: "https://m.media-amazon.com/images/I/81laipB1Z3L._AC_UL400_.jpg",
+    title: "Women's Synthetic Kurta",
+    image: "https://m.media-amazon.com/images/I/812NWXrHNnL.jpg",
     price: "499",
     rating: 4.9,
     type: "Women",
@@ -117,8 +117,8 @@ export const products = [
 
   {
     _id: uuid(),
-    title: "Boys T-Shirt",
-    image: "https://m.media-amazon.com/images/I/A1HtatAa1-S._AC_UL400_.jpg",
+    title: "EYEBOGLER Round Neck T-Shirt",
+    image: "https://m.media-amazon.com/images/I/41Z1YlOZuOL._UX569_.jpg",
     price: "259",
     rating: 5,
     type: "Kids",
