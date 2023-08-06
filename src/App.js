@@ -3,7 +3,7 @@ import { Route, Routes } from "react-router-dom";
 import Mockman from "mockman-js";
 import Cart from "./pages/CartPage/Cart";
 import Landing from "./pages/LandingPage/Landing";
-import Product from "./pages/ProductPage/Product";
+import ProductPage from "./pages/ProductPage/ProductPage";
 import WishList from "./pages/WishListPage/WishList";
 import RequiresAuth from "./pages/Authentication/RequiresAuth";
 import Login from "./pages/Authentication/Login";
@@ -33,7 +33,10 @@ function App() {
             </RequiresAuth>
           }
         />
-        <Route path="/pages/ProductPage/Product" element={<Product />} />
+        <Route
+          path="/pages/ProductPage/Productpage"
+          element={<ProductPage />}
+        />
         <Route
           path="/pages/WishListPage/WishList"
           element={
