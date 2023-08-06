@@ -46,9 +46,6 @@ input.search-bar:focus {
 }
 
 @media only screen and (max-width: 768px) {
-  .nav-icon-search {
-    display: block;
-  }
   input.search-bar {
     display: none;
   }
