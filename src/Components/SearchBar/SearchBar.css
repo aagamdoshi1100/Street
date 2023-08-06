@@ -1,0 +1,21 @@
+.searchBar {
+  padding: 10px;
+}
+
+.searchBar > input {
+  width: 80%;
+  height: 30px;
+  padding: 3px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  background-color: #fff;
+  ::placeholder {
+    color: #999; /* Placeholder text color */
+  }
+}
+.searchBar:focus {
+  outline: none;
+  border-color: #007bff;
+}
+@media only screen and (max-width: 768px) {
+}
