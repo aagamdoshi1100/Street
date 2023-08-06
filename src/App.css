@@ -2,6 +2,14 @@
   margin: 0px;
   padding: 0px;
 }
+.card-btn {
+  color: white;
+  background-color: blueviolet;
+  padding: 5px;
+}
+.card-btn:hover {
+  background-color: rgb(166, 82, 245);
+}
 button,
 img {
   cursor: pointer;
