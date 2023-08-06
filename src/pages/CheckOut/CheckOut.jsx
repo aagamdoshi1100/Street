@@ -30,7 +30,7 @@ export default function CheckOut() {
         <div className="checkOut-container">
           <button
             className="card-btn checkout-btn"
-            onClick={() => navigate("/pages/ProductPage/Product")}
+            onClick={() => navigate("/pages/ProductPage/ProductPage")}
           >
             Go To Home
           </button>

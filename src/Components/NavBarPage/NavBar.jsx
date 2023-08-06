@@ -13,7 +13,7 @@ export default function NavBar() {
     <div className="nav-header">
       <div className="navbar-main">
         <div className="navbar-left">
-          <h2 onClick={() => navigate("/pages/ProductPage/Product")}>STREET</h2>
+          <h2 onClick={() => navigate("/pages/ProductPage/ProductPage")}>STREET</h2>
         </div>
         <div className="search-container">
           <input
