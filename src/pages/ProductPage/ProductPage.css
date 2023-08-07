@@ -23,7 +23,7 @@
 }
 @media only screen and (max-width: 768px) {
   .filters-component {
-    display: none;
+    width: 60%;
   }
   .products-searchbar {
     left: 0%;
