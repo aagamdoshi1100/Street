@@ -1,5 +1,9 @@
 import { createContext, useContext } from "react";
-import { AiOutlineShoppingCart, AiOutlineHeart } from "react-icons/ai";
+import {
+  AiOutlineShoppingCart,
+  AiOutlineHeart,
+  AiOutlineClose,
+} from "react-icons/ai";
 import { BiLogOut, BiLogIn, BiSearch } from "react-icons/bi";
 import { TbFilterCog } from "react-icons/tb";
 const IconContext = createContext();
@@ -14,6 +18,7 @@ export const IconContextProvider = ({ children }) => {
         BiLogIn,
         BiSearch,
         TbFilterCog,
+        AiOutlineClose,
       }}
     >
       {children}
