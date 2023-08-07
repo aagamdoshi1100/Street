@@ -1,4 +1,5 @@
 import { useFetchContext } from "../../contexts/FetchContext";
+import useIconContext from "../../contexts/IconContext";
 import "./Filters.css";
 export default function Filters() {
   const {
@@ -8,12 +9,20 @@ export default function Filters() {
     sorter,
     productDispatcher,
     productState,
+    toggle,
+    setToggle,
   } = useFetchContext();
+  const { AiOutlineClose } = useIconContext();
   return (
     <div className="filters">
       <div className="head">
         <h2>Filters</h2>
         {/* <h3 onClick={clearFilter}>Clear</h3> */}
+        {toggle ? (
+          <AiOutlineClose size="1.7em" onClick={() => setToggle(!toggle)} />
+        ) : (
+          ""
+        )}
       </div>
       <p>Price</p>
       <div className="row-price">

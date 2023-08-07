@@ -12,7 +12,7 @@ const FetchContext = createContext();
 
 export default function FetchContextProvider({ children }) {
   const navigate = useNavigate();
-
+  const [toggle, setToggle] = useState(false);
   const [productState, productDispatcher] = useReducer(FilterReducer, {
     arrProducts: [],
     arrCategories: [],
@@ -114,6 +114,8 @@ export default function FetchContextProvider({ children }) {
         showClickedProduct,
         singleProduct,
         productDispatcher,
+        toggle,
+        setToggle,
       }}
     >
       {children}

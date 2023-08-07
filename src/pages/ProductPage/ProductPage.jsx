@@ -4,13 +4,12 @@ import NavBar from "../../Components/NavBarPage/NavBar";
 import Products from "../../Components/Products/Products";
 import SearchBar from "../../Components/SearchBar/SearchBar";
 import useIconContext from "../../contexts/IconContext";
-import { useState } from "react";
+import { useFetchContext } from "../../contexts/FetchContext";
 
 export default function ProductPage() {
-  const [toggle, setToggle] = useState(false);
-
+  const { toggle, setToggle } = useFetchContext();
   const myStyle = {
-    backgroundColor: toggle ? "rgb(249 242 242)" : "",
+    backgroundColor: toggle ? "rgb(249 242 242)" : "rgb(247, 245, 245)",
     display: toggle ? "block" : window.innerWidth < 768 ? "none" : "block",
     zIndex: toggle ? 20 : 0,
   };
