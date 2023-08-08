@@ -11,8 +11,10 @@ import Signup from "./pages/Authentication/Signup";
 import Address from "./pages/AddressPage/Address";
 import ProductDetails from "./pages/ProductPage/ProductDetailedView/ProductDetails";
 import CheckOut from "./pages/CheckOut/CheckOut";
+import useAuthContext from "./contexts/AuthContext";
 
 function App() {
+  const { toast, setToast } = useAuthContext();
   return (
     <div className="App">
       <Routes>
@@ -54,6 +56,11 @@ function App() {
           }
         />
       </Routes>
+      <div
+        className="notify"
+        id="notify"
+        style={{ display: toast ? "block" : "none" }}
+      ></div>
     </div>
   );
 }

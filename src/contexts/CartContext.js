@@ -1,13 +1,11 @@
 import { useContext, useReducer, createContext } from "react";
 import CartReducer, { initialCartStatus } from "../Reducer/CartReducer";
+import useAuthContext from "./AuthContext";
 const CartContext = createContext();
 
 export const CartContextProvider = ({ children }) => {
   const [cartItem, cartDispacher] = useReducer(CartReducer, initialCartStatus);
-  console.log(
-    "🚀 ~ file: CartContext.js:7 ~ CartContextProvider ~ cartDispacher:",
-    cartItem
-  );
+  const { notificationHandler } = useAuthContext();
 
   const addToCart = async (item) => {
     try {
@@ -18,6 +16,7 @@ export const CartContextProvider = ({ children }) => {
       });
       const cartProducts = await res.json();
       cartDispacher({ type: "AADTOCART", payload: cartProducts.cart });
+      notificationHandler("Added to the cart");
     } catch (e) {
       console.error(" addToCart ", e);
     }
@@ -33,6 +32,7 @@ export const CartContextProvider = ({ children }) => {
       });
       const cartProducts = await res.json();
       cartDispacher({ type: "REMOVEFROMCART", payload: cartProducts.cart });
+      notificationHandler("Removed from cart");
     } catch (e) {
       console.error(e, "error while removing");
     }

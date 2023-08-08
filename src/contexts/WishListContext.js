@@ -2,12 +2,14 @@ import { useState } from "react";
 import { useContext } from "react";
 import { createContext } from "react";
 import useCartContext from "./CartContext";
+import useAuthContext from "./AuthContext";
 
 const WishListContext = createContext();
 
 export const WishListContextProvider = ({ children }) => {
   const [wishListItem, setWishListItem] = useState({ WishListArray: [] });
   const { cartItem, cartDispacher } = useCartContext();
+  const { notificationHandler } = useAuthContext();
   const myToken = localStorage.getItem("encodedToken");
   const addToWishList = async (product) => {
     try {
@@ -21,8 +23,9 @@ export const WishListContextProvider = ({ children }) => {
         ...wishListItem,
         WishListArray: wishListProducts.wishlist,
       });
+      notificationHandler("Added To Wishlist");
     } catch (e) {
-      console.error("addToCart:", e);
+      console.error("addToWishlist:", e);
     }
   };
 
@@ -39,6 +42,7 @@ export const WishListContextProvider = ({ children }) => {
         ...wishListItem,
         WishListArray: wishListProducts.wishlist,
       });
+      notificationHandler("Removed from wishlist");
     } catch (e) {
       console.error(" removeFromWishList:", e);
     }
@@ -67,6 +71,7 @@ export const WishListContextProvider = ({ children }) => {
           type: "MOVEFROMWISHLIST",
           payload: incrementQtyOfProduct.cart,
         });
+        notificationHandler("Moved to cart");
       } else {
         const addProductToCartIfProductNotFound = await fetch(
           "/api/user/cart",
@@ -78,6 +83,7 @@ export const WishListContextProvider = ({ children }) => {
         );
         const cartProducts = await addProductToCartIfProductNotFound.json();
         cartDispacher({ type: "AADTOCART", payload: cartProducts.cart });
+        notificationHandler("Moved to cart");
       }
     } catch (error) {
       console.error("Error while processing cart:", error);

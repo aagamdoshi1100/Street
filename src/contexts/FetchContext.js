@@ -6,12 +6,12 @@ import {
   useState,
 } from "react";
 import FilterReducer from "../Reducer/FilterReducer";
-import { useNavigate } from "react-router-dom";
+import useAuthContext from "./AuthContext";
 
 const FetchContext = createContext();
 
 export default function FetchContextProvider({ children }) {
-  const navigate = useNavigate();
+  const { navigate } = useAuthContext();
   const [toggle, setToggle] = useState(false);
   const [productState, productDispatcher] = useReducer(FilterReducer, {
     arrProducts: [],

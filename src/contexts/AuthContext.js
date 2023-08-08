@@ -6,6 +6,7 @@ import { useNavigate } from "react-router-dom";
 const AuthContext = createContext();
 
 export function AuthContextProvider({ children }) {
+  const [toast, setToast] = useState(false);
   const [user, setUser] = useState({
     isLoggedIn: false,
     userDetails: {
@@ -57,10 +58,13 @@ export function AuthContextProvider({ children }) {
         localStorage.setItem("encodedToken", encodedToken);
         setUser({ ...user, isLoggedIn: true, error: "" });
         navigate("/pages/LandingPage/Landing");
+        notificationHandler("Welcome Back");
       } else if (response.status === 404) {
         setUser({ ...user, error: "User not found" });
+        notificationHandler("User not found");
       } else if (response.status === 401) {
         setUser({ ...user, error: "Invalid credentials" });
+        notificationHandler("Invalid credentials");
       }
     } catch (e) {
       console.error(e);
@@ -68,8 +72,20 @@ export function AuthContextProvider({ children }) {
   };
   const signOutHandler = () => {
     localStorage.removeItem("encodedToken");
+    notificationHandler("Logged out");
     navigate("/");
   };
+
+  const notificationHandler = (message) => {
+    let a = document.querySelector("#notify");
+    a.innerHTML = `<p>${message}</p>`;
+    setToast(true);
+    setTimeout(() => {
+      a.innerHTML = "";
+      setToast(false);
+    }, 2000);
+  };
+
   return (
     <AuthContext.Provider
       value={{
@@ -79,6 +95,9 @@ export function AuthContextProvider({ children }) {
         signUp,
         navigate,
         signOutHandler,
+        toast,
+        setToast,
+        notificationHandler,
       }}
     >
       {children}
