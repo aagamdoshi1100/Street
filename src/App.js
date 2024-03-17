@@ -1,6 +1,5 @@
 import "./App.css";
 import { Route, Routes } from "react-router-dom";
-import Mockman from "mockman-js";
 import Cart from "./pages/CartPage/Cart";
 import Landing from "./pages/LandingPage/Landing";
 import ProductPage from "./pages/ProductPage/ProductPage";
@@ -14,19 +13,18 @@ import CheckOut from "./pages/CheckOut/CheckOut";
 import useAuthContext from "./contexts/AuthContext";
 
 function App() {
-  const { toast, setToast } = useAuthContext();
+  const { toast, errDivRef } = useAuthContext();
   return (
     <div className="App">
       <Routes>
+        <Route path="/login" element={<Login />} />
+        <Route path="/signup" element={<Signup />} />
         <Route path="/pages/LandingPage/Landing" element={<Landing />} />
-        <Route path="/mockman" element={<Mockman />} />
         <Route
           path="/pages/ProductPage/ProductDetailedView/ProductDetails"
           element={<ProductDetails />}
         />
         <Route path="/pages/AddressPage/Address" element={<Address />} />
-        <Route path="/" element={<Login />} />
-        <Route path="/pages/Authentication/Signup" element={<Signup />} />
         <Route
           path="/pages/CartPage/Cart"
           element={
@@ -56,11 +54,11 @@ function App() {
           }
         />
       </Routes>
-      <div
+      <p
         className="notify"
-        id="notify"
+        ref={errDivRef}
         style={{ display: toast ? "block" : "none" }}
-      ></div>
+      ></p>
     </div>
   );
 }

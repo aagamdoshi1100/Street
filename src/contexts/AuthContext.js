@@ -1,7 +1,8 @@
-import { useState } from "react";
+import { useRef, useState } from "react";
 import { useContext } from "react";
 import { createContext } from "react";
 import { useNavigate } from "react-router-dom";
+import { API_URL } from "../constants";
 
 const AuthContext = createContext();
 
@@ -9,81 +10,91 @@ export function AuthContextProvider({ children }) {
   const [toast, setToast] = useState(false);
   const [user, setUser] = useState({
     isLoggedIn: false,
-    userDetails: {
-      username: "",
+    inputs: {
       email: "",
       password: "",
-      name: "",
+      firstname: "",
+      lastname: "",
     },
+    user: {},
     error: "",
   });
 
   const navigate = useNavigate();
+  const errDivRef = useRef();
 
   const signUp = async () => {
     try {
-      const response = await fetch("/api/auth/signup", {
+      const signupResponse = await fetch(`${API_URL}/signup`, {
         method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
         body: JSON.stringify({
-          email: user.userDetails.email,
-          password: user.userDetails.password,
-          someUserAttribute1: user.userDetails.name,
+          email: user.inputs.email,
+          password: user.inputs.password,
+          firstname: user.inputs.firstname,
+          lastname: user.inputs.lastname,
         }),
       });
-      if (response.status === 201) {
-        const { encodedToken } = await response.json();
-        localStorage.setItem("encodedToken", encodedToken);
-        setUser({ ...user, isLoggedIn: true, error: "" });
-        navigate("/pages/LandingPage/Landing");
-      } else if (response.status === 422) {
-        setUser({ ...user, error: "User Already Exists" });
+      const resData = await signupResponse.json();
+      console.log(signupResponse, resData);
+      if (!signupResponse.ok) {
+        throw resData;
+      } else {
+        localStorage.setItem("token", resData.data.token);
+        localStorage.setItem("user", JSON.stringify(resData.data.createdUser));
       }
-    } catch (e) {
-      console.error(e);
+    } catch (err) {
+      console.error(err);
+      notificationHandler(err.message);
     }
   };
 
   const signIn = async () => {
     try {
-      const cred = {
-        email: user.userDetails.email,
-        password: user.userDetails.password,
-      };
-      const response = await fetch("/api/auth/login", {
+      const signResponse = await fetch(`${API_URL}/login`, {
         method: "POST",
-        body: JSON.stringify(cred),
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          email: user.inputs.email,
+          password: user.inputs.password,
+        }),
       });
-      if (response.status === 200) {
-        const { encodedToken } = await response.json();
-        localStorage.setItem("encodedToken", encodedToken);
-        setUser({ ...user, isLoggedIn: true, error: "" });
-        navigate("/pages/LandingPage/Landing");
-        notificationHandler("Welcome Back");
-      } else if (response.status === 404) {
-        setUser({ ...user, error: "User not found" });
-        notificationHandler("User not found");
-      } else if (response.status === 401) {
-        setUser({ ...user, error: "Invalid credentials" });
-        notificationHandler("Invalid credentials");
+      const resData = await signResponse.json();
+      if (!signResponse.ok) {
+        throw resData;
+      } else {
+        localStorage.setItem("token", resData.token);
+        localStorage.setItem("user", JSON.stringify(resData.loggedInUser));
+        setUser((prevState) => {
+          return {
+            ...prevState,
+            user: resData.loggedInUser,
+          };
+        });
       }
-    } catch (e) {
-      console.error(e);
+    } catch (err) {
+      console.error(err);
+      notificationHandler(err.message);
     }
   };
   const signOutHandler = () => {
-    localStorage.removeItem("encodedToken");
+    localStorage.removeItem("token");
+    localStorage.removeItem("user");
     notificationHandler("Logged out");
     navigate("/");
   };
 
   const notificationHandler = (message) => {
-    let a = document.querySelector("#notify");
-    a.innerHTML = `<p>${message}</p>`;
+    errDivRef.current.innerText = message;
     setToast(true);
     setTimeout(() => {
-      a.innerHTML = "";
+      errDivRef.current.innerText = "";
       setToast(false);
-    }, 2000);
+    }, 3000);
   };
 
   return (
@@ -98,6 +109,7 @@ export function AuthContextProvider({ children }) {
         toast,
         setToast,
         notificationHandler,
+        errDivRef,
       }}
     >
       {children}

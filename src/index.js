@@ -1,8 +1,7 @@
 import React from "react";
-import ReactDOM from "react-dom";
+import { createRoot } from "react-dom/client";
 import "./index.css";
 import App from "./App";
-import { makeServer } from "./server";
 import { BrowserRouter } from "react-router-dom";
 import FetchContextProvider from "./contexts/FetchContext";
 import { CartContextProvider } from "./contexts/CartContext";
@@ -11,10 +10,9 @@ import { WishListContextProvider } from "./contexts/WishListContext";
 import { AddressManagementContextProvider } from "./contexts/AddressManagementcontext";
 import { IconContextProvider } from "./contexts/IconContext";
 
-// Call make Server
-makeServer();
+const root = createRoot(document.getElementById("root"));
 
-ReactDOM.render(
+root.render(
   <React.StrictMode>
     <BrowserRouter>
       <IconContextProvider>
@@ -31,6 +29,5 @@ ReactDOM.render(
         </AuthContextProvider>
       </IconContextProvider>
     </BrowserRouter>
-  </React.StrictMode>,
-  document.getElementById("root")
+  </React.StrictMode>
 );
