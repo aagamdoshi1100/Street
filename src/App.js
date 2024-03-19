@@ -19,11 +19,9 @@ function App() {
       <Routes>
         <Route path="/login" element={<Login />} />
         <Route path="/signup" element={<Signup />} />
+        <Route path="/" element={<ProductPage />} />
+        <Route path="/products/:productId" element={<ProductDetails />} />
         <Route path="/pages/LandingPage/Landing" element={<Landing />} />
-        <Route
-          path="/pages/ProductPage/ProductDetailedView/ProductDetails"
-          element={<ProductDetails />}
-        />
         <Route path="/pages/AddressPage/Address" element={<Address />} />
         <Route
           path="/pages/CartPage/Cart"
@@ -32,10 +30,6 @@ function App() {
               <Cart />
             </RequiresAuth>
           }
-        />
-        <Route
-          path="/pages/ProductPage/Productpage"
-          element={<ProductPage />}
         />
         <Route
           path="/pages/WishListPage/WishList"

@@ -1,38 +1,50 @@
-import "./ProductPage.css";
 import Filters from "../../Components/Filters/Filters";
 import NavBar from "../../Components/NavBarPage/NavBar";
 import Products from "../../Components/Products/Products";
 import SearchBar from "../../Components/SearchBar/SearchBar";
-import useIconContext from "../../contexts/IconContext";
 import { useFetchContext } from "../../contexts/FetchContext";
+import { useEffect } from "react";
+import { TbFilterCog } from "react-icons/tb";
+import styles from "./productPage.module.css";
 
 export default function ProductPage() {
-  const { toggle, setToggle } = useFetchContext();
-  const myStyle = {
-    backgroundColor: toggle ? "rgb(249 242 242)" : "rgb(247, 245, 245)",
-    display: toggle ? "block" : window.innerWidth < 768 ? "none" : "block",
-    zIndex: toggle ? 20 : 0,
-  };
+  const { fetchAllProducts, productState, filterHandler } = useFetchContext();
 
-  const { TbFilterCog } = useIconContext();
+  useEffect(() => {
+    fetchAllProducts();
+  }, []);
+
+  console.log(productState, "ps");
   return (
-    <div className="container">
+    <div className={styles.container}>
       <NavBar />
-      <div className="container-main">
-        <div className="filters-component" style={myStyle}>
-          <Filters />
+      <div className={styles.containerMain}>
+        <div className={styles.filtersComponent}>
+          {productState.filter.isEnabled && (
+            <div className={styles.filterForMobile}>
+              <Filters />
+            </div>
+          )}
+          <div className={styles.filterForDesktop}>
+            <Filters />
+          </div>
         </div>
-        <div className="products-searchbar">
-          <div className="searchbar-component">
+        <div className={styles.productsSearchbar}>
+          <div>
             <SearchBar />
             <TbFilterCog
               size="2.0em"
-              onClick={() => setToggle(!toggle)}
-              className="filter-icon"
+              className={styles.filterIcon}
+              onClick={filterHandler}
             />
           </div>
-          <div className="products-component">
-            <Products />
+          <div>
+            {Array.isArray(productState.arrProducts) &&
+            productState.arrProducts.length > 0 ? (
+              <Products data={productState.arrProducts} />
+            ) : (
+              <p>0 products found</p>
+            )}
           </div>
         </div>
       </div>

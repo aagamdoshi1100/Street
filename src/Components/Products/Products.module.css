@@ -1,0 +1,107 @@
+.container {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-around;
+  gap: 3px;
+}
+.card {
+  border-radius: 5px;
+  width: 47vw;
+  height: 50vh;
+  display: flex;
+  flex-direction: column;
+  position: relative;
+  background-color: white;
+  margin-bottom: 8px;
+}
+.productDetails {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  overflow-wrap: break-word;
+  word-wrap: break-word;
+  width: 46vw;
+  cursor: pointer;
+}
+.productname {
+  text-align: center;
+  font-size: 14px;
+  margin-top: 5px;
+}
+.rating {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.ratingNumber {
+  font-size: 12px;
+  color: rgb(81, 81, 240);
+  padding-right: 4px;
+}
+.ratingIcon {
+  color: rgb(255, 166, 0);
+}
+.MRPText {
+  color: gray;
+  font-size: 11px;
+  padding-left: 2px;
+}
+.MRP {
+  color: gray;
+  text-decoration: line-through;
+  font-size: 11px;
+}
+.wishlist {
+  position: absolute;
+  right: 10px;
+  top: 10px;
+  font-size: 24px;
+  background-color: white;
+  padding: 3px;
+  cursor: pointer;
+  border-radius: 50%;
+}
+.wishlist:hover {
+  color: red;
+}
+.card > img {
+  height: 55%;
+  width: 100%;
+  object-fit: contain;
+}
+.cardBtn {
+  width: 88%;
+  align-self: center;
+  background-color: blueviolet;
+  color: white;
+  position: absolute;
+  bottom: 2px;
+}
+@media only screen and (min-width: 768px) {
+  .container {
+    margin: 10px;
+  }
+  .card {
+    width: 32%;
+    height: 310px;
+  }
+  .productDetails {
+    width: 90%;
+    padding: 10px;
+    padding-bottom: 4px;
+  }
+  .mrpDetails {
+    text-align: center;
+  }
+}
+
+@media only screen and (min-width: 1024px) {
+  .card {
+    width: 32%;
+    height: 305px;
+  }
+  .productDetails {
+    width: 95%;
+    padding: 10px;
+  }
+}

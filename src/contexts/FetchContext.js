@@ -1,121 +1,61 @@
-import {
-  createContext,
-  useContext,
-  useEffect,
-  useReducer,
-  useState,
-} from "react";
-import FilterReducer from "../Reducer/FilterReducer";
+import { createContext, useContext, useReducer, useState } from "react";
+import FetchReducer from "../Reducer/FetchReducer";
 import useAuthContext from "./AuthContext";
+import { API_URL } from "../constants";
 
 const FetchContext = createContext();
 
 export default function FetchContextProvider({ children }) {
-  const { navigate } = useAuthContext();
-  const [toggle, setToggle] = useState(false);
-  const [productState, productDispatcher] = useReducer(FilterReducer, {
+  const { notificationHandler } = useAuthContext();
+  const [productState, productDispatcher] = useReducer(FetchReducer, {
     arrProducts: [],
-    arrCategories: [],
-    ratingSelected: null,
-    checkboxes: [],
-    selectedRange: null,
-    selectedClearFilter: false,
-    searchValue: null,
+    selectedProduct: [],
+    filter: {
+      isEnabled: false,
+    },
   });
-  // console.log("🚀 ~ file: FetchContext.js:18 ~ :", productState);
-
-  const { checkboxes } = productState;
-  const [singleProduct, setSingleProduct] = useState({ clickedProduct: [] });
-
-  const clearFilter = () => {};
-
-  const sorter = (e) => {
+  const filterHandler = () => {
     productDispatcher({
-      type: e.target.value,
-      payload: productState.arrProducts,
+      type: "FILTER_TOGGLER",
     });
   };
-  const showClickedProduct = async (products) => {
-    const productId = products._id;
+  const fetchSeletedProduct = async (productId) => {
     try {
-      const res = await fetch(`/api/products/${productId}`, { method: "GET" });
-      const getProduct = await res.json();
-      setSingleProduct({
-        ...singleProduct,
-        clickedProduct: [getProduct.product],
+      const getProductById = await fetch(`${API_URL}/products/${productId}`);
+      const productData = await getProductById.json();
+      productDispatcher({
+        type: "SINGLE_PRODUCTS",
+        payload: productData.data,
       });
-      navigate("/pages/ProductPage/ProductDetailedView/ProductDetails");
-    } catch (e) {
-      console.error(
-        "🚀 ~ file: FetchContext.js:35 ~ showClickedProduct ~ e:",
-        e
-      );
+      console.log(getProductById, productData, "single");
+    } catch (err) {
+      console.error(err);
+      notificationHandler(err.message);
     }
   };
-  const fetching = async () => {
+  const fetchAllProducts = async () => {
     try {
-      const responseProduct = await fetch("/api/products");
-      const responseProductData = await responseProduct.json();
-
-      const responseCategories = await fetch("/api/categories");
-      const responseCategoriesData = await responseCategories.json();
+      const allProducts = await fetch(`${API_URL}/products`);
+      const responseProductData = await allProducts.json();
+      console.log(allProducts, responseProductData, "fetchAllProducts");
       productDispatcher({
         type: "PRODUCTS",
-        payload: responseProductData.products,
+        payload: responseProductData.data,
       });
-      productDispatcher({
-        type: "CATEGORIES",
-        payload: responseCategoriesData.categories,
-      });
-    } catch (e) {
-      console.error(e);
+    } catch (err) {
+      console.error(err);
+      notificationHandler(err.message);
     }
   };
-  useEffect(() => {
-    fetching();
-  }, []);
-
-  const filteredData = (all) => {
-    let filtered = [...all];
-
-    if (productState.ratingSelected !== null) {
-      filtered = filtered.filter(
-        ({ rating }) => rating > Number(productState.ratingSelected)
-      );
-    }
-    if (productState.searchValue !== null) {
-      filtered = filtered.filter(({ title }) =>
-        title.toLowerCase().includes(productState.searchValue)
-      );
-    }
-    if (productState.checkboxes.length > 0) {
-      filtered = filtered.filter(({ type }) =>
-        productState.checkboxes.includes(type)
-      );
-    }
-    if (productState.selectedRange !== null) {
-      filtered = filtered.filter(
-        ({ price }) => Number(price) < productState.selectedRange
-      );
-    }
-
-    return filtered;
-  };
-  const data = filteredData(productState.arrProducts);
 
   return (
     <FetchContext.Provider
       value={{
-        checkboxes,
-        data,
-        clearFilter,
+        fetchAllProducts,
+        fetchSeletedProduct,
         productState,
-        sorter,
-        showClickedProduct,
-        singleProduct,
         productDispatcher,
-        toggle,
-        setToggle,
+        filterHandler,
       }}
     >
       {children}
