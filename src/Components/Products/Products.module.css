@@ -76,6 +76,8 @@
   color: white;
   position: absolute;
   bottom: 2px;
+  border: 0px;
+  padding: 7px;
 }
 @media only screen and (min-width: 768px) {
   .container {

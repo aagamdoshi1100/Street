@@ -4,8 +4,7 @@ import { IoStarSharp } from "react-icons/io5";
 import styles from "./filters.module.css";
 
 export default function Filters() {
-  const { productDispatcher, productState, filterHandler, sorter } =
-    useFetchContext();
+  const { productDispatcher, productState, filterHandler } = useFetchContext();
   return (
     <div className={styles.container}>
       <div className={styles.header}>
@@ -181,6 +180,16 @@ export default function Filters() {
           Low To High
         </span>
       </div>
+      <button
+        className={styles.filterClear}
+        onClick={() =>
+          productDispatcher({
+            type: "CLEAR_FILTER",
+          })
+        }
+      >
+        Clear Filter
+      </button>
     </div>
   );
 }

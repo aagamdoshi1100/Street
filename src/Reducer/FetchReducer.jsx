@@ -72,8 +72,19 @@ export default function FetchReducer(state, action) {
           sortBy: action.type,
         },
       };
-    case "CLEAR":
-      return { ...state, selectedClearFilter: action.payload };
+    case "CLEAR_FILTER":
+      return {
+        ...state,
+        filter: {
+          ratingSelected: null,
+          sortBy: "",
+          range: {
+            low: "",
+            high: "",
+          },
+          categoryCheckboxes: [],
+        },
+      };
     default:
       return state;
   }
