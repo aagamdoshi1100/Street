@@ -1,147 +1,177 @@
 import { useFetchContext } from "../../contexts/FetchContext";
-import useIconContext from "../../contexts/IconContext";
-import "./Filters.css";
-export default function Filters() {
-  const {
-    checkboxes,
-    data,
-    clearFilter,
-    sorter,
-    productDispatcher,
-    productState,
-    toggle,
-    setToggle,
-  } = useFetchContext();
-  const { AiOutlineClose } = useIconContext();
-  return (
-    <div className="filters">
-      <div className="head">
-        <h2>Filters</h2>
-        {/* <h3 onClick={clearFilter}>Clear</h3> */}
-        {toggle ? (
-          <AiOutlineClose size="1.7em" onClick={() => setToggle(!toggle)} />
-        ) : (
-          ""
-        )}
-      </div>
-      <p>Price</p>
-      <div className="row-price">
-        <div>100</div>
-        <div>1500</div>
-        <div>3000</div>
-      </div>
-      <input
-        type="range"
-        min="100"
-        max="3000"
-        className="slider"
-        onChange={(e) =>
-          productDispatcher({ type: "RANGE", payload: e.target.value })
-        }
-      />
+import { AiOutlineClose } from "react-icons/ai";
+import { IoStarSharp } from "react-icons/io5";
+import styles from "./filters.module.css";
 
-      <p>Category</p>
-      <div className="col">
+export default function Filters() {
+  const { productDispatcher, productState, filterHandler, sorter } =
+    useFetchContext();
+  return (
+    <div className={styles.container}>
+      <div className={styles.header}>
+        <h2>FILTER</h2>
+        <AiOutlineClose
+          size="1.3em"
+          className={styles.filterMenucloseIcon}
+          onClick={filterHandler}
+        />
+      </div>
+      <p className={styles.heading}>PRICE RANGE</p>
+      <div className={styles.range}>
+        <input
+          type="number"
+          className={styles.rangeInput}
+          placeholder="Min Price"
+          value={productState.filter.range.low}
+          onChange={(e) =>
+            productDispatcher({ type: "LOW_RANGE", payload: e.target.value })
+          }
+        />
+        <input
+          type="number"
+          className={styles.rangeInput}
+          placeholder="Max Price"
+          value={productState.filter.range.high}
+          onChange={(e) =>
+            productDispatcher({ type: "HIGH_RANGE", payload: e.target.value })
+          }
+        />
+      </div>
+
+      <div className={styles.category}>
+        <p className={styles.heading}>CATEGORY</p>
         <span>
           <input
             type="checkbox"
-            value="Men"
-            checked={productState.checkboxes.includes("Men")}
+            value="Electronics"
+            className={styles.categoryInput}
             onChange={(e) =>
-              productDispatcher({
-                type: "TOGGLE_CATEGORY",
-                payload: e.target.value,
-              })
+              productDispatcher({ type: "CATEGORY", payload: e.target.value })
             }
           />
-          Men Clothing
+          Electronics
         </span>
         <span>
           <input
             type="checkbox"
-            value="Women"
-            checked={productState.checkboxes.includes("Women")}
+            value="FootWear"
+            className={styles.categoryInput}
             onChange={(e) =>
-              productDispatcher({
-                type: "TOGGLE_CATEGORY",
-                payload: e.target.value,
-              })
+              productDispatcher({ type: "CATEGORY", payload: e.target.value })
             }
           />
-          Women Clothing
-        </span>
-        <span>
-          <input
-            type="checkbox"
-            value="Kids"
-            checked={productState.checkboxes.includes("Kids")}
-            onChange={(e) =>
-              productDispatcher({
-                type: "TOGGLE_CATEGORY",
-                payload: e.target.value,
-              })
-            }
-          />
-          Kid's Clothing
+          Foot Wear
         </span>
       </div>
-      <p>Ratings</p>
-      <div className="col">
+      <div className={styles.rating}>
+        <p className={styles.heading}>RATING</p>
         <span>
           <input
             type="radio"
             name="myids"
+            className={styles.ratingInput}
+            value="4.5"
+            checked={productState.filter.ratingSelected === "4.5"}
+            onChange={(e) =>
+              productDispatcher({
+                type: e.target.value,
+              })
+            }
+          />
+          4.5
+          <IoStarSharp className={styles.ratingIcon} /> & above
+        </span>
+        <span>
+          <input
+            type="radio"
+            name="myids"
+            className={styles.ratingInput}
             value="4"
-            onChange={(e) => sorter(e)}
+            checked={productState.filter.ratingSelected === "4"}
+            onChange={(e) =>
+              productDispatcher({
+                type: e.target.value,
+              })
+            }
           />
-          4⭐ & above
+          4<IoStarSharp className={styles.ratingIcon} /> & above
         </span>
         <span>
           <input
             type="radio"
             name="myids"
+            className={styles.ratingInput}
             value="3"
-            onChange={(e) => sorter(e)}
+            checked={productState.filter.ratingSelected === "3"}
+            onChange={(e) =>
+              productDispatcher({
+                type: e.target.value,
+              })
+            }
           />
-          3⭐ & above
+          3<IoStarSharp className={styles.ratingIcon} /> & above
         </span>
         <span>
           <input
             type="radio"
             name="myids"
+            className={styles.ratingInput}
             value="2"
-            onChange={(e) => sorter(e)}
+            checked={productState.filter.ratingSelected === "2"}
+            onChange={(e) =>
+              productDispatcher({
+                type: e.target.value,
+              })
+            }
           />
-          2⭐ & above
+          2<IoStarSharp className={styles.ratingIcon} /> & above
         </span>
         <span>
           <input
             type="radio"
             name="myids"
+            className={styles.ratingInput}
             value="1"
-            onChange={(e) => sorter(e)}
+            checked={productState.filter.ratingSelected === "1"}
+            onChange={(e) =>
+              productDispatcher({
+                type: e.target.value,
+              })
+            }
           />
-          1⭐ & above
+          1<IoStarSharp className={styles.ratingIcon} /> & above
         </span>
       </div>
-      <p>Sort By Price</p>
-      <div className="col">
+      <div className={styles.sortBy}>
+        <p className={styles.heading}>SORT BY PRICE</p>
         <span>
           <input
             type="radio"
             name="sort"
+            className={styles.sortByInput}
             value="HTL"
-            onChange={(e) => sorter(e)}
-          />{" "}
+            checked={productState.filter.sortBy === "HTL"}
+            onChange={(e) =>
+              productDispatcher({
+                type: e.target.value,
+              })
+            }
+          />
           High To Low
         </span>
         <span>
           <input
             type="radio"
             name="sort"
+            className={styles.sortByInput}
             value="LTH"
-            onChange={(e) => sorter(e)}
-          />{" "}
+            checked={productState.filter.sortBy === "LTH"}
+            onChange={(e) =>
+              productDispatcher({
+                type: e.target.value,
+              })
+            }
+          />
           Low To High
         </span>
       </div>

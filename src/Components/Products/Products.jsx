@@ -18,7 +18,7 @@ export default function Products({ data }) {
   return (
     <div className={styles.container}>
       {data.map((item) => {
-        const { _id, Name, Price, Public_Id, Rating, Discount } = item;
+        const { _id, Name, Price, Rating, Discount } = item;
         return (
           <div className={styles.card} key={_id}>
             <AiOutlineHeart
@@ -26,7 +26,7 @@ export default function Products({ data }) {
               onClick={() => addToWishList(item)}
             />
             <img
-              src={`https://res.cloudinary.com/${cloud_name}/image/upload/${Public_Id}.jpg`}
+              src={`https://res.cloudinary.com/${cloud_name}/image/upload/${_id}.jpg`}
               width="100%"
               height="100%"
               alt=""

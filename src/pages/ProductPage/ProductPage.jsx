@@ -8,7 +8,8 @@ import { TbFilterCog } from "react-icons/tb";
 import styles from "./productPage.module.css";
 
 export default function ProductPage() {
-  const { fetchAllProducts, productState, filterHandler } = useFetchContext();
+  const { fetchAllProducts, productState, filterHandler, filteredData } =
+    useFetchContext();
 
   useEffect(() => {
     fetchAllProducts();
@@ -39,9 +40,8 @@ export default function ProductPage() {
             />
           </div>
           <div>
-            {Array.isArray(productState.arrProducts) &&
-            productState.arrProducts.length > 0 ? (
-              <Products data={productState.arrProducts} />
+            {Array.isArray(filteredData) && filteredData.length > 0 ? (
+              <Products data={filteredData} />
             ) : (
               <p>0 products found</p>
             )}

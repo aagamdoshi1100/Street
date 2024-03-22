@@ -12,6 +12,13 @@ export default function FetchContextProvider({ children }) {
     selectedProduct: [],
     filter: {
       isEnabled: false,
+      ratingSelected: null,
+      sortBy: "",
+      range: {
+        low: "",
+        high: "",
+      },
+      categoryCheckboxes: [],
     },
   });
   const filterHandler = () => {
@@ -37,7 +44,6 @@ export default function FetchContextProvider({ children }) {
     try {
       const allProducts = await fetch(`${API_URL}/products`);
       const responseProductData = await allProducts.json();
-      console.log(allProducts, responseProductData, "fetchAllProducts");
       productDispatcher({
         type: "PRODUCTS",
         payload: responseProductData.data,
@@ -48,12 +54,66 @@ export default function FetchContextProvider({ children }) {
     }
   };
 
+  const productsFilterHandler = (all) => {
+    let filtered = [...all];
+
+    if (productState.filter.range.low !== "") {
+      filtered = filtered.filter(
+        ({ Price, Discount }) =>
+          Number(Price - (Price * Discount) / 100) >=
+          Number(productState.filter.range.low)
+      );
+    }
+    if (productState.filter.range.high !== "") {
+      filtered = filtered.filter(
+        ({ Price, Discount }) =>
+          Number(Price - (Price * Discount) / 100) <=
+          Number(productState.filter.range.high)
+      );
+    }
+    if (productState.filter.categoryCheckboxes.length > 0) {
+      filtered = filtered.filter(({ Category }) =>
+        productState.filter.categoryCheckboxes.includes(Category)
+      );
+    }
+    if (productState.filter.ratingSelected !== null) {
+      filtered = filtered.filter(
+        ({ Rating }) => Rating >= Number(productState.filter.ratingSelected)
+      );
+    }
+    if (productState.filter.sortBy === "HTL") {
+      filtered = [
+        ...filtered.sort((a, b) => {
+          const discountedPriceA =
+            a.Price - Math.floor((a.Price * a.Discount) / 100);
+          const discountedPriceB =
+            b.Price - Math.floor((b.Price * b.Discount) / 100);
+          return discountedPriceB - discountedPriceA;
+        }),
+      ];
+    }
+    if (productState.filter.sortBy === "LTH") {
+      filtered = [
+        ...filtered.sort((a, b) => {
+          const discountedPriceA =
+            a.Price - Math.floor((a.Price * a.Discount) / 100);
+          const discountedPriceB =
+            b.Price - Math.floor((b.Price * b.Discount) / 100);
+          return discountedPriceA - discountedPriceB;
+        }),
+      ];
+    }
+    return filtered;
+  };
+  const filteredData = productsFilterHandler(productState.arrProducts);
+
   return (
     <FetchContext.Provider
       value={{
         fetchAllProducts,
         fetchSeletedProduct,
         productState,
+        filteredData,
         productDispatcher,
         filterHandler,
       }}
