@@ -45,6 +45,9 @@ export default function Filters() {
             type="checkbox"
             value="Electronics"
             className={styles.categoryInput}
+            defaultChecked={productState.filter.categoryCheckboxes.includes(
+              "Electronics"
+            )}
             onChange={(e) =>
               productDispatcher({ type: "CATEGORY", payload: e.target.value })
             }
@@ -56,6 +59,9 @@ export default function Filters() {
             type="checkbox"
             value="FootWear"
             className={styles.categoryInput}
+            defaultChecked={productState.filter.categoryCheckboxes.includes(
+              "FootWear"
+            )}
             onChange={(e) =>
               productDispatcher({ type: "CATEGORY", payload: e.target.value })
             }
@@ -71,7 +77,7 @@ export default function Filters() {
             name="myids"
             className={styles.ratingInput}
             value="4.5"
-            checked={productState.filter.ratingSelected === "4.5"}
+            defaultChecked={productState.filter.ratingSelected === "4.5"}
             onChange={(e) =>
               productDispatcher({
                 type: e.target.value,
@@ -87,7 +93,7 @@ export default function Filters() {
             name="myids"
             className={styles.ratingInput}
             value="4"
-            checked={productState.filter.ratingSelected === "4"}
+            defaultChecked={productState.filter.ratingSelected === "4"}
             onChange={(e) =>
               productDispatcher({
                 type: e.target.value,
@@ -102,7 +108,7 @@ export default function Filters() {
             name="myids"
             className={styles.ratingInput}
             value="3"
-            checked={productState.filter.ratingSelected === "3"}
+            defaultChecked={productState.filter.ratingSelected === "3"}
             onChange={(e) =>
               productDispatcher({
                 type: e.target.value,
@@ -117,7 +123,7 @@ export default function Filters() {
             name="myids"
             className={styles.ratingInput}
             value="2"
-            checked={productState.filter.ratingSelected === "2"}
+            defaultChecked={productState.filter.ratingSelected === "2"}
             onChange={(e) =>
               productDispatcher({
                 type: e.target.value,
@@ -132,7 +138,7 @@ export default function Filters() {
             name="myids"
             className={styles.ratingInput}
             value="1"
-            checked={productState.filter.ratingSelected === "1"}
+            defaultChecked={productState.filter.ratingSelected === "1"}
             onChange={(e) =>
               productDispatcher({
                 type: e.target.value,
@@ -150,7 +156,7 @@ export default function Filters() {
             name="sort"
             className={styles.sortByInput}
             value="HTL"
-            checked={productState.filter.sortBy === "HTL"}
+            defaultChecked={productState.filter.sortBy === "HTL"}
             onChange={(e) =>
               productDispatcher({
                 type: e.target.value,
@@ -165,7 +171,7 @@ export default function Filters() {
             name="sort"
             className={styles.sortByInput}
             value="LTH"
-            checked={productState.filter.sortBy === "LTH"}
+            defaultChecked={productState.filter.sortBy === "LTH"}
             onChange={(e) =>
               productDispatcher({
                 type: e.target.value,
