@@ -1,6 +1,5 @@
-.container {
-  margin-top: 80px;
-  padding: 8px;
+.mainContainer {
+  padding: 10px;
 }
 .imgContainer {
   position: relative;

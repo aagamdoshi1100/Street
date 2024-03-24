@@ -1,10 +1,10 @@
 import Filters from "../../Components/Filters/Filters";
 import NavBar from "../../Components/NavBarPage/NavBar";
 import Products from "../../Components/Products/Products";
-import SearchBar from "../../Components/SearchBar/SearchBar";
 import { useFetchContext } from "../../contexts/FetchContext";
 import { useEffect } from "react";
 import { TbFilterCog } from "react-icons/tb";
+import { AiOutlineShoppingCart } from "react-icons/ai";
 import styles from "./productPage.module.css";
 
 export default function ProductPage() {
@@ -31,8 +31,8 @@ export default function ProductPage() {
           </div>
         </div>
         <div className={styles.productsSearchbar}>
-          <div>
-            <SearchBar />
+          <div className={styles.floatingIcon}>
+            <AiOutlineShoppingCart size="2.0em" className={styles.cartIcon} />
             <TbFilterCog
               size="2.0em"
               className={styles.filterIcon}

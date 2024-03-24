@@ -1,54 +1,67 @@
 import useAuthContext from "../../contexts/AuthContext";
 import { useFetchContext } from "../../contexts/FetchContext";
-import useIconContext from "../../contexts/IconContext";
-import "./NavBar.css";
-import { NavLink } from "react-router-dom";
-export default function NavBar() {
-  const { productDispatcher } = useFetchContext();
-  const { AiOutlineShoppingCart, AiOutlineHeart, BiLogOut, BiLogIn, BiSearch } =
-    useIconContext();
-  const { navigate, signOutHandler } = useAuthContext();
+import SearchBar from "../SearchBar/SearchBar";
+import styles from "./navbar.module.css";
+import { MdSearch } from "react-icons/md";
+import { MdSearchOff } from "react-icons/md";
+import { BiLogOut, BiLogIn } from "react-icons/bi";
+import { AiOutlineShoppingCart, AiOutlineHeart } from "react-icons/ai";
 
+export default function NavBar() {
+  const { productDispatcher, productState } = useFetchContext();
+  const { navigate, signOutHandler } = useAuthContext();
   return (
-    <div className="nav-header">
-      <div className="navbar-main">
-        <div className="navbar-left">
-          <h2 onClick={() => navigate("/pages/ProductPage/ProductPage")}>STREET</h2>
+    <div className={styles.container}>
+      <div className={styles.navbarMain}>
+        <div className={styles.navbarLeft}>
+          <h2 className={styles.brandName} onClick={() => navigate("/")}>
+            STREET
+          </h2>
         </div>
-        <div className="search-container">
-          <input
-            type="text"
-            className="search-bar"
-            onChange={(e) =>
-              productDispatcher({
-                type: "SERCH_VALUE",
-                payload: e.target.value,
-              })
-            }
-            placeholder="Search for products"
-          />
+        <div className={styles.searchForDesktop}>
+          <SearchBar />
         </div>
-        <div className="navbar-right">
-          <AiOutlineShoppingCart
-            className="nav-icons"
-            onClick={() => navigate("/pages/CartPage/Cart")}
-          />
-          <AiOutlineHeart
-            className="nav-icons"
-            onClick={() => navigate("/pages/WishListPage/WishList")}
-          />
-          {localStorage.getItem("encodedToken") ? (
-            <BiLogOut className="nav-icons" onClick={signOutHandler} />
+        <div className={styles.navbarRight}>
+          <AiOutlineShoppingCart size="2.0em" className={styles.cartIcon} />
+          {productState.search.isEnabled ? (
+            <MdSearchOff
+              className={styles.searchIconForMobile}
+              size="2.0em"
+              onClick={() => productDispatcher({ type: "TOGGLE_SEARCHBAR" })}
+            />
           ) : (
-            <BiLogIn
-              className="nav-icons"
-              onClick={() => navigate("/pages/Authentication/Login")}
+            <MdSearch
+              size="2.0em"
+              className={styles.searchIconForMobile}
+              onClick={() => productDispatcher({ type: "TOGGLE_SEARCHBAR" })}
             />
           )}
 
-          {/* <NavLink className="link" to="/mockman">Mockman</NavLink> */}
+          <AiOutlineHeart
+            className={styles.navIcons}
+            size="2.0em"
+            onClick={() => navigate("/wishlist")}
+          />
+          {localStorage.getItem("encodedToken") ? (
+            <BiLogOut
+              className={styles.navIcons}
+              size="2.0em"
+              onClick={signOutHandler}
+            />
+          ) : (
+            <BiLogIn
+              className={styles.navIcons}
+              size="2.0em"
+              onClick={() => navigate("/login")}
+            />
+          )}
         </div>
       </div>
+      {productState.search.isEnabled && (
+        <div className={styles.searchComponent}>
+          <SearchBar />
+        </div>
+      )}
     </div>
   );
 }

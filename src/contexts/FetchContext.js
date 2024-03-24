@@ -20,6 +20,11 @@ export default function FetchContextProvider({ children }) {
       },
       categoryCheckboxes: [],
     },
+    search: {
+      isEnabled: false,
+      value: "",
+      results: [],
+    },
   });
   const filterHandler = () => {
     productDispatcher({
