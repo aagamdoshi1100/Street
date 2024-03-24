@@ -1,0 +1,155 @@
+.container {
+  margin-top: 80px;
+  padding: 8px;
+}
+.imgContainer {
+  position: relative;
+}
+.imageProduct {
+  object-fit: contain;
+}
+.offer {
+  position: absolute;
+  background-color: red;
+  color: white;
+  padding: 7px;
+  border-radius: 5px;
+  font-size: 12px;
+  font-weight: 600;
+  top: 0px;
+  right: 2px;
+}
+.productName {
+  font-size: 22px;
+  padding-top: 8px;
+  font-family: "Gill Sans", "Gill Sans MT", Calibri, "Trebuchet MS", sans-serif;
+}
+.rating {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  padding: 8px 0px;
+}
+.ratingText {
+  color: blue;
+}
+.ratingIcon {
+  color: orange;
+  font-size: 1.2em;
+}
+.mrpDetails {
+  display: flex;
+  align-items: center;
+}
+.mrp {
+  font-size: 26px;
+}
+.discount {
+  color: red;
+  font-size: 26px;
+}
+.originalMRPHeading {
+  color: gray;
+  padding: 5px 0px;
+  font-size: 14px;
+}
+.originalMRP {
+  color: gray;
+  text-decoration: line-through;
+  padding-left: 7px;
+}
+.pageButtons {
+  display: flex;
+  flex-direction: column;
+}
+.goToCart {
+  background-color: orange;
+  border-radius: 30px;
+  padding: 10px;
+  border: 0px;
+}
+.addToCart {
+  background-color: orange;
+  border-radius: 30px;
+  padding: 12px;
+  border: 0px;
+  font-size: 16px;
+}
+.addToWishList {
+  background-color: yellow;
+  border-radius: 30px;
+  padding: 12px;
+  border: 0px;
+  font-size: 16px;
+}
+.addToCart:hover {
+  background-color: rgb(238, 176, 60);
+}
+.goToCart:hover {
+  background-color: rgb(238, 176, 60);
+}
+.addToWishList:hover {
+  background-color: rgb(238, 238, 120);
+}
+.inStock {
+  color: green;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+.outStock {
+  color: red;
+}
+.aboutHeading {
+  font-size: 18px;
+  font-weight: 700;
+  padding: 6px 0px;
+}
+.description {
+  text-align: justify;
+}
+.offerForDesktop {
+  display: none;
+}
+
+@media only screen and (min-width: 768px) {
+  .product {
+    display: flex;
+  }
+  .imgContainer {
+    width: 40vw;
+    height: 70vh;
+    margin: 0% 5%;
+    border: 1px solid gray;
+  }
+  .productName {
+    font-size: 30px;
+  }
+  .productDetails {
+    width: 45vw;
+  }
+  .offer {
+    display: none;
+  }
+  .offerForDesktop {
+    display: block;
+    background-color: red;
+    color: white;
+    padding: 7px;
+    border-radius: 5px;
+    font-size: 12px;
+    font-weight: 600;
+    flex-shrink: 1;
+  }
+}
+@media only screen and (min-width: 1024px) {
+  .addToCart {
+    width: 20vw;
+  }
+  .addToWishList {
+    width: 20vw;
+  }
+  .goToCart {
+    width: 20vw;
+  }
+}

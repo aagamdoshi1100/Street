@@ -8,9 +8,9 @@ import RequiresAuth from "./pages/Authentication/RequiresAuth";
 import Login from "./pages/Authentication/Login";
 import Signup from "./pages/Authentication/Signup";
 import Address from "./pages/AddressPage/Address";
-import ProductDetails from "./pages/ProductPage/ProductDetailedView/ProductDetails";
 import CheckOut from "./pages/CheckOut/CheckOut";
 import useAuthContext from "./contexts/AuthContext";
+import DetailedView from "./pages/DetailedView/DetailedView";
 
 function App() {
   const { toast, errDivRef } = useAuthContext();
@@ -20,7 +20,7 @@ function App() {
         <Route path="/login" element={<Login />} />
         <Route path="/signup" element={<Signup />} />
         <Route path="/" element={<ProductPage />} />
-        <Route path="/products/:productId" element={<ProductDetails />} />
+        <Route path="/products/:productId" element={<DetailedView />} />
         <Route path="/pages/LandingPage/Landing" element={<Landing />} />
         <Route path="/pages/AddressPage/Address" element={<Address />} />
         <Route
