@@ -1,0 +1,93 @@
+.container {
+  height: 80px;
+}
+.searchComponent {
+  position: fixed;
+  height: 91.5vh;
+  width: 100vw;
+  bottom: 0px;
+  background-color: white;
+  z-index: 10;
+}
+
+.navbarMain {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 10px;
+  background-color: black;
+  position: fixed;
+  top: 0px;
+  width: 100vw;
+  z-index: 10;
+}
+
+.brandName {
+  margin: 0;
+  cursor: pointer;
+  font-family: "Courier New", Courier, monospace;
+  color: white;
+  border-radius: 5%;
+  padding: 4px;
+  border: 1px solid white;
+}
+.navbarRight {
+  margin-right: 30px;
+  display: flex;
+  gap: 10px;
+}
+.navIcons {
+  color: white;
+  cursor: pointer;
+}
+.cartIcon {
+  display: none;
+  cursor: pointer;
+}
+.searchIconForMobile {
+  margin-left: 15px;
+  cursor: pointer;
+  color: white;
+}
+.searchForDesktop {
+  display: none;
+}
+
+@media only screen and (min-width: 768px) {
+  .container {
+  }
+  .searchComponent {
+    display: none;
+  }
+  .searchIconForMobile {
+    display: none;
+  }
+  .searchForDesktop {
+    display: block;
+    width: 40vw;
+  }
+  .navbarRight {
+    margin-right: 50px;
+  }
+  .navIcons {
+    font-size: 18px;
+    color: white;
+  }
+}
+
+@media only screen and (min-width: 1024px) {
+  .navbarLeft h2 {
+    font-size: 24px;
+  }
+  .searchForDesktop {
+    width: 30vw;
+  }
+  .navbarRight {
+    gap: 20px;
+  }
+  .cartIcon {
+    display: block;
+    color: white;
+    cursor: pointer;
+  }
+}

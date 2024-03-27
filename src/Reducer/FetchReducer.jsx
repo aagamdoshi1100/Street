@@ -85,6 +85,42 @@ export default function FetchReducer(state, action) {
           categoryCheckboxes: [],
         },
       };
+    case "TOGGLE_SEARCHBAR":
+    case "VIEW_SEARCHED_PRODUCT":
+      return {
+        ...state,
+        search: {
+          ...state.search,
+          isEnabled: !state.search.isEnabled,
+          value: "",
+          results: [],
+        },
+      };
+    case "SET_VALUE":
+      return {
+        ...state,
+        search: {
+          ...state.search,
+          value: action.payload,
+        },
+      };
+    case "SET_RESULT":
+      return {
+        ...state,
+        search: {
+          ...state.search,
+          results: action.payload.data,
+        },
+      };
+    case "CLEAR_RESULTS":
+      return {
+        ...state,
+        search: {
+          ...state.search,
+          value: "",
+          results: [],
+        },
+      };
     default:
       return state;
   }
