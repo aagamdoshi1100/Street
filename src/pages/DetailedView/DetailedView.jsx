@@ -2,7 +2,7 @@ import useCartContext from "../../contexts/CartContext";
 import { useFetchContext } from "../../contexts/FetchContext";
 import useWishListContext from "../../contexts/WishListContext";
 import NavBar from "../../Components/NavBarPage/NavBar";
-import { useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import { useEffect } from "react";
 import { IoStarOutline, IoStarSharp } from "react-icons/io5";
 import { IoIosStarHalf } from "react-icons/io";
@@ -18,6 +18,9 @@ export default function DetailedView() {
   useEffect(() => {
     fetchSeletedProduct(productId);
   }, [productId]);
+  const user = JSON.parse(localStorage.getItem("user"));
+  const navigate = useNavigate();
+
   return (
     <div className={styles.container}>
       <NavBar />
@@ -89,13 +92,16 @@ export default function DetailedView() {
                         {cartItem?.cartArray?.find(
                           (thing) => thing._id === _id
                         ) ? (
-                          <button className={styles.goToCart}>
+                          <button
+                            className={styles.goToCart}
+                            onClick={() => navigate(`/users/${user._id}/cart`)}
+                          >
                             Go to Cart
                           </button>
                         ) : (
                           <button
                             className={styles.addToCart}
-                            onClick={() => addToCart(item)}
+                            onClick={() => addToCart(item._id)}
                           >
                             Add to Cart
                           </button>

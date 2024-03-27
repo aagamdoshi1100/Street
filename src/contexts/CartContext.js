@@ -1,73 +1,101 @@
 import { useContext, useReducer, createContext } from "react";
 import CartReducer, { initialCartStatus } from "../Reducer/CartReducer";
 import useAuthContext from "./AuthContext";
+import { API_URL } from "../constants";
 const CartContext = createContext();
 
 export const CartContextProvider = ({ children }) => {
   const [cartItem, cartDispacher] = useReducer(CartReducer, initialCartStatus);
   const { notificationHandler } = useAuthContext();
 
-  const addToCart = async (item) => {
+  const addToCart = async (productId) => {
     try {
-      const res = await fetch("/api/user/cart", {
+      const user = JSON.parse(localStorage.getItem("user"));
+      const res = await fetch(`${API_URL}/users/${user._id}/cart`, {
         method: "POST",
-        headers: { authorization: localStorage.getItem("encodedToken") },
-        body: JSON.stringify({ product: item }),
+        headers: {
+          "Content-Type": "application/json",
+          authorization: localStorage.getItem("token"),
+        },
+        body: JSON.stringify({ productId }),
       });
       const cartProducts = await res.json();
-      cartDispacher({ type: "AADTOCART", payload: cartProducts.cart });
+      cartDispacher({ type: "ADD_TO_CART", payload: cartProducts.cart });
       notificationHandler("Added to the cart");
-    } catch (e) {
-      console.error(" addToCart ", e);
+    } catch (err) {
+      console.error(err);
+      notificationHandler(err.message);
     }
   };
 
-  const removeFromCart = async (item) => {
-    let productId = item._id;
-    console.log(productId, "Aaa");
+  const fetchCartProducts = async () => {
     try {
-      const res = await fetch(`/api/user/cart/${productId}`, {
-        method: "DELETE",
-        headers: { authorization: localStorage.getItem("encodedToken") },
+      cartDispacher({ type: "LOADING" });
+      const user = JSON.parse(localStorage.getItem("user"));
+      const res = await fetch(`${API_URL}/users/${user._id}/cart`, {
+        method: "GET",
+        headers: {
+          "Content-Type": "application/json",
+          authorization: localStorage.getItem("token"),
+        },
       });
       const cartProducts = await res.json();
-      cartDispacher({ type: "REMOVEFROMCART", payload: cartProducts.cart });
-      notificationHandler("Removed from cart");
-    } catch (e) {
-      console.error(e, "error while removing");
+      cartDispacher({ type: "LOADING" });
+      cartDispacher({ type: "ADD_TO_CART", payload: cartProducts.cart });
+    } catch (err) {
+      console.error(err);
+      notificationHandler(err.message);
     }
   };
 
-  const qtyControl = async (product, act) => {
-    let productId = product._id;
+  const cartController = async (data) => {
+    console.log(data, "Aaa");
     try {
-      const res = await fetch(`/api/user/cart/${productId}`, {
-        method: "POST",
-        headers: { authorization: localStorage.getItem("encodedToken") },
-        body: JSON.stringify({ action: { type: act } }),
-      });
-      const cartProducts = await res.json();
-      cartDispacher({ type: "QTYCONTROL", payload: cartProducts.cart });
-    } catch (e) {
-      console.error(e, "error while removing");
+      const user = JSON.parse(localStorage.getItem("user"));
+      const manageCartResponse = await fetch(
+        `${API_URL}/users/${user._id}/cart`,
+        {
+          method: "PATCH",
+          headers: {
+            "Content-Type": "application/json",
+            authorization: localStorage.getItem("token"),
+          },
+          body: JSON.stringify(data),
+        }
+      );
+      if (manageCartResponse.ok && data.action === "INCREMENT") {
+        cartDispacher({ type: "INCREMENT", payload: data });
+        notificationHandler("The quantity of the product has been increased");
+      } else if (manageCartResponse.ok && data.action === "DECREMENT") {
+        cartDispacher({ type: "DECREMENT", payload: data });
+        notificationHandler("The quantity of the product has been reduced.");
+      } else {
+        cartDispacher({ type: "REMOVE_FROM_CART", payload: data });
+        notificationHandler("Product removed from the cart");
+      }
+    } catch (err) {
+      console.error(err);
+      notificationHandler(err.message);
     }
   };
 
   const totalBill = cartItem?.cartArray?.reduce(
     (acc, cur) => {
-      acc.price = Number(acc.price) + Number(cur.price * cur.qty);
-      acc.qty = acc.qty + cur.qty;
+      acc.Price =
+        Number(acc.Price) + Number(cur.Price * cur.qtyOfsameProductInCart);
+      acc.qtyOfsameProductInCart =
+        acc.qtyOfsameProductInCart + cur.qtyOfsameProductInCart;
       return acc;
     },
-    { price: 0, qty: 0 }
+    { Price: 0, qtyOfsameProductInCart: 0 }
   );
 
   return (
     <CartContext.Provider
       value={{
         addToCart,
-        removeFromCart,
-        qtyControl,
+        fetchCartProducts,
+        cartController,
         totalBill,
         cartItem,
         cartDispacher,

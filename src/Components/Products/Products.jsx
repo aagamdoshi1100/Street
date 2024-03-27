@@ -1,20 +1,21 @@
 import useAuthContext from "../../contexts/AuthContext";
 import useCartContext from "../../contexts/CartContext";
-import { useFetchContext } from "../../contexts/FetchContext";
-import useIconContext from "../../contexts/IconContext";
 import useWishListContext from "../../contexts/WishListContext";
 import styles from "./Products.module.css";
 import { IoStarOutline } from "react-icons/io5";
 import { IoIosStarHalf } from "react-icons/io";
 import { IoStarSharp } from "react-icons/io5";
 import { LiaRupeeSignSolid } from "react-icons/lia";
+import { AiOutlineHeart } from "react-icons/ai";
 
 export default function Products({ data }) {
   const { addToCart, cartItem } = useCartContext();
   const { addToWishList } = useWishListContext();
-  const { AiOutlineHeart } = useIconContext();
   const { navigate } = useAuthContext();
   const cloud_name = process.env.REACT_APP_Cloud_Name;
+  const user = JSON.parse(localStorage.getItem("user"));
+
+  console.log(cartItem);
   return (
     <div className={styles.container}>
       {data.map((item) => {
@@ -67,14 +68,14 @@ export default function Products({ data }) {
             {cartItem?.cartArray?.find((thing) => thing._id === _id) ? (
               <button
                 className={styles.cardBtn}
-                onClick={() => navigate("/pages/CartPage/Cart")}
+                onClick={() => navigate(`/users/${user._id}/cart`)}
               >
                 Go to Cart
               </button>
             ) : (
               <button
                 className={styles.cardBtn}
-                onClick={() => addToCart(item)}
+                onClick={() => addToCart(item._id)}
               >
                 Add to Cart
               </button>

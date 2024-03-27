@@ -6,11 +6,13 @@ import { useEffect } from "react";
 import { TbFilterCog } from "react-icons/tb";
 import { AiOutlineShoppingCart } from "react-icons/ai";
 import styles from "./productPage.module.css";
+import { useNavigate } from "react-router-dom";
 
 export default function ProductPage() {
   const { fetchAllProducts, productState, filterHandler, filteredData } =
     useFetchContext();
-
+  const user = JSON.parse(localStorage.getItem("user"));
+  const navigate = useNavigate();
   useEffect(() => {
     fetchAllProducts();
   }, []);
@@ -32,7 +34,11 @@ export default function ProductPage() {
         </div>
         <div className={styles.productsSearchbar}>
           <div className={styles.floatingIcon}>
-            <AiOutlineShoppingCart size="2.0em" className={styles.cartIcon} />
+            <AiOutlineShoppingCart
+              size="2.0em"
+              className={styles.cartIcon}
+              onClick={() => navigate(`/users/${user._id}/cart`)}
+            />
             <TbFilterCog
               size="2.0em"
               className={styles.filterIcon}

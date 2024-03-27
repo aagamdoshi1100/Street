@@ -6,10 +6,13 @@ import { MdSearch } from "react-icons/md";
 import { MdSearchOff } from "react-icons/md";
 import { BiLogOut, BiLogIn } from "react-icons/bi";
 import { AiOutlineShoppingCart, AiOutlineHeart } from "react-icons/ai";
+import { useNavigate } from "react-router-dom";
 
 export default function NavBar() {
   const { productDispatcher, productState } = useFetchContext();
-  const { navigate, signOutHandler } = useAuthContext();
+  const { signOutHandler } = useAuthContext();
+  const user = JSON.parse(localStorage.getItem("user"));
+  const navigate = useNavigate();
   return (
     <div className={styles.container}>
       <div className={styles.navbarMain}>
@@ -22,7 +25,11 @@ export default function NavBar() {
           <SearchBar />
         </div>
         <div className={styles.navbarRight}>
-          <AiOutlineShoppingCart size="2.0em" className={styles.cartIcon} />
+          <AiOutlineShoppingCart
+            size="2.0em"
+            className={styles.cartIcon}
+            onClick={() => navigate(`/users/${user._id}/cart`)}
+          />
           {productState.search.isEnabled ? (
             <MdSearchOff
               className={styles.searchIconForMobile}
