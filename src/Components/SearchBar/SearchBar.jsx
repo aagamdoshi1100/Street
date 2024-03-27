@@ -53,11 +53,13 @@ export default function SearchBar() {
           }
           placeholder="Search in SREET"
         />
-        <AiOutlineClose
-          size="1.3em"
-          className="clearSearchResult"
-          onClick={clearSearchResults}
-        />
+        {productState.search.value.length > 0 && (
+          <AiOutlineClose
+            size="1.2em"
+            className="clearSearchResult"
+            onClick={clearSearchResults}
+          />
+        )}
       </div>
       <div className="results">
         {productState.search.results.map((data) => {
