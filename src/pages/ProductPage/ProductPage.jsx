@@ -9,12 +9,18 @@ import styles from "./productPage.module.css";
 import { useNavigate } from "react-router-dom";
 
 export default function ProductPage() {
-  const { fetchAllProducts, productState, filterHandler, filteredData } =
-    useFetchContext();
+  const {
+    fetchAllProducts,
+    fetchIdsToDisplayStatusOfCartAndWishlist,
+    productState,
+    filterHandler,
+    filteredData,
+  } = useFetchContext();
   const user = JSON.parse(localStorage.getItem("user"));
   const navigate = useNavigate();
   useEffect(() => {
     fetchAllProducts();
+    fetchIdsToDisplayStatusOfCartAndWishlist();
   }, []);
 
   console.log(productState, "ps");
@@ -47,7 +53,10 @@ export default function ProductPage() {
           </div>
           <div>
             {Array.isArray(filteredData) && filteredData.length > 0 ? (
-              <Products data={filteredData} />
+              <Products
+                data={filteredData}
+                status={productState.cartAndWishlistStatus}
+              />
             ) : (
               <p>0 products found</p>
             )}

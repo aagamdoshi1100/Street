@@ -25,6 +25,10 @@ export default function FetchContextProvider({ children }) {
       value: "",
       results: [],
     },
+    cartAndWishlistStatus: {
+      cartStatus: [],
+      wishlistStatus: [],
+    },
   });
   const filterHandler = () => {
     productDispatcher({
@@ -52,6 +56,23 @@ export default function FetchContextProvider({ children }) {
       productDispatcher({
         type: "PRODUCTS",
         payload: responseProductData.data,
+      });
+    } catch (err) {
+      console.error(err);
+      notificationHandler(err.message);
+    }
+  };
+
+  const fetchIdsToDisplayStatusOfCartAndWishlist = async () => {
+    try {
+      const user = JSON.parse(localStorage.getItem("user"));
+      const allProducts = await fetch(
+        `${API_URL}/users/${user._id}/cartAndWishlistIds`
+      );
+      const responseProductData = await allProducts.json();
+      productDispatcher({
+        type: "FETCH_TO_DISPLAY",
+        payload: responseProductData,
       });
     } catch (err) {
       console.error(err);
@@ -116,6 +137,7 @@ export default function FetchContextProvider({ children }) {
     <FetchContext.Provider
       value={{
         fetchAllProducts,
+        fetchIdsToDisplayStatusOfCartAndWishlist,
         fetchSeletedProduct,
         productState,
         filteredData,

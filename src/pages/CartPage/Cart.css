@@ -99,11 +99,41 @@
 .emptyCart {
   margin-top: 100px;
 }
+.emptyWishlist {
+  margin-top: 100px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 100vw;
+  height: 60vh;
+}
+
+.emptyWishlist img {
+  max-width: 100%;
+  max-height: 100%;
+  object-fit: contain;
+}
+
+.emptyWishlist > img {
+  object-fit: contain;
+}
 .cartLoading {
   display: flex;
   justify-content: center;
   align-items: center;
   height: 70vh;
+}
+.cartIcon {
+  position: fixed;
+  bottom: 40px;
+  right: 30px;
+  z-index: 8;
+  background-color: white;
+  border-radius: 50%;
+  padding: 12px;
+  gap: 10px;
+  color: rgb(253, 168, 11);
+  box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
 }
 @media only screen and (min-width: 768px) {
   .main-cart {
@@ -121,6 +151,13 @@
   .placeOrderBtn {
     width: 25%;
   }
+  .emptyWishlist {
+    width: 100vw;
+    height: 50vh;
+  }
 }
 @media only screen and (min-width: 1024px) {
+  .cartIcon {
+    display: none;
+  }
 }

@@ -47,7 +47,7 @@ export default function NavBar() {
           <AiOutlineHeart
             className={styles.navIcons}
             size="2.0em"
-            onClick={() => navigate("/wishlist")}
+            onClick={() => navigate(`/users/${user._id}/wishlist`)}
           />
           {localStorage.getItem("encodedToken") ? (
             <BiLogOut

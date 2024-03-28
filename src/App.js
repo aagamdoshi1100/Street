@@ -22,16 +22,9 @@ function App() {
         <Route path="/" element={<ProductPage />} />
         <Route path="/products/:productId" element={<DetailedView />} />
         <Route path="/users/:userId/cart" element={<Cart />} />
+        <Route path="/users/:userId/wishlist" element={<WishList />} />
         <Route path="/pages/LandingPage/Landing" element={<Landing />} />
         <Route path="/pages/AddressPage/Address" element={<Address />} />
-        <Route
-          path="/pages/WishListPage/WishList"
-          element={
-            <RequiresAuth>
-              <WishList />
-            </RequiresAuth>
-          }
-        />
         <Route
           path="/CheckOut/CheckOut"
           element={

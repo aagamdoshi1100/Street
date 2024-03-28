@@ -7,25 +7,32 @@ import { IoIosStarHalf } from "react-icons/io";
 import { IoStarSharp } from "react-icons/io5";
 import { LiaRupeeSignSolid } from "react-icons/lia";
 import { AiOutlineHeart } from "react-icons/ai";
+import { IoMdHeart } from "react-icons/io";
 
-export default function Products({ data }) {
-  const { addToCart, cartItem } = useCartContext();
-  const { addToWishList } = useWishListContext();
+export default function Products({ data, status }) {
+  const { addToCart } = useCartContext();
+  const { manageWishList } = useWishListContext();
   const { navigate } = useAuthContext();
   const cloud_name = process.env.REACT_APP_Cloud_Name;
   const user = JSON.parse(localStorage.getItem("user"));
 
-  console.log(cartItem);
   return (
     <div className={styles.container}>
       {data.map((item) => {
         const { _id, Name, Price, Rating, Discount } = item;
         return (
           <div className={styles.card} key={_id}>
-            <AiOutlineHeart
-              className={styles.wishlist}
-              onClick={() => addToWishList(item)}
-            />
+            {status.wishlistStatus.includes(_id) ? (
+              <IoMdHeart
+                className={styles.wishlistMarked}
+                onClick={() => manageWishList(item)}
+              />
+            ) : (
+              <AiOutlineHeart
+                className={styles.wishlist}
+                onClick={() => manageWishList(item)}
+              />
+            )}
             <img
               src={`https://res.cloudinary.com/${cloud_name}/image/upload/${_id}.jpg`}
               width="100%"
@@ -65,7 +72,7 @@ export default function Products({ data }) {
                 <span className={styles.MRPText}>({Discount}% Off)</span>
               </p>
             </div>
-            {cartItem?.cartArray?.find((thing) => thing._id === _id) ? (
+            {status.cartStatus.find((pro) => pro._id === _id) ? (
               <button
                 className={styles.cardBtn}
                 onClick={() => navigate(`/users/${user._id}/cart`)}

@@ -61,6 +61,17 @@
   cursor: pointer;
   border-radius: 50%;
 }
+.wishlistMarked {
+  position: absolute;
+  right: 10px;
+  top: 10px;
+  font-size: 24px;
+  background-color: white;
+  padding: 3px;
+  cursor: pointer;
+  border-radius: 50%;
+  color: red;
+}
 .wishlist:hover {
   color: red;
 }

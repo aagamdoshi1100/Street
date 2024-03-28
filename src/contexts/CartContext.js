@@ -2,10 +2,12 @@ import { useContext, useReducer, createContext } from "react";
 import CartReducer, { initialCartStatus } from "../Reducer/CartReducer";
 import useAuthContext from "./AuthContext";
 import { API_URL } from "../constants";
+import { useFetchContext } from "./FetchContext";
 const CartContext = createContext();
 
 export const CartContextProvider = ({ children }) => {
   const [cartItem, cartDispacher] = useReducer(CartReducer, initialCartStatus);
+  const { productDispatcher } = useFetchContext();
   const { notificationHandler } = useAuthContext();
 
   const addToCart = async (productId) => {
@@ -21,6 +23,7 @@ export const CartContextProvider = ({ children }) => {
       });
       const cartProducts = await res.json();
       cartDispacher({ type: "ADD_TO_CART", payload: cartProducts.cart });
+      productDispatcher({ type: "STATUS_CART", payload: productId });
       notificationHandler("Added to the cart");
     } catch (err) {
       console.error(err);
@@ -79,6 +82,26 @@ export const CartContextProvider = ({ children }) => {
     }
   };
 
+  const moveToWishlist = async (product) => {
+    try {
+      const user = JSON.parse(localStorage.getItem("user"));
+      const token = localStorage.getItem("token");
+      const res = await fetch(
+        `${API_URL}/users/${user._id}/cart/${product._id}/moveToWishlist`,
+        {
+          method: "PATCH",
+          headers: { authorization: token },
+        }
+      );
+      if (res.ok) {
+        cartDispacher({ type: "MOVE_TO_WISHLIST", payload: product });
+        notificationHandler("Product moved to wishlist");
+      }
+    } catch (err) {
+      console.error(err);
+    }
+  };
+
   const totalBill = cartItem?.cartArray?.reduce(
     (acc, cur) => {
       acc.Price =
@@ -99,6 +122,7 @@ export const CartContextProvider = ({ children }) => {
         totalBill,
         cartItem,
         cartDispacher,
+        moveToWishlist,
       }}
     >
       {children}

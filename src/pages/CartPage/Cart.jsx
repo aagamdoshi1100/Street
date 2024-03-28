@@ -1,6 +1,5 @@
 import { useNavigate } from "react-router-dom";
 import useCartContext from "../../contexts/CartContext";
-import useWishListContext from "../../contexts/WishListContext";
 import { useFetchContext } from "../../contexts/FetchContext";
 import NavBar from "../../Components/NavBarPage/NavBar";
 import "./Cart.css";
@@ -13,10 +12,14 @@ import { MdDeleteOutline } from "react-icons/md";
 import Loading from "../../Components/Loading/Loading";
 
 export default function Cart() {
-  const { fetchCartProducts, cartItem, cartController, totalBill } =
-    useCartContext();
+  const {
+    fetchCartProducts,
+    cartItem,
+    cartController,
+    moveToWishlist,
+    totalBill,
+  } = useCartContext();
   const navigate = useNavigate();
-  const { addToWishList } = useWishListContext();
   const { showClickedProduct } = useFetchContext();
   useEffect(() => {
     fetchCartProducts();
@@ -122,7 +125,7 @@ export default function Cart() {
                         </div>
                         <button
                           className="cartWishListBtn"
-                          onClick={() => addToWishList(item)}
+                          onClick={() => moveToWishlist(item)}
                         >
                           Move To WishList
                         </button>
