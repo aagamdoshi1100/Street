@@ -32,6 +32,13 @@
   color: rgb(253, 168, 11);
   box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
 }
+.loading {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 100vw;
+  height: 70vh;
+}
 @media only screen and (min-width: 768px) {
   .containerMain {
     display: flex;

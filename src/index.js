@@ -8,26 +8,23 @@ import { CartContextProvider } from "./contexts/CartContext";
 import { AuthContextProvider } from "./contexts/AuthContext";
 import { WishListContextProvider } from "./contexts/WishListContext";
 import { AddressManagementContextProvider } from "./contexts/AddressManagementcontext";
-import { IconContextProvider } from "./contexts/IconContext";
 
 const root = createRoot(document.getElementById("root"));
 
 root.render(
   <React.StrictMode>
     <BrowserRouter>
-      <IconContextProvider>
-        <AuthContextProvider>
-          <FetchContextProvider>
-            <CartContextProvider>
-              <WishListContextProvider>
-                <AddressManagementContextProvider>
-                  <App />
-                </AddressManagementContextProvider>
-              </WishListContextProvider>
-            </CartContextProvider>
-          </FetchContextProvider>
-        </AuthContextProvider>
-      </IconContextProvider>
+      <AuthContextProvider>
+        <FetchContextProvider>
+          <CartContextProvider>
+            <WishListContextProvider>
+              <AddressManagementContextProvider>
+                <App />
+              </AddressManagementContextProvider>
+            </WishListContextProvider>
+          </CartContextProvider>
+        </FetchContextProvider>
+      </AuthContextProvider>
     </BrowserRouter>
   </React.StrictMode>
 );

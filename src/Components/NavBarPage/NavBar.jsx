@@ -7,6 +7,7 @@ import { MdSearchOff } from "react-icons/md";
 import { BiLogOut, BiLogIn } from "react-icons/bi";
 import { AiOutlineShoppingCart, AiOutlineHeart } from "react-icons/ai";
 import { useNavigate } from "react-router-dom";
+import { RiHome2Line } from "react-icons/ri";
 
 export default function NavBar() {
   const { productDispatcher, productState } = useFetchContext();
@@ -43,18 +44,30 @@ export default function NavBar() {
               onClick={() => productDispatcher({ type: "TOGGLE_SEARCHBAR" })}
             />
           )}
-
+          <RiHome2Line
+            size="2.0em"
+            className={styles.navIcons}
+            onClick={() => navigate(`/`)}
+          />
           <AiOutlineHeart
             className={styles.navIcons}
             size="2.0em"
-            onClick={() => navigate("/wishlist")}
+            onClick={() => navigate(`/users/${user._id}/wishlist`)}
           />
-          {localStorage.getItem("encodedToken") ? (
-            <BiLogOut
-              className={styles.navIcons}
-              size="2.0em"
-              onClick={signOutHandler}
-            />
+          {localStorage.getItem("token") ? (
+            <>
+              <BiLogOut
+                className={styles.navIcons}
+                size="2.0em"
+                onClick={signOutHandler}
+              />
+              <div
+                className={styles.initials}
+                onClick={() => navigate(`/users/${user._id}/profile`)}
+              >
+                {user.firstname[0]?.toUpperCase()}
+              </div>
+            </>
           ) : (
             <BiLogIn
               className={styles.navIcons}

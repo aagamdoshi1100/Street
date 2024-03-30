@@ -33,6 +33,7 @@ export default function CartReducer(state, action) {
           return product;
         }),
       };
+    case "MOVE_TO_WISHLIST":
     case "REMOVE_FROM_CART":
       return {
         ...state,

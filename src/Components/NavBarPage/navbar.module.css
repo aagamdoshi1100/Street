@@ -1,5 +1,5 @@
 .container {
-  height: 80px;
+  height: 70px;
 }
 .searchComponent {
   position: fixed;
@@ -14,7 +14,7 @@
   display: flex;
   align-items: center;
   justify-content: space-between;
-  padding: 10px;
+  padding: 16px;
   background-color: black;
   position: fixed;
   top: 0px;
@@ -40,6 +40,17 @@
   color: white;
   cursor: pointer;
 }
+.initials {
+  color: white;
+  cursor: pointer;
+  height: 30px;
+  width: 30px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border: 2px solid white;
+  border-radius: 50%;
+}
 .cartIcon {
   display: none;
   cursor: pointer;
@@ -54,7 +65,8 @@
 }
 
 @media only screen and (min-width: 768px) {
-  .container {
+  .navbarMain {
+    padding: 8px;
   }
   .searchComponent {
     display: none;

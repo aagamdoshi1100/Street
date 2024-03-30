@@ -1,121 +1,112 @@
 import { useState } from "react";
 import { useContext } from "react";
 import { createContext } from "react";
-import useCartContext from "./CartContext";
 import useAuthContext from "./AuthContext";
+import { API_URL } from "../constants";
+import { useFetchContext } from "./FetchContext";
 
 const WishListContext = createContext();
 
 export const WishListContextProvider = ({ children }) => {
-  const [wishListItem, setWishListItem] = useState({ WishListArray: [] });
-  const { cartItem, cartDispacher } = useCartContext();
+  const [wishListItem, setWishListItem] = useState({
+    WishListArray: [],
+    loading: false,
+  });
+
   const { notificationHandler } = useAuthContext();
-  const myToken = localStorage.getItem("encodedToken");
-  const addToWishList = async (product) => {
+  const { productDispatcher } = useFetchContext();
+  const manageWishList = async (product) => {
     try {
-      const res = await fetch("/api/user/wishlist", {
+      const user = JSON.parse(localStorage.getItem("user"));
+      const token = localStorage.getItem("token");
+      const res = await fetch(`${API_URL}/users/${user._id}/wishlist`, {
         method: "POST",
-        headers: { authorization: myToken },
-        body: JSON.stringify({ product }),
+        headers: { "Content-Type": "application/json", authorization: token },
+        body: JSON.stringify({ productId: product._id }),
       });
-      const wishListProducts = await res.json();
-      setWishListItem({
-        ...wishListItem,
-        WishListArray: wishListProducts.wishlist,
-      });
-      notificationHandler("Added To Wishlist");
-    } catch (e) {
-      console.error("addToWishlist:", e);
-    }
-  };
-
-  const removeFromWishList = async (product) => {
-    let productId = product._id;
-    try {
-      const res = await fetch(`/api/user/wishlist/${productId}`, {
-        method: "DELETE",
-        headers: { authorization: myToken },
-      });
-      const wishListProducts = await res.json();
-      console.log(res, "res", wishListProducts);
-      setWishListItem({
-        ...wishListItem,
-        WishListArray: wishListProducts.wishlist,
-      });
-      notificationHandler("Removed from wishlist");
-    } catch (e) {
-      console.error(" removeFromWishList:", e);
-    }
-  };
-
-  const moveToCart = async (product, act) => {
-    const productId = product._id;
-    console.log("moveToCart:", act);
-
-    const checkIfProductInCart = cartItem.cartArray.some(
-      (item) => item._id === productId
-    );
-
-    try {
-      if (checkIfProductInCart) {
-        const incrementQtyIfProductPresent = await fetch(
-          `/api/user/cart/${productId}`,
-          {
-            method: "POST",
-            headers: { authorization: myToken },
-            body: JSON.stringify({ action: { type: act } }),
-          }
-        );
-        const incrementQtyOfProduct = await incrementQtyIfProductPresent.json();
-        cartDispacher({
-          type: "MOVEFROMWISHLIST",
-          payload: incrementQtyOfProduct.cart,
-        });
-        notificationHandler("Moved to cart");
-      } else {
-        const addProductToCartIfProductNotFound = await fetch(
-          "/api/user/cart",
-          {
-            method: "POST",
-            headers: { authorization: myToken },
-            body: JSON.stringify({ product }),
-          }
-        );
-        const cartProducts = await addProductToCartIfProductNotFound.json();
-        cartDispacher({ type: "AADTOCART", payload: cartProducts.cart });
-        notificationHandler("Moved to cart");
+      if (res.ok) {
+        if (wishListItem.WishListArray.find((pro) => pro._id === product._id)) {
+          setWishListItem({
+            ...wishListItem,
+            WishListArray: wishListItem.WishListArray.filter(
+              (pro) => pro._id !== product._id
+            ),
+          });
+          productDispatcher({ type: "STATUS_WISHLIST", payload: product._id });
+          notificationHandler("Product removed from wishlist");
+        } else {
+          setWishListItem({
+            ...wishListItem,
+            WishListArray: [...wishListItem.WishListArray, product],
+          });
+          productDispatcher({ type: "STATUS_WISHLIST", payload: product._id });
+          notificationHandler("Product added to wishlist");
+        }
       }
-    } catch (error) {
-      console.error("Error while processing cart:", error);
+    } catch (err) {
+      console.error(err);
+      notificationHandler(err.message);
     }
+  };
 
+  const fetchWishlist = async () => {
     try {
-      const removeWishListItemAfterMoving = await fetch(
-        `/api/user/wishlist/${productId}`,
+      setWishListItem({
+        ...wishListItem,
+        loading: true,
+      });
+      const user = JSON.parse(localStorage.getItem("user"));
+      const token = localStorage.getItem("token");
+      const res = await fetch(`${API_URL}/users/${user._id}/wishlist`, {
+        method: "GET",
+        headers: { authorization: token },
+      });
+      const wishListProducts = await res.json();
+      if (res.ok) {
+        setWishListItem({
+          ...wishListItem,
+          loading: false,
+          WishListArray: wishListProducts.wishlists,
+        });
+      }
+    } catch (err) {
+      console.error(err);
+      notificationHandler(err.message);
+    }
+  };
+
+  const moveToCart = async (product) => {
+    try {
+      const user = JSON.parse(localStorage.getItem("user"));
+      const token = localStorage.getItem("token");
+      const res = await fetch(
+        `${API_URL}/users/${user._id}/wishlist/${product._id}/moveToCart`,
         {
-          method: "DELETE",
-          headers: {
-            authorization: myToken,
-          },
+          method: "PATCH",
+          headers: { authorization: token },
         }
       );
-      const wishListProducts = await removeWishListItemAfterMoving.json();
-      setWishListItem({
-        ...wishListItem,
-        WishListArray: wishListProducts.wishlist,
-      });
-    } catch (error) {
-      console.error("Error while removing wishlist item:", error);
+      if (res.ok) {
+        setWishListItem({
+          ...wishListItem,
+          WishListArray: wishListItem.WishListArray.filter(
+            (pro) => pro._id !== product._id
+          ),
+        });
+        notificationHandler("Product moved to cart");
+      }
+    } catch (err) {
+      console.error(err);
     }
   };
 
   return (
     <WishListContext.Provider
       value={{
-        addToWishList,
+        manageWishList,
+        fetchWishlist,
         wishListItem,
         setWishListItem,
-        removeFromWishList,
         moveToCart,
       }}
     >

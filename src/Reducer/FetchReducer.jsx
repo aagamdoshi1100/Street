@@ -1,9 +1,61 @@
 export default function FetchReducer(state, action) {
   switch (action.type) {
+    case "LOADING":
+      return {
+        ...state,
+        loading: {
+          ...state.loading,
+          mainPageLoading: !state.loading.mainPageLoading,
+        },
+      };
     case "PRODUCTS":
       return { ...state, arrProducts: action.payload };
     case "SINGLE_PRODUCTS":
       return { ...state, selectedProduct: action.payload };
+    case "FETCH_TO_DISPLAY":
+      return {
+        ...state,
+        cartAndWishlistStatus: {
+          ...state.cartAndWishlistStatus,
+          cartStatus: action.payload.cartIds,
+          wishlistStatus: action.payload.wishlistIds,
+        },
+      };
+    case "STATUS_CART":
+      return {
+        ...state,
+        cartAndWishlistStatus: {
+          ...state.cartAndWishlistStatus,
+          cartStatus: [
+            ...state.cartAndWishlistStatus.cartStatus,
+            { _id: action.payload },
+          ],
+        },
+      };
+    case "STATUS_WISHLIST":
+      const checkIfAlreadyWishMarked =
+        state.cartAndWishlistStatus.wishlistStatus.find(
+          (pro) => pro === action.payload
+        );
+      let updatedWishlistStatus;
+      if (checkIfAlreadyWishMarked) {
+        updatedWishlistStatus =
+          state.cartAndWishlistStatus.wishlistStatus.filter(
+            (pro) => pro !== action.payload
+          );
+      } else {
+        updatedWishlistStatus = [
+          ...state.cartAndWishlistStatus.wishlistStatus,
+          action.payload,
+        ];
+      }
+      return {
+        ...state,
+        cartAndWishlistStatus: {
+          ...state.cartAndWishlistStatus,
+          wishlistStatus: updatedWishlistStatus,
+        },
+      };
     case "FILTER_TOGGLER":
       return {
         ...state,

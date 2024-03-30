@@ -1,6 +1,5 @@
 import { useNavigate } from "react-router-dom";
 import useCartContext from "../../contexts/CartContext";
-import useWishListContext from "../../contexts/WishListContext";
 import { useFetchContext } from "../../contexts/FetchContext";
 import NavBar from "../../Components/NavBarPage/NavBar";
 import "./Cart.css";
@@ -13,15 +12,21 @@ import { MdDeleteOutline } from "react-icons/md";
 import Loading from "../../Components/Loading/Loading";
 
 export default function Cart() {
-  const { fetchCartProducts, cartItem, cartController, totalBill } =
-    useCartContext();
+  const {
+    fetchCartProducts,
+    cartItem,
+    cartController,
+    moveToWishlist,
+    totalBill,
+  } = useCartContext();
   const navigate = useNavigate();
-  const { addToWishList } = useWishListContext();
   const { showClickedProduct } = useFetchContext();
   useEffect(() => {
     fetchCartProducts();
   }, []);
   const cloud_name = process.env.REACT_APP_Cloud_Name;
+  localStorage.setItem("path", window.location.pathname);
+
   return (
     <div className="cart">
       <NavBar />
@@ -31,6 +36,11 @@ export default function Cart() {
         </div>
       ) : (
         <div className="main-cart">
+          {cartItem.cartArray.length > 0 && (
+            <div className="header">
+              <h3>Cart [{cartItem.cartArray?.length}]</h3>
+            </div>
+          )}
           {cartItem.cartArray.length > 0 &&
           Array.isArray(cartItem.cartArray) ? (
             <div className="cart-container">
@@ -48,7 +58,7 @@ export default function Cart() {
                             height="100%"
                             className="cartProductImg"
                             alt=""
-                            onClick={() => showClickedProduct(item)}
+                            onClick={() => navigate(`/products/${_id}`)}
                           />
                         }
                         <MdDeleteOutline
@@ -63,7 +73,9 @@ export default function Cart() {
                       </div>
 
                       <div className="cart-product-description">
-                        <p>{Name}</p>
+                        <p onClick={() => navigate(`/products/${_id}`)}>
+                          {Name}
+                        </p>
                         <p className="rating">
                           <span className="ratingText"> {Rating}</span>
                           {"Rating".split("").map((a, index) => {
@@ -122,7 +134,7 @@ export default function Cart() {
                         </div>
                         <button
                           className="cartWishListBtn"
-                          onClick={() => addToWishList(item)}
+                          onClick={() => moveToWishlist(item)}
                         >
                           Move To WishList
                         </button>
