@@ -21,6 +21,8 @@ export default function WishList() {
   }, []);
   const navigate = useNavigate();
   const user = JSON.parse(localStorage.getItem("user"));
+  localStorage.setItem("path", window.location.pathname);
+
   return (
     <>
       <NavBar />
@@ -34,6 +36,11 @@ export default function WishList() {
           wishListItem.WishListArray.length > 0 ? (
             <div className="cart">
               <div className="main-cart">
+                {wishListItem.WishListArray.length > 0 && (
+                  <div className="header">
+                    <h3>Wishlist [{wishListItem.WishListArray.length}]</h3>
+                  </div>
+                )}
                 <div className="cart-container">
                   {wishListItem?.WishListArray?.map((item) => {
                     const { _id, Price, Rating, Name } = item;
@@ -47,7 +54,7 @@ export default function WishList() {
                               height="100%"
                               className="cartProductImg"
                               alt=""
-                              onClick={() => showClickedProduct(item)}
+                              onClick={() => navigate(`/products/${_id}`)}
                             />
                             <MdDeleteOutline
                               className="removeBtn"
@@ -56,7 +63,9 @@ export default function WishList() {
                           </div>
 
                           <div className="cart-product-description">
-                            <p>{Name}</p>
+                            <p onClick={() => navigate(`/products/${_id}`)}>
+                              {Name}
+                            </p>
                             <p className="rating">
                               <span className="ratingText"> {Rating}</span>
                               {"Rating".split("").map((a, index) => {

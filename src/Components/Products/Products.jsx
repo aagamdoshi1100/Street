@@ -1,4 +1,3 @@
-import useAuthContext from "../../contexts/AuthContext";
 import useCartContext from "../../contexts/CartContext";
 import useWishListContext from "../../contexts/WishListContext";
 import styles from "./Products.module.css";
@@ -8,11 +7,13 @@ import { IoStarSharp } from "react-icons/io5";
 import { LiaRupeeSignSolid } from "react-icons/lia";
 import { AiOutlineHeart } from "react-icons/ai";
 import { IoMdHeart } from "react-icons/io";
+import { useNavigate } from "react-router-dom";
+import { checkIsUserLoggedIn } from "../utils";
 
 export default function Products({ data, status }) {
   const { addToCart } = useCartContext();
   const { manageWishList } = useWishListContext();
-  const { navigate } = useAuthContext();
+  const navigate = useNavigate();
   const cloud_name = process.env.REACT_APP_Cloud_Name;
   const user = JSON.parse(localStorage.getItem("user"));
 
@@ -25,12 +26,16 @@ export default function Products({ data, status }) {
             {status.wishlistStatus.includes(_id) ? (
               <IoMdHeart
                 className={styles.wishlistMarked}
-                onClick={() => manageWishList(item)}
+                onClick={() =>
+                  checkIsUserLoggedIn(navigate, item, manageWishList)
+                }
               />
             ) : (
               <AiOutlineHeart
                 className={styles.wishlist}
-                onClick={() => manageWishList(item)}
+                onClick={() =>
+                  checkIsUserLoggedIn(navigate, item, manageWishList)
+                }
               />
             )}
             <img
@@ -82,7 +87,9 @@ export default function Products({ data, status }) {
             ) : (
               <button
                 className={styles.cardBtn}
-                onClick={() => addToCart(item._id)}
+                onClick={() =>
+                  checkIsUserLoggedIn(navigate, item._id, addToCart)
+                }
               >
                 Add to Cart
               </button>

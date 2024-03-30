@@ -7,6 +7,8 @@ import { TbFilterCog } from "react-icons/tb";
 import { AiOutlineShoppingCart } from "react-icons/ai";
 import styles from "./productPage.module.css";
 import { useNavigate } from "react-router-dom";
+import { checkIsUserLoggedIn } from "../../Components/utils";
+import Loading from "../../Components/Loading/Loading";
 
 export default function ProductPage() {
   const {
@@ -22,8 +24,7 @@ export default function ProductPage() {
     fetchAllProducts();
     fetchIdsToDisplayStatusOfCartAndWishlist();
   }, []);
-
-  console.log(productState, "ps");
+  localStorage.setItem("path", window.location.pathname);
   return (
     <div className={styles.container}>
       <NavBar />
@@ -43,7 +44,13 @@ export default function ProductPage() {
             <AiOutlineShoppingCart
               size="2.0em"
               className={styles.cartIcon}
-              onClick={() => navigate(`/users/${user._id}/cart`)}
+              onClick={() =>
+                checkIsUserLoggedIn(
+                  navigate,
+                  `/users/${user?._id}/cart`,
+                  navigate
+                )
+              }
             />
             <TbFilterCog
               size="2.0em"
@@ -52,13 +59,24 @@ export default function ProductPage() {
             />
           </div>
           <div>
-            {Array.isArray(filteredData) && filteredData.length > 0 ? (
-              <Products
-                data={filteredData}
-                status={productState.cartAndWishlistStatus}
-              />
+            {productState.loading.mainPageLoading ? (
+              <div className={styles.loading}>
+                <Loading />
+              </div>
             ) : (
-              <p>0 products found</p>
+              <>
+                {Array.isArray(filteredData) && filteredData.length > 0 ? (
+                  <Products
+                    data={filteredData}
+                    status={productState.cartAndWishlistStatus}
+                  />
+                ) : (
+                  <p>
+                    {!productState.loading.mainPageLoading &&
+                      "0 products found"}
+                  </p>
+                )}
+              </>
             )}
           </div>
         </div>

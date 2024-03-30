@@ -9,6 +9,7 @@ import { useState } from "react";
 export default function Signup() {
   const { signUp, user, setUser } = useAuthContext();
   const [passwordVisibility, setPasswordVisibility] = useState(false);
+  localStorage.setItem("path", window.location.pathname);
   return (
     <div className={styles.container}>
       <div className={styles.Brandname}>

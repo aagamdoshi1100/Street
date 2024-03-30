@@ -9,6 +9,7 @@
   width: 90vw;
   box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
   padding: 8px;
+  gap: 3px;
 }
 .card-left {
   display: flex;
@@ -24,6 +25,7 @@
   padding-top: 5px;
   width: 45vw;
   gap: 4px;
+  cursor: pointer;
 }
 .cartProductImg {
   object-fit: contain;
@@ -37,6 +39,7 @@
   background-color: #f1ebeb;
   padding: 1px;
   border-radius: 5px;
+  cursor: pointer;
 }
 .ratingText {
   color: blue;
@@ -96,6 +99,16 @@
   padding: 15px;
   margin: 0px;
 }
+.header {
+  display: flex;
+  width: 88vw;
+  margin-top: 10px;
+  box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 8px;
+  padding: 12px;
+  background-color: orange;
+  color: white;
+  margin-bottom: 10px;
+}
 .emptyCart {
   margin-top: 100px;
 }
@@ -145,6 +158,10 @@
   .checkout {
     width: 90vw;
   }
+  .header {
+    display: flex;
+    width: 89vw;
+  }
   .removeBtn {
     right: 30px;
   }
@@ -159,5 +176,8 @@
 @media only screen and (min-width: 1024px) {
   .cartIcon {
     display: none;
+  }
+  .header {
+    width: 89.5vw;
   }
 }

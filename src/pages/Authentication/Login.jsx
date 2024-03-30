@@ -9,6 +9,18 @@ import { useState } from "react";
 export default function Login() {
   const { signIn, user, setUser } = useAuthContext();
   const [passwordVisibility, setPasswordVisibility] = useState(false);
+  const guestSignIn = () => {
+    console.log("aa");
+    setUser({
+      ...user,
+      inputs: {
+        ...user.inputs,
+        email: "test@test.com",
+        password: "test",
+      },
+    });
+    signIn();
+  };
   return (
     <div className={styles.container}>
       <div className={styles.Brandname}>
@@ -55,7 +67,16 @@ export default function Login() {
               />
             )}
           </div>
-          <button onClick={signIn}>Login</button>
+          {user.loading ? (
+            <button>Please wait...</button>
+          ) : (
+            <>
+              <button onClick={signIn}>Login</button>
+              <button className={styles.guestBtn} onClick={guestSignIn}>
+                Guest Login
+              </button>
+            </>
+          )}
           <div className={styles.navlink}>
             <NavLink to="/signup">Don't have an account? Sign up</NavLink>
           </div>

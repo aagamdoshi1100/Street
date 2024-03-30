@@ -29,6 +29,9 @@ export default function FetchContextProvider({ children }) {
       cartStatus: [],
       wishlistStatus: [],
     },
+    loading: {
+      mainPageLoading: false,
+    },
   });
   const filterHandler = () => {
     productDispatcher({
@@ -51,12 +54,14 @@ export default function FetchContextProvider({ children }) {
   };
   const fetchAllProducts = async () => {
     try {
+      productDispatcher({ type: "LOADING" });
       const allProducts = await fetch(`${API_URL}/products`);
       const responseProductData = await allProducts.json();
       productDispatcher({
         type: "PRODUCTS",
         payload: responseProductData.data,
       });
+      productDispatcher({ type: "LOADING" });
     } catch (err) {
       console.error(err);
       notificationHandler(err.message);
@@ -64,19 +69,21 @@ export default function FetchContextProvider({ children }) {
   };
 
   const fetchIdsToDisplayStatusOfCartAndWishlist = async () => {
-    try {
-      const user = JSON.parse(localStorage.getItem("user"));
-      const allProducts = await fetch(
-        `${API_URL}/users/${user._id}/cartAndWishlistIds`
-      );
-      const responseProductData = await allProducts.json();
-      productDispatcher({
-        type: "FETCH_TO_DISPLAY",
-        payload: responseProductData,
-      });
-    } catch (err) {
-      console.error(err);
-      notificationHandler(err.message);
+    const user = JSON.parse(localStorage.getItem("user"));
+    if (user) {
+      try {
+        const allProducts = await fetch(
+          `${API_URL}/users/${user._id}/cartAndWishlistIds`
+        );
+        const responseProductData = await allProducts.json();
+        productDispatcher({
+          type: "FETCH_TO_DISPLAY",
+          payload: responseProductData,
+        });
+      } catch (err) {
+        console.error(err);
+        notificationHandler(err.message);
+      }
     }
   };
 

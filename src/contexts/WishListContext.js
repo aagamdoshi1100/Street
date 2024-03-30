@@ -62,7 +62,6 @@ export const WishListContextProvider = ({ children }) => {
         headers: { authorization: token },
       });
       const wishListProducts = await res.json();
-      console.log(res, wishListProducts, "www");
       if (res.ok) {
         setWishListItem({
           ...wishListItem,

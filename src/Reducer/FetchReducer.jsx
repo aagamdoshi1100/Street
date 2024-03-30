@@ -1,5 +1,13 @@
 export default function FetchReducer(state, action) {
   switch (action.type) {
+    case "LOADING":
+      return {
+        ...state,
+        loading: {
+          ...state.loading,
+          mainPageLoading: !state.loading.mainPageLoading,
+        },
+      };
     case "PRODUCTS":
       return { ...state, arrProducts: action.payload };
     case "SINGLE_PRODUCTS":

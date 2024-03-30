@@ -25,6 +25,8 @@ export default function Cart() {
     fetchCartProducts();
   }, []);
   const cloud_name = process.env.REACT_APP_Cloud_Name;
+  localStorage.setItem("path", window.location.pathname);
+
   return (
     <div className="cart">
       <NavBar />
@@ -34,6 +36,11 @@ export default function Cart() {
         </div>
       ) : (
         <div className="main-cart">
+          {cartItem.cartArray.length > 0 && (
+            <div className="header">
+              <h3>Cart [{cartItem.cartArray?.length}]</h3>
+            </div>
+          )}
           {cartItem.cartArray.length > 0 &&
           Array.isArray(cartItem.cartArray) ? (
             <div className="cart-container">
@@ -51,7 +58,7 @@ export default function Cart() {
                             height="100%"
                             className="cartProductImg"
                             alt=""
-                            onClick={() => showClickedProduct(item)}
+                            onClick={() => navigate(`/products/${_id}`)}
                           />
                         }
                         <MdDeleteOutline
@@ -66,7 +73,9 @@ export default function Cart() {
                       </div>
 
                       <div className="cart-product-description">
-                        <p>{Name}</p>
+                        <p onClick={() => navigate(`/products/${_id}`)}>
+                          {Name}
+                        </p>
                         <p className="rating">
                           <span className="ratingText"> {Rating}</span>
                           {"Rating".split("").map((a, index) => {

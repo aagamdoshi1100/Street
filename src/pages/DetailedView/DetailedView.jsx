@@ -8,19 +8,20 @@ import { IoStarOutline, IoStarSharp } from "react-icons/io5";
 import { IoIosStarHalf } from "react-icons/io";
 import { LiaRupeeSignSolid } from "react-icons/lia";
 import styles from "./detailedView.module.css";
+import { checkIsUserLoggedIn } from "../../Components/utils";
 
 export default function DetailedView() {
   const { productId } = useParams();
   const { productState, fetchSeletedProduct } = useFetchContext();
   const { addToCart, cartItem } = useCartContext();
-  const { addToWishList } = useWishListContext();
+  const { manageWishList } = useWishListContext();
   const cloud_name = process.env.REACT_APP_Cloud_Name;
   useEffect(() => {
     fetchSeletedProduct(productId);
   }, [productId]);
   const user = JSON.parse(localStorage.getItem("user"));
   const navigate = useNavigate();
-
+  localStorage.setItem("path", window.location.pathname);
   return (
     <div className={styles.container}>
       <NavBar />
@@ -93,7 +94,7 @@ export default function DetailedView() {
                           (thing) => thing._id === _id
                         ) ? (
                           <button
-                            className={styles.goToCart}
+                            className={styles.addToCart}
                             onClick={() => navigate(`/users/${user._id}/cart`)}
                           >
                             Go to Cart
@@ -101,7 +102,9 @@ export default function DetailedView() {
                         ) : (
                           <button
                             className={styles.addToCart}
-                            onClick={() => addToCart(item._id)}
+                            onClick={() =>
+                              checkIsUserLoggedIn(navigate, item._id, addToCart)
+                            }
                           >
                             Add to Cart
                           </button>
@@ -112,12 +115,25 @@ export default function DetailedView() {
                     <p className={styles.outStock}>Out of stock</p>
                   )}
                   <div className={styles.pageButtons}>
-                    <button
-                      className={styles.addToWishList}
-                      onClick={() => addToWishList(item)}
-                    >
-                      Add to Wishlist
-                    </button>
+                    {productState.cartAndWishlistStatus.wishlistStatus.includes(
+                      productId
+                    ) ? (
+                      <button
+                        className={styles.addToWishList}
+                        onClick={() => navigate(`/users/${user._id}/wishlist`)}
+                      >
+                        Go to wishlist
+                      </button>
+                    ) : (
+                      <button
+                        className={styles.addToWishList}
+                        onClick={() =>
+                          checkIsUserLoggedIn(navigate, item, manageWishList)
+                        }
+                      >
+                        Add to Wishlist
+                      </button>
+                    )}
                   </div>
 
                   <div className={styles.aboutProduct}>

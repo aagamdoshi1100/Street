@@ -1,7 +1,6 @@
 import "./App.css";
 import { Route, Routes } from "react-router-dom";
 import Cart from "./pages/CartPage/Cart";
-import Landing from "./pages/LandingPage/Landing";
 import ProductPage from "./pages/ProductPage/ProductPage";
 import WishList from "./pages/WishListPage/WishList";
 import RequiresAuth from "./pages/Authentication/RequiresAuth";
@@ -11,6 +10,7 @@ import Address from "./pages/AddressPage/Address";
 import CheckOut from "./pages/CheckOut/CheckOut";
 import useAuthContext from "./contexts/AuthContext";
 import DetailedView from "./pages/DetailedView/DetailedView";
+import Profile from "./pages/Profile/Profile";
 
 function App() {
   const { toast, errDivRef } = useAuthContext();
@@ -19,11 +19,11 @@ function App() {
       <Routes>
         <Route path="/login" element={<Login />} />
         <Route path="/signup" element={<Signup />} />
+        <Route path="/users/:userId/profile" element={<Profile />} />
         <Route path="/" element={<ProductPage />} />
         <Route path="/products/:productId" element={<DetailedView />} />
         <Route path="/users/:userId/cart" element={<Cart />} />
         <Route path="/users/:userId/wishlist" element={<WishList />} />
-        <Route path="/pages/LandingPage/Landing" element={<Landing />} />
         <Route path="/pages/AddressPage/Address" element={<Address />} />
         <Route
           path="/CheckOut/CheckOut"
