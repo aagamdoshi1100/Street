@@ -1,6 +1,5 @@
 import { useNavigate } from "react-router-dom";
 import useCartContext from "../../contexts/CartContext";
-import { useFetchContext } from "../../contexts/FetchContext";
 import NavBar from "../../Components/NavBarPage/NavBar";
 import "./Cart.css";
 import { useEffect } from "react";
@@ -25,7 +24,8 @@ export default function Cart() {
   }, []);
   const cloud_name = process.env.REACT_APP_Cloud_Name;
   localStorage.setItem("path", window.location.pathname);
-
+  const user = JSON.parse(localStorage.getItem("user"));
+  console.log(user);
   return (
     <div className="cart">
       <NavBar />
@@ -191,7 +191,7 @@ export default function Cart() {
                 <div className="placeorder">
                   <button
                     className="placeOrderBtn"
-                    onClick={() => navigate("/pages/AddressPage/Address")}
+                    onClick={() => navigate(`/users/${user._id}/address`)}
                   >
                     Place Order
                   </button>

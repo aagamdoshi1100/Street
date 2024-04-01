@@ -1,233 +1,103 @@
+import { useNavigate } from "react-router-dom";
 import useAddressManagementContext from "../../contexts/AddressManagementcontext";
 import useCartContext from "../../contexts/CartContext";
 import NavBar from "../../Components/NavBarPage/NavBar";
-import "./Address.css";
-import useAuthContext from "../../contexts/AuthContext";
+import styles from "./address.module.css";
+import { MdDeleteOutline } from "react-icons/md";
+import { FaPlus } from "react-icons/fa";
+import { CiEdit } from "react-icons/ci";
+import { useEffect } from "react";
+import Form from "./Form";
+
 export default function Address() {
-  const { totalBill } = useCartContext();
-  const { deliveryState, deliveryDispacher, handleInputChange } =
+  const { totalBill, cartItem } = useCartContext();
+  const { deliveryState, deliveryDispacher, fetchAddresses } =
     useAddressManagementContext();
-  const { navigate } = useAuthContext();
+  const navigate = useNavigate();
+  useEffect(() => {
+    fetchAddresses();
+  }, []);
+  console.log(deliveryState, cartItem, totalBill, "DL");
   return (
-    <div className="cart">
+    <>
       <NavBar />
-      <h2>
-        <button
-          className="card-btn"
-          onClick={() =>
-            deliveryDispacher({
-              type: "NEW_ADD",
-              payload: deliveryState.addAddress,
-            })
-          }
-        >
-          Add Delivery Address
-        </button>
-      </h2>{" "}
-      <div className="main-cart">
-        <div className="cart-container">
-          <div>
-            <div>
-              {deliveryState.initialAddress.map((item, index) => {
-                const { flatNo, BuildingName, Road, City, State } = item;
-                return (
-                  <div className="cart-card" key={flatNo}>
-                    <div className="card-left">
-                      <p>
-                        <input type="radio" name="add" />
-                        {`${flatNo} ${BuildingName} ${Road} ${City} ${State}`}{" "}
-                      </p>
-                    </div>
-                    <div className="cart-right">
-                      <button
-                        className="card-btn"
-                        onClick={() =>
-                          deliveryDispacher({
-                            type: "SELECTED_ADD",
-                            payload: index,
-                          })
-                        }
-                      >
-                        Update Address
-                      </button>
-                    </div>
-                  </div>
-                );
-              })}
-            </div>
-
-            {deliveryState.updateAddress ? (
-              <div id="editablePara" className="AddressManagement">
-                <h4>Update address</h4>
-                <input
-                  id="flatNo"
-                  value={
-                    deliveryState.initialAddress[deliveryState.selectToUpdate]
-                      .flatNo
-                  }
-                  onChange={(e) => handleInputChange(e, "flatNo")}
-                />
-
-                <input
-                  id="BuildingName"
-                  value={
-                    deliveryState.updateAddress
-                      ? deliveryState.initialAddress[
-                          deliveryState.selectToUpdate
-                        ].BuildingName
-                      : ""
-                  }
-                  onChange={(e) => handleInputChange(e, "BuildingName")}
-                />
-
-                <input
-                  id="Road"
-                  value={
-                    deliveryState.updateAddress
-                      ? deliveryState.initialAddress[
-                          deliveryState.selectToUpdate
-                        ].Road
-                      : ""
-                  }
-                  onChange={(e) => handleInputChange(e, "Road")}
-                />
-
-                <input
-                  id="City"
-                  value={
-                    deliveryState.updateAddress
-                      ? deliveryState.initialAddress[
-                          deliveryState.selectToUpdate
-                        ].City
-                      : ""
-                  }
-                  onChange={(e) => handleInputChange(e, "City")}
-                />
-
-                <input
-                  id="State"
-                  value={
-                    deliveryState.updateAddress
-                      ? deliveryState.initialAddress[
-                          deliveryState.selectToUpdate
-                        ].State
-                      : ""
-                  }
-                  onChange={(e) => handleInputChange(e, "State")}
-                />
-                <button
-                  onClick={() => deliveryDispacher({ type: "UPDATE_SUBMIT" })}
-                  className="card-btn"
-                >
-                  Update
-                </button>
-              </div>
-            ) : undefined}
-
-            {deliveryState.addAddress ? (
-              <div className="AddressManagement">
-                <h4>Enter new address</h4>
-                <input
-                  type="text"
-                  placeholder="flatNo"
-                  onChange={(e) =>
-                    deliveryDispacher({
-                      type: "ADD",
-                      payload: { data: e.target.value, act: "flatNo" },
-                    })
-                  }
-                />
-                <input
-                  type="text"
-                  placeholder="BuildingName"
-                  onChange={(e) =>
-                    deliveryDispacher({
-                      type: "ADD",
-                      payload: { data: e.target.value, act: "BuildingName" },
-                    })
-                  }
-                />
-                <input
-                  type="text"
-                  placeholder="Road"
-                  onChange={(e) =>
-                    deliveryDispacher({
-                      type: "ADD",
-                      payload: { data: e.target.value, act: "Road" },
-                    })
-                  }
-                />
-                <input
-                  type="text"
-                  placeholder="City"
-                  onChange={(e) =>
-                    deliveryDispacher({
-                      type: "ADD",
-                      payload: { data: e.target.value, act: "City" },
-                    })
-                  }
-                />
-                <input
-                  type="text"
-                  placeholder="State"
-                  onChange={(e) =>
-                    deliveryDispacher({
-                      type: "ADD",
-                      payload: { data: e.target.value, act: "State" },
-                    })
-                  }
-                />
-                <button
-                  className="card-btn"
-                  onClick={() =>
-                    deliveryDispacher({
-                      type: "NEW_ADDRESS_ADD",
-                      payload: deliveryState.fields,
-                    })
-                  }
-                >
-                  Add Address
-                </button>
-              </div>
-            ) : (
-              ""
-            )}
-          </div>
+      <div className={styles.container}>
+        <div className={styles.header}>
+          <h3>Address Book</h3>
+          <FaPlus
+            className="addBtn"
+            onClick={() =>
+              deliveryDispacher({
+                type: "TOGGLE_ADDRESS_FORM",
+              })
+            }
+          />
         </div>
-        <div className="checkout">
-          <div className="checkout-card">
-            <h3>Price Details</h3>
-
-            <div className="checkout-card-details">
-              <p>Price ({totalBill?.qty} items)</p>
-              <p> {totalBill?.price} </p>
+        {deliveryState.toggle.isEnabled && <Form />}
+        <div className="addresses">
+          {Array.isArray(deliveryState.addresses) &&
+          deliveryState.addresses.length > 0 ? (
+            deliveryState.addresses.map((item, index) => (
+              <p key={item._id} className={styles.add}>
+                <input
+                  type="radio"
+                  className={styles.addSelector}
+                  name="add"
+                  value={item}
+                  onChange={(e) =>
+                    deliveryDispacher({
+                      type: "SET_DELIVERY_ADD",
+                      payload: item,
+                    })
+                  }
+                />
+                {item.address}, {item.city},{item.state}-{item.postalcode}
+              </p>
+            ))
+          ) : (
+            <p>No Address found</p>
+          )}
+        </div>
+        {totalBill?.qtyOfsameProductInCart > 0 && (
+          <div className={styles.checkoutBox}>
+            <h3>Checkout Details</h3>
+            <div className={styles.checkoutPoint}>
+              <p>Total Price </p>
+              <p> {totalBill?.Price} </p>
             </div>
-            <div className="checkout-card-details">
+            <div className={styles.checkoutPoint}>
               <p>Discount </p>
               <p>-1000</p>
             </div>
-            <div className="checkout-card-details">
+            <div className={styles.checkoutPoint}>
               <p>Delivery Charges</p>
-              <p>499</p>
+              <p>50</p>
             </div>
-            <div className="checkout-card-details">
+            <div className={styles.checkoutPoint}>
               <p>Total Amount</p>
-              <p>{totalBill?.price - 1000 + 499}</p>
+              <p>{totalBill?.Price - 1000 + 50}</p>
+            </div>
+            <div className={styles.checkoutPoint}>
+              <p>Delivery Address</p>
+            </div>
+            <div className={styles.checkoutPoint}>
+              {deliveryState?.deliveryAddress.address},
+              {deliveryState?.deliveryAddress.city},
+              {deliveryState?.deliveryAddress.state}-
+              {deliveryState?.deliveryAddress.postalcode}
             </div>
             <div className="checkout-card-offer">
               <p>you will save 1000 Rs on this order</p>
             </div>
-            <div className="placeorder">
-              <button
-                className="card-btn"
-                onClick={() => navigate("/CheckOut/CheckOut")}
-              >
-                Check out
-              </button>
-            </div>
+            <button
+              className={styles.placeOrder}
+              onClick={() => navigate("/CheckOut/CheckOut")}
+            >
+              Check out
+            </button>
           </div>
-        </div>
+        )}
       </div>
-    </div>
+    </>
   );
 }

@@ -1,0 +1,117 @@
+.container {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+.header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  width: 88vw;
+  margin-top: 10px;
+  box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 8px;
+  padding: 12px;
+  background-color: orange;
+  color: white;
+  margin-bottom: 10px;
+}
+.addContainer {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  background-color: rgba(0, 0, 0, 0.7);
+}
+.addressForm {
+  width: 90vw;
+  display: flex;
+  flex-direction: column;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  padding: 10px;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  background-color: #ffffff;
+  z-index: 10;
+}
+.addressForm label {
+  margin-bottom: 10px;
+}
+.addressForm input {
+  padding: 10px;
+  font-size: 16px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  flex: 1;
+  margin-bottom: 5px;
+}
+.addressForm textarea {
+  padding: 10px;
+  font-size: 16px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  margin-bottom: 5px;
+}
+.addressForm button {
+  padding: 10px 20px;
+  background-color: #007bff;
+  color: #fff;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+}
+.addressForm button:hover {
+  background-color: #0056b3;
+}
+.add {
+  width: 90vw;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  padding: 10px;
+  margin: 5px;
+}
+.addSelector {
+  margin-right: 5px;
+}
+.checkoutBox {
+  display: flex;
+  flex-direction: column;
+  width: 90vw;
+  gap: 12px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  padding: 10px;
+  margin: 5px;
+}
+.placeOrder {
+  padding: 10px;
+  color: white;
+  background-color: orange;
+  border-radius: 5px;
+  border: 0px;
+}
+.checkoutPoint {
+  display: flex;
+  justify-content: space-between;
+}
+.error {
+  color: red;
+  font-size: 0.8em;
+  margin-bottom: 5px;
+  margin-top: 5px;
+}
+.cancelbtn {
+  color: red;
+  background-color: rgb(250, 117, 117);
+}
+@media only screen and (min-width: 768px) {
+  .addressForm {
+    width: 40vw;
+  }
+}
+@media only screen and (min-width: 1024px) {
+}

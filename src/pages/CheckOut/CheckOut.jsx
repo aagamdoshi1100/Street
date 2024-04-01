@@ -1,7 +1,6 @@
 import NavBar from "../../Components/NavBarPage/NavBar";
 import useAuthContext from "../../contexts/AuthContext";
 import useCartContext from "../../contexts/CartContext";
-import "./CheckOut.css";
 
 export default function CheckOut() {
   const { cartItem, totalBill } = useCartContext();

@@ -85,3 +85,26 @@ export const validateProfileInputs = (user, setErrors) => {
 
   return Object.keys(errors).length === 0;
 };
+
+export const validateAddressInputs = (add, setErrors) => {
+  const errors = {};
+
+  if (add.inputs.address === "") {
+    errors.address = "Address is required";
+  }
+
+  if (add.inputs.state === "") {
+    errors.state = "State is required";
+  }
+
+  if (add.inputs.city === "") {
+    errors.city = "City is required";
+  }
+
+  if (add.inputs.postalcode === "") {
+    errors.postalcode = "Postal code is required";
+  }
+  setErrors(errors);
+
+  return Object.keys(errors).length === 0;
+};
