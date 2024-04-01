@@ -11,12 +11,11 @@ import { useNavigate } from "react-router-dom";
 import { checkIsUserLoggedIn } from "../utils";
 
 export default function Products({ data, status }) {
-  const { addToCart } = useCartContext();
+  const { addToCart, cartItem } = useCartContext();
   const { manageWishList } = useWishListContext();
   const navigate = useNavigate();
   const cloud_name = process.env.REACT_APP_Cloud_Name;
   const user = JSON.parse(localStorage.getItem("user"));
-
   return (
     <div className={styles.container}>
       {data.map((item) => {
@@ -85,14 +84,21 @@ export default function Products({ data, status }) {
                 Go to Cart
               </button>
             ) : (
-              <button
-                className={styles.cardBtn}
-                onClick={() =>
-                  checkIsUserLoggedIn(navigate, item._id, addToCart)
-                }
-              >
-                Add to Cart
-              </button>
+              <>
+                {cartItem.addToCartLoading.isEnabled &&
+                _id === cartItem.addToCartLoading.productId ? (
+                  <button className={styles.cardBtn}>Please wait...</button>
+                ) : (
+                  <button
+                    className={styles.cardBtn}
+                    onClick={() =>
+                      checkIsUserLoggedIn(navigate, item._id, addToCart)
+                    }
+                  >
+                    Add to Cart
+                  </button>
+                )}
+              </>
             )}
           </div>
         );

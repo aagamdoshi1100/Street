@@ -11,6 +11,12 @@ export const WishListContextProvider = ({ children }) => {
   const [wishListItem, setWishListItem] = useState({
     WishListArray: [],
     loading: false,
+    loadingStates: {
+      moveToCartLoading: {
+        isEnabled: false,
+        productId: "",
+      },
+    },
   });
 
   const { notificationHandler } = useAuthContext();
@@ -77,6 +83,17 @@ export const WishListContextProvider = ({ children }) => {
 
   const moveToCart = async (product) => {
     try {
+      setWishListItem({
+        ...wishListItem,
+        loadingStates: {
+          ...wishListItem.loadingStates,
+          moveToCartLoading: {
+            ...wishListItem.loadingStates.moveToCartLoading,
+            isEnabled: true,
+            productId: product._id,
+          },
+        },
+      });
       const user = JSON.parse(localStorage.getItem("user"));
       const token = localStorage.getItem("token");
       const res = await fetch(
@@ -92,6 +109,14 @@ export const WishListContextProvider = ({ children }) => {
           WishListArray: wishListItem.WishListArray.filter(
             (pro) => pro._id !== product._id
           ),
+          loadingStates: {
+            ...wishListItem.loadingStates,
+            moveToCartLoading: {
+              ...wishListItem.loadingStates.moveToCartLoading,
+              isEnabled: false,
+              productId: "",
+            },
+          },
         });
         notificationHandler("Product moved to cart");
       }

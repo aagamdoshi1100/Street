@@ -1,6 +1,14 @@
 export const initialCartStatus = {
   cartArray: [],
   loading: false,
+  addToCartLoading: {
+    isEnabled: false,
+    productId: "",
+  },
+  moveToWishListLoading: {
+    isEnabled: false,
+    productId: "",
+  },
 };
 
 export default function CartReducer(state, action) {
@@ -9,6 +17,24 @@ export default function CartReducer(state, action) {
       return {
         ...state,
         loading: !state.loading,
+      };
+    case "LOADING_ADD_TO_CART":
+      return {
+        ...state,
+        addToCartLoading: {
+          ...state.addToCartLoading,
+          isEnabled: !state.addToCartLoading.isEnabled,
+          productId: action.payload,
+        },
+      };
+    case "LOADING_MOVE_TO_WISHLIST":
+      return {
+        ...state,
+        moveToWishListLoading: {
+          ...state.moveToWishListLoading,
+          isEnabled: !state.moveToWishListLoading.isEnabled,
+          productId: action.payload,
+        },
       };
     case "ADD_TO_CART":
       return { ...state, cartArray: action.payload };

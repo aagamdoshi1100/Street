@@ -31,6 +31,7 @@ export default function FetchContextProvider({ children }) {
     },
     loading: {
       mainPageLoading: false,
+      selectedProduct: false,
     },
   });
   const filterHandler = () => {
@@ -40,13 +41,17 @@ export default function FetchContextProvider({ children }) {
   };
   const fetchSeletedProduct = async (productId) => {
     try {
+      productDispatcher({ type: "LOADING_SINGLE_PRODUCT" });
       const getProductById = await fetch(`${API_URL}/products/${productId}`);
-      const productData = await getProductById.json();
-      productDispatcher({
-        type: "SINGLE_PRODUCTS",
-        payload: productData.data,
-      });
-      console.log(getProductById, productData, "single");
+      if (getProductById.ok) {
+        const productData = await getProductById.json();
+        productDispatcher({
+          type: "SINGLE_PRODUCTS",
+          payload: productData.data,
+        });
+        productDispatcher({ type: "LOADING_SINGLE_PRODUCT" });
+        console.log(getProductById, productData, "single");
+      }
     } catch (err) {
       console.error(err);
       notificationHandler(err.message);

@@ -12,6 +12,7 @@ export const CartContextProvider = ({ children }) => {
 
   const addToCart = async (productId) => {
     try {
+      cartDispacher({ type: "LOADING_ADD_TO_CART", payload: productId });
       const user = JSON.parse(localStorage.getItem("user"));
       const res = await fetch(`${API_URL}/users/${user._id}/cart`, {
         method: "POST",
@@ -21,10 +22,13 @@ export const CartContextProvider = ({ children }) => {
         },
         body: JSON.stringify({ productId }),
       });
-      const cartProducts = await res.json();
-      cartDispacher({ type: "ADD_TO_CART", payload: cartProducts.cart });
-      productDispatcher({ type: "STATUS_CART", payload: productId });
-      notificationHandler("Added to the cart");
+      if (res.ok) {
+        const cartProducts = await res.json();
+        cartDispacher({ type: "ADD_TO_CART", payload: cartProducts.cart });
+        productDispatcher({ type: "STATUS_CART", payload: productId });
+        cartDispacher({ type: "LOADING_ADD_TO_CART", payload: productId });
+        notificationHandler("Added to the cart");
+      }
     } catch (err) {
       console.error(err);
       notificationHandler(err.message);
@@ -84,6 +88,7 @@ export const CartContextProvider = ({ children }) => {
 
   const moveToWishlist = async (product) => {
     try {
+      cartDispacher({ type: "LOADING_MOVE_TO_WISHLIST", payload: product._id });
       const user = JSON.parse(localStorage.getItem("user"));
       const token = localStorage.getItem("token");
       const res = await fetch(
@@ -94,6 +99,7 @@ export const CartContextProvider = ({ children }) => {
         }
       );
       if (res.ok) {
+        cartDispacher({ type: "LOADING_MOVE_TO_WISHLIST", payload: "" });
         cartDispacher({ type: "MOVE_TO_WISHLIST", payload: product });
         notificationHandler("Product moved to wishlist");
       }

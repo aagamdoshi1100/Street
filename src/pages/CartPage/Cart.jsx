@@ -20,7 +20,6 @@ export default function Cart() {
     totalBill,
   } = useCartContext();
   const navigate = useNavigate();
-  const { showClickedProduct } = useFetchContext();
   useEffect(() => {
     fetchCartProducts();
   }, []);
@@ -132,12 +131,20 @@ export default function Cart() {
                             </button>
                           )}
                         </div>
-                        <button
-                          className="cartWishListBtn"
-                          onClick={() => moveToWishlist(item)}
-                        >
-                          Move To WishList
-                        </button>
+                        {cartItem.moveToWishListLoading.isEnabled &&
+                        cartItem.moveToWishListLoading.productId ===
+                          item._id ? (
+                          <button className="cartWishListBtn">
+                            Please wait..
+                          </button>
+                        ) : (
+                          <button
+                            className="cartWishListBtn"
+                            onClick={() => moveToWishlist(item)}
+                          >
+                            Move To WishList
+                          </button>
+                        )}
                       </div>
                     </div>
                   </div>

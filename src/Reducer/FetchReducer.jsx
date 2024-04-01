@@ -8,6 +8,14 @@ export default function FetchReducer(state, action) {
           mainPageLoading: !state.loading.mainPageLoading,
         },
       };
+    case "LOADING_SINGLE_PRODUCT":
+      return {
+        ...state,
+        loading: {
+          ...state.loading,
+          selectedProduct: !state.loading.selectedProduct,
+        },
+      };
     case "PRODUCTS":
       return { ...state, arrProducts: action.payload };
     case "SINGLE_PRODUCTS":

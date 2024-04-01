@@ -89,13 +89,22 @@ export default function WishList() {
                             <p>
                               <LiaRupeeSignSolid /> {Price}
                             </p>
-
-                            <button
-                              className="cartWishListBtn"
-                              onClick={() => moveToCart(item)}
-                            >
-                              Move To Cart
-                            </button>
+                            {wishListItem.loadingStates.moveToCartLoading
+                              .isEnabled &&
+                            item._id ===
+                              wishListItem.loadingStates.moveToCartLoading
+                                .productId ? (
+                              <button className="cartWishListBtn">
+                                Please wait...
+                              </button>
+                            ) : (
+                              <button
+                                className="cartWishListBtn"
+                                onClick={() => moveToCart(item)}
+                              >
+                                Move To Cart
+                              </button>
+                            )}
                           </div>
                         </div>
                       </div>

@@ -1,6 +1,6 @@
 import Loader from "react-js-loader";
 
-function Loading() {
+function Loading({ size }) {
   return (
     <div>
       <div className={"content"}>
@@ -12,7 +12,7 @@ function Loading() {
                 bgColor="gray"
                 color="gray"
                 title={""}
-                size={50}
+                size={size || 50}
               />
             </div>
           </div>
