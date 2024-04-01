@@ -1,12 +1,20 @@
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import useAuthContext from "../../contexts/AuthContext";
-import Loading from "../../Components/Loading/Loading";
 import styles from "./profile.module.css";
 import { MdOutlineMailOutline } from "react-icons/md";
 import NavBar from "../../Components/NavBarPage/NavBar";
+import { validateProfileInputs } from "../../Components/utils";
 
 function Profile() {
   const { user, setUser, updateProfile } = useAuthContext();
+  const [errors, setErrors] = useState({});
+  const handleUpdateProfile = () => {
+    const isValid = validateProfileInputs(user, setErrors);
+    if (isValid) {
+      updateProfile();
+    }
+  };
+
   useEffect(() => {
     const userData = JSON.parse(localStorage.getItem("user"));
     setUser({
@@ -56,6 +64,9 @@ function Profile() {
             />
             <label>Firstname</label>
           </div>
+          {errors.firstname && (
+            <p className={styles.error}>{errors.firstname}</p>
+          )}
           <div className={styles.inputDesign}>
             <input
               type="text"
@@ -64,6 +75,7 @@ function Profile() {
             />
             <label>Lastname</label>
           </div>
+          {errors.lastname && <p className={styles.error}>{errors.lastname}</p>}
           <div className={styles.inputDesign}>
             <input
               type="text"
@@ -73,6 +85,7 @@ function Profile() {
             <label>Email Address</label>
             <MdOutlineMailOutline size="1.7em" className={styles.icon} />
           </div>
+          {errors.email && <p className={styles.error}>{errors.email}</p>}
           <div className={styles.inputDesign}>
             <input
               type="number"
@@ -81,6 +94,7 @@ function Profile() {
             />
             <label>Mobile Number</label>
           </div>
+          {errors.mobile && <p className={styles.error}>{errors.mobile}</p>}
           <div className={styles.inputDesign}>
             <input
               type="text"
@@ -89,8 +103,9 @@ function Profile() {
             />
             <label>Address</label>
           </div>
+          {errors.address && <p className={styles.error}>{errors.address}</p>}
           {!user.isEdited ? (
-            <button onClick={updateProfile}>Save</button>
+            <button onClick={handleUpdateProfile}>Save</button>
           ) : (
             <button>Please wait...</button>
           )}

@@ -53,3 +53,35 @@ export const validateLoginInputs = (user, setErrors) => {
 
   return Object.keys(errors).length === 0;
 };
+
+export const validateProfileInputs = (user, setErrors) => {
+  const errors = {};
+
+  if (user.inputs.firstname === "") {
+    errors.firstname = "Firstname is required";
+  }
+
+  if (user.inputs.lastname === "") {
+    errors.lastname = "Lastname is required";
+  }
+
+  if (user.inputs.address === "") {
+    errors.address = "Address is required";
+  }
+
+  if (user.inputs.email === "") {
+    errors.email = "Email is required";
+  } else if (!/\S+@\S+\.\S+/.test(user.inputs.email)) {
+    errors.email = "Invalid email address";
+  }
+
+  if (user.inputs.mobile === "") {
+    errors.mobile = "Mobile number is required";
+  } else if (!/^\d{10}$/.test(user.inputs.mobile)) {
+    errors.mobile = "Please enter a 10-digit number.";
+  }
+
+  setErrors(errors);
+
+  return Object.keys(errors).length === 0;
+};
