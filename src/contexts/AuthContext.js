@@ -6,6 +6,17 @@ import { API_URL } from "../constants";
 
 const AuthContext = createContext();
 
+const reset = {
+  inputs: {
+    email: "",
+    password: "",
+    firstname: "",
+    lastname: "",
+    mobile: "",
+    address: "",
+  },
+};
+
 export function AuthContextProvider({ children }) {
   const [toast, setToast] = useState(false);
   const [user, setUser] = useState({
@@ -47,7 +58,7 @@ export function AuthContextProvider({ children }) {
       if (!signupResponse.ok) {
         throw resData;
       } else {
-        setUser({ ...user, loading: false });
+        setUser({ ...user, loading: false, inputs: reset.inputs });
         navigate("/");
         localStorage.setItem("token", resData.data.token);
         localStorage.setItem("user", JSON.stringify(resData.data.createdUser));
@@ -58,7 +69,7 @@ export function AuthContextProvider({ children }) {
     }
   };
 
-  const signIn = async () => {
+  const signIn = async (data) => {
     try {
       setUser({ ...user, loading: true });
       const signResponse = await fetch(`${API_URL}/login`, {
@@ -67,8 +78,8 @@ export function AuthContextProvider({ children }) {
           "Content-Type": "application/json",
         },
         body: JSON.stringify({
-          email: user.inputs.email,
-          password: user.inputs.password,
+          email: data?.email || user.inputs.email,
+          password: data?.password || user.inputs.password,
         }),
       });
       const resData = await signResponse.json();
@@ -92,7 +103,7 @@ export function AuthContextProvider({ children }) {
       } else {
         navigate("/");
       }
-      setUser({ ...user, loading: false });
+      setUser({ ...user, loading: false, inputs: reset.inputs });
     } catch (err) {
       console.error(err);
       notificationHandler(err.message);

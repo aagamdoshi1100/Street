@@ -5,11 +5,21 @@ import { FaEyeSlash } from "react-icons/fa";
 import { FaRegEye } from "react-icons/fa";
 import { MdOutlineMailOutline } from "react-icons/md";
 import { useState } from "react";
+import { validateSignupInputs } from "../../Components/utils";
 
 export default function Signup() {
   const { signUp, user, setUser } = useAuthContext();
   const [passwordVisibility, setPasswordVisibility] = useState(false);
+  const [errors, setErrors] = useState({});
   localStorage.setItem("path", window.location.pathname);
+
+  const handleSignUp = () => {
+    const isValid = validateSignupInputs(user, setErrors);
+    if (isValid) {
+      signUp();
+    }
+  };
+
   return (
     <div className={styles.container}>
       <div className={styles.Brandname}>
@@ -30,6 +40,9 @@ export default function Signup() {
             />
             <label>Firstname</label>
           </div>
+          {errors.firstname && (
+            <p className={styles.error}>{errors.firstname}</p>
+          )}
           <div className={styles.inputDesign}>
             <input
               type="text"
@@ -42,6 +55,7 @@ export default function Signup() {
             />
             <label>Lastname</label>
           </div>
+          {errors.lastname && <p className={styles.error}>{errors.lastname}</p>}
           <div className={styles.inputDesign}>
             <input
               type="text"
@@ -55,6 +69,7 @@ export default function Signup() {
             <label>Email Address</label>
             <MdOutlineMailOutline size="1.7em" className={styles.icon} />
           </div>
+          {errors.email && <p className={styles.error}>{errors.email}</p>}
           <div className={styles.inputDesign}>
             <input
               type={passwordVisibility ? "text" : "password"}
@@ -80,7 +95,12 @@ export default function Signup() {
               />
             )}
           </div>
-          <button onClick={signUp}>Create new account</button>
+          {errors.password && <p className={styles.error}>{errors.password}</p>}
+          {user.loading ? (
+            <button>Please wait...</button>
+          ) : (
+            <button onClick={handleSignUp}>Create new account</button>
+          )}
           <div className={styles.navlink}>
             <NavLink to="/login">Already member? Login</NavLink>
           </div>

@@ -5,21 +5,17 @@ import { MdOutlineMailOutline } from "react-icons/md";
 import { FaEyeSlash } from "react-icons/fa";
 import { FaRegEye } from "react-icons/fa";
 import { useState } from "react";
+import { validateLoginInputs } from "../../Components/utils";
 
 export default function Login() {
   const { signIn, user, setUser } = useAuthContext();
   const [passwordVisibility, setPasswordVisibility] = useState(false);
-  const guestSignIn = () => {
-    console.log("aa");
-    setUser({
-      ...user,
-      inputs: {
-        ...user.inputs,
-        email: "test@test.com",
-        password: "test",
-      },
-    });
-    signIn();
+  const [errors, setErrors] = useState({});
+  const handleLogIn = () => {
+    const isValid = validateLoginInputs(user, setErrors);
+    if (isValid) {
+      signIn();
+    }
   };
   return (
     <div className={styles.container}>
@@ -42,6 +38,7 @@ export default function Login() {
             <label>Email Address</label>
             <MdOutlineMailOutline size="1.7em" className={styles.icon} />
           </div>
+          {errors.email && <p className={styles.error}>{errors.email}</p>}
           <div className={styles.inputDesign}>
             <input
               type={passwordVisibility ? "text" : "password"}
@@ -67,12 +64,18 @@ export default function Login() {
               />
             )}
           </div>
+          {errors.password && <p className={styles.error}>{errors.password}</p>}
           {user.loading ? (
             <button>Please wait...</button>
           ) : (
             <>
-              <button onClick={signIn}>Login</button>
-              <button className={styles.guestBtn} onClick={guestSignIn}>
+              <button onClick={handleLogIn}>Login</button>
+              <button
+                className={styles.guestBtn}
+                onClick={() =>
+                  signIn({ email: "test@test.com", password: "test" })
+                }
+              >
                 Guest Login
               </button>
             </>
