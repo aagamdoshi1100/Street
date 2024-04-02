@@ -36,7 +36,6 @@
   display: flex;
   justify-content: center;
   align-items: center;
-  width: 100vw;
   height: 70vh;
 }
 @media only screen and (min-width: 768px) {

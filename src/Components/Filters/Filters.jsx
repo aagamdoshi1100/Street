@@ -5,11 +5,7 @@ import styles from "./filters.module.css";
 
 export default function Filters() {
   const { productDispatcher, productState, filterHandler } = useFetchContext();
-  console.log(
-    productState.filter.ratingSelected === null
-      ? false
-      : productState.filter.ratingSelected === "4.5"
-  );
+
   return (
     <div className={styles.container}>
       <div className={styles.header}>

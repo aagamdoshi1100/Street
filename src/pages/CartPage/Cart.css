@@ -62,10 +62,13 @@
 }
 .qty {
   width: 40px;
+  padding: 4px;
+  margin: 5px;
 }
 .qtyController {
   width: 30px;
-  margin-right: 10p;
+  padding: 4px;
+  margin: 5px;
 }
 .checkout {
   display: flex;

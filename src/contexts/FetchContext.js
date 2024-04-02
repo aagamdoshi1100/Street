@@ -50,7 +50,6 @@ export default function FetchContextProvider({ children }) {
           payload: productData.data,
         });
         productDispatcher({ type: "LOADING_SINGLE_PRODUCT" });
-        console.log(getProductById, productData, "single");
       }
     } catch (err) {
       console.error(err);
