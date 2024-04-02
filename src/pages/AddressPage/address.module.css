@@ -88,6 +88,7 @@
   margin: 5px;
 }
 .placeOrder {
+  width: 90vw;
   padding: 10px;
   color: white;
   background-color: orange;
@@ -105,12 +106,30 @@
   margin-top: 5px;
 }
 .cancelbtn {
-  color: red;
-  background-color: rgb(250, 117, 117);
+  color: red !important;
+  background-color: rgb(255, 101, 101) !important;
+  margin-left: 10px;
+}
+.submitBtn {
+  color: rgb(0, 162, 255) !important;
+  background-color: rgb(88, 212, 250) !important;
 }
 @media only screen and (min-width: 768px) {
   .addressForm {
     width: 40vw;
+  }
+  .add {
+    width: 88vw;
+  }
+  .checkoutBox {
+    width: 88vw;
+  }
+  .placeOrderContainer {
+    display: flex;
+    justify-content: flex-end;
+  }
+  .placeOrder {
+    width: 15vw;
   }
 }
 @media only screen and (min-width: 1024px) {

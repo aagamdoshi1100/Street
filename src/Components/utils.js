@@ -103,6 +103,8 @@ export const validateAddressInputs = (add, setErrors) => {
 
   if (add.inputs.postalcode === "") {
     errors.postalcode = "Postal code is required";
+  } else if (add.inputs.postalcode.length !== 6) {
+    errors.postalcode = "Invalid pincode. 6 digit required";
   }
   setErrors(errors);
 

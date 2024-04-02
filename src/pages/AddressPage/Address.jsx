@@ -80,21 +80,27 @@ export default function Address() {
             <div className={styles.checkoutPoint}>
               <p>Delivery Address</p>
             </div>
-            <div className={styles.checkoutPoint}>
-              {deliveryState?.deliveryAddress.address},
-              {deliveryState?.deliveryAddress.city},
-              {deliveryState?.deliveryAddress.state}-
-              {deliveryState?.deliveryAddress.postalcode}
-            </div>
+            {deliveryState.addresses.length > 0 ? (
+              <div className={styles.checkoutPoint}>
+                {deliveryState?.deliveryAddress.address},
+                {deliveryState?.deliveryAddress.city},
+                {deliveryState?.deliveryAddress.state}-
+                {deliveryState?.deliveryAddress.postalcode}
+              </div>
+            ) : (
+              <p>-</p>
+            )}
             <div className="checkout-card-offer">
-              <p>you will save 1000 Rs on this order</p>
+              <p>You will save 1000 Rs on this order</p>
             </div>
-            <button
-              className={styles.placeOrder}
-              onClick={() => navigate("/CheckOut/CheckOut")}
-            >
-              Check out
-            </button>
+            <div className={styles.placeOrderContainer}>
+              <button
+                className={styles.placeOrder}
+                onClick={() => navigate("/users/:userId/checkout")}
+              >
+                Check out
+              </button>
+            </div>
           </div>
         )}
       </div>

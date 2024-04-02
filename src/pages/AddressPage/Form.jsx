@@ -75,7 +75,9 @@ function Form() {
           <p className={styles.error}>{errors.postalcode}</p>
         )}
         <div>
-          <button onClick={validateAddressForm}>Submit</button>
+          <button className={styles.submitBtn} onClick={validateAddressForm}>
+            Submit
+          </button>
           <button
             className={styles.cancelbtn}
             onClick={() =>

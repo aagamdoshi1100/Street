@@ -19,14 +19,42 @@ function App() {
       <Routes>
         <Route path="/login" element={<Login />} />
         <Route path="/signup" element={<Signup />} />
-        <Route path="/users/:userId/profile" element={<Profile />} />
+        <Route
+          path="/users/:userId/profile"
+          element={
+            <RequiresAuth>
+              <Profile />
+            </RequiresAuth>
+          }
+        />
         <Route path="/" element={<ProductPage />} />
         <Route path="/products/:productId" element={<DetailedView />} />
-        <Route path="/users/:userId/cart" element={<Cart />} />
-        <Route path="/users/:userId/wishlist" element={<WishList />} />
-        <Route path="/users/:userId/address" element={<Address />} />
         <Route
-          path="/CheckOut/CheckOut"
+          path="/users/:userId/cart"
+          element={
+            <RequiresAuth>
+              <Cart />
+            </RequiresAuth>
+          }
+        />
+        <Route
+          path="/users/:userId/wishlist"
+          element={
+            <RequiresAuth>
+              <WishList />
+            </RequiresAuth>
+          }
+        />
+        <Route
+          path="/users/:userId/address"
+          element={
+            <RequiresAuth>
+              <Address />
+            </RequiresAuth>
+          }
+        />
+        <Route
+          path="/users/:userId/checkout"
           element={
             <RequiresAuth>
               <CheckOut />

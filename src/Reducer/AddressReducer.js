@@ -23,6 +23,10 @@ export default function AddressManagementReducer(state, action) {
       return {
         ...state,
         addresses: [...state.addresses, action.payload],
+        toggle: {
+          ...state.toggle,
+          isEnabled: !state.toggle.isEnabled,
+        },
       };
     case "TOGGLE_ADDRESS_FORM":
       return {

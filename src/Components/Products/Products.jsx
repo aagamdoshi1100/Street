@@ -48,7 +48,7 @@ export default function Products({ data, status }) {
               className={styles.productDetails}
               onClick={() => navigate(`/products/${_id}`)}
             >
-              <p className={styles.productname}>{Name}</p>
+              <p className={styles.productname}>{Name}</p> 
               <p className={styles.rating}>
                 <span className={styles.ratingNumber}>{Rating}</span>
                 {"Rating".split("").map((a, index) => {

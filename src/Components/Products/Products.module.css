@@ -8,7 +8,7 @@
 .card {
   border-radius: 5px;
   width: 47vw;
-  height: 50vh;
+  height: 43vh;
   display: flex;
   flex-direction: column;
   position: relative;
@@ -28,7 +28,13 @@
   text-align: center;
   font-size: 14px;
   margin-top: 5px;
+  max-height: calc(2 * 20px);
+  overflow: hidden;
+  white-space: normal;
+  word-wrap: break-word;
+  text-overflow: ellipsis;
 }
+
 .rating {
   display: flex;
   align-items: center;
