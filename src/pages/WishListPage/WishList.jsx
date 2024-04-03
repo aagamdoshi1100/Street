@@ -1,6 +1,5 @@
 import { useEffect } from "react";
 import useWishListContext from "../../contexts/WishListContext";
-import { useFetchContext } from "../../contexts/FetchContext";
 import NavBar from "../../Components/NavBarPage/NavBar";
 import { IoStarOutline } from "react-icons/io5";
 import { IoIosStarHalf } from "react-icons/io";
@@ -10,11 +9,12 @@ import { MdDeleteOutline } from "react-icons/md";
 import { AiOutlineShoppingCart } from "react-icons/ai";
 import { useNavigate } from "react-router-dom";
 import Loading from "../../Components/Loading/Loading";
+import useAuthContext from "../../contexts/AuthContext";
 
 export default function WishList() {
   const { wishListItem, fetchWishlist, manageWishList, moveToCart } =
     useWishListContext();
-  const { showClickedProduct } = useFetchContext();
+  const { notificationHandler } = useAuthContext();
   const cloud_name = process.env.REACT_APP_Cloud_Name;
   useEffect(() => {
     fetchWishlist();
@@ -43,7 +43,7 @@ export default function WishList() {
                 )}
                 <div className="cart-container">
                   {wishListItem?.WishListArray?.map((item) => {
-                    const { _id, Price, Rating, Name } = item;
+                    const { _id, Price, Rating, Name, Stock } = item;
                     return (
                       <div className="cart-card" key={_id}>
                         <div className="card-left">
@@ -98,12 +98,27 @@ export default function WishList() {
                                 Please wait...
                               </button>
                             ) : (
-                              <button
-                                className="cartWishListBtn"
-                                onClick={() => moveToCart(item)}
-                              >
-                                Move To Cart
-                              </button>
+                              <>
+                                {Stock > 0 ? (
+                                  <button
+                                    className="cartWishListBtn"
+                                    onClick={() => moveToCart(item)}
+                                  >
+                                    Move To Cart
+                                  </button>
+                                ) : (
+                                  <button
+                                    className="cartWishListBtn"
+                                    onClick={() =>
+                                      notificationHandler(
+                                        "Product is out of scope. Will let know once available"
+                                      )
+                                    }
+                                  >
+                                    Out of scope
+                                  </button>
+                                )}
+                              </>
                             )}
                           </div>
                         </div>

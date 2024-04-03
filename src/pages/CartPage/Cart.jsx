@@ -25,7 +25,7 @@ export default function Cart() {
   const cloud_name = process.env.REACT_APP_Cloud_Name;
   localStorage.setItem("path", window.location.pathname);
   const user = JSON.parse(localStorage.getItem("user"));
-  console.log(user);
+  console.log(cartItem);
   return (
     <div className="cart">
       <NavBar />
@@ -35,17 +35,24 @@ export default function Cart() {
         </div>
       ) : (
         <div className="main-cart">
-          {cartItem.cartArray.length > 0 && (
-            <div className="header">
-              <h3>Cart [{cartItem.cartArray?.length}]</h3>
-            </div>
-          )}
+          {Array.isArray(cartItem.cartArray) &&
+            cartItem.cartArray.length > 0 && (
+              <div className="header">
+                <h3>Cart [{cartItem.cartArray.length || 0}]</h3>
+              </div>
+            )}
           {cartItem.cartArray.length > 0 &&
           Array.isArray(cartItem.cartArray) ? (
             <div className="cart-container">
               {cartItem.cartArray.map((item) => {
-                const { _id, Price, Rating, Name, qtyOfsameProductInCart } =
-                  item;
+                const {
+                  _id,
+                  Price,
+                  Rating,
+                  Discount,
+                  Name,
+                  qtyOfsameProductInCart,
+                } = item;
                 return (
                   <div className="cart-card" key={_id}>
                     <div className="card-left">
@@ -96,7 +103,8 @@ export default function Cart() {
                           )}
                         </p>
                         <p>
-                          <LiaRupeeSignSolid /> {Price}
+                          <LiaRupeeSignSolid />{" "}
+                          {Price - Math.floor((Price * Discount) / 100)}
                         </p>
                         <div className="qty-btns">
                           <button

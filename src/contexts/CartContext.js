@@ -24,7 +24,10 @@ export const CartContextProvider = ({ children }) => {
       });
       if (res.ok) {
         const cartProducts = await res.json();
-        cartDispacher({ type: "ADD_TO_CART", payload: cartProducts.cart });
+        cartDispacher({
+          type: "ADD_TO_CART",
+          payload: cartProducts.cart || [],
+        });
         productDispatcher({ type: "STATUS_CART", payload: productId });
         cartDispacher({ type: "LOADING_ADD_TO_CART", payload: productId });
         notificationHandler("Added to the cart");
@@ -48,6 +51,7 @@ export const CartContextProvider = ({ children }) => {
       });
       const cartProducts = await res.json();
       cartDispacher({ type: "LOADING" });
+      console.log(cartProducts);
       cartDispacher({ type: "ADD_TO_CART", payload: cartProducts.cart });
     } catch (err) {
       console.error(err);
@@ -111,14 +115,17 @@ export const CartContextProvider = ({ children }) => {
   const totalBill = cartItem?.cartArray?.reduce(
     (acc, cur) => {
       acc.Price =
-        Number(acc.Price) + Number(cur.Price * cur.qtyOfsameProductInCart);
+        Number(acc.Price) +
+        Number(
+          (cur.Price - Math.floor((cur.Price * cur.Discount) / 100)) *
+            cur.qtyOfsameProductInCart
+        );
       acc.qtyOfsameProductInCart =
         acc.qtyOfsameProductInCart + cur.qtyOfsameProductInCart;
       return acc;
     },
     { Price: 0, qtyOfsameProductInCart: 0 }
   );
-
   return (
     <CartContext.Provider
       value={{

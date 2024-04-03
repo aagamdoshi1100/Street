@@ -9,17 +9,19 @@ import { AiOutlineHeart } from "react-icons/ai";
 import { IoMdHeart } from "react-icons/io";
 import { useNavigate } from "react-router-dom";
 import { checkIsUserLoggedIn } from "../utils";
+import useAuthContext from "../../contexts/AuthContext";
 
 export default function Products({ data, status }) {
   const { addToCart, cartItem } = useCartContext();
   const { manageWishList } = useWishListContext();
+  const { notificationHandler } = useAuthContext();
   const navigate = useNavigate();
   const cloud_name = process.env.REACT_APP_Cloud_Name;
   const user = JSON.parse(localStorage.getItem("user"));
   return (
     <div className={styles.container}>
       {data.map((item) => {
-        const { _id, Name, Price, Rating, Discount } = item;
+        const { _id, Name, Price, Rating, Discount, Stock } = item;
         return (
           <div className={styles.card} key={_id}>
             {status.wishlistStatus.includes(_id) ? (
@@ -48,7 +50,7 @@ export default function Products({ data, status }) {
               className={styles.productDetails}
               onClick={() => navigate(`/products/${_id}`)}
             >
-              <p className={styles.productname}>{Name}</p> 
+              <p className={styles.productname}>{Name}</p>
               <p className={styles.rating}>
                 <span className={styles.ratingNumber}>{Rating}</span>
                 {"Rating".split("").map((a, index) => {
@@ -85,17 +87,32 @@ export default function Products({ data, status }) {
               </button>
             ) : (
               <>
-                {cartItem.addToCartLoading.isEnabled &&
-                _id === cartItem.addToCartLoading.productId ? (
-                  <button className={styles.cardBtn}>Please wait...</button>
+                {Stock > 0 ? (
+                  <>
+                    {cartItem.addToCartLoading.isEnabled &&
+                    _id === cartItem.addToCartLoading.productId ? (
+                      <button className={styles.cardBtn}>Please wait...</button>
+                    ) : (
+                      <button
+                        className={styles.cardBtn}
+                        onClick={() =>
+                          checkIsUserLoggedIn(navigate, item._id, addToCart)
+                        }
+                      >
+                        Add to Cart
+                      </button>
+                    )}
+                  </>
                 ) : (
                   <button
                     className={styles.cardBtn}
                     onClick={() =>
-                      checkIsUserLoggedIn(navigate, item._id, addToCart)
+                      notificationHandler(
+                        "Please mark wishlist. Will let you know once available"
+                      )
                     }
                   >
-                    Add to Cart
+                    Out of stock
                   </button>
                 )}
               </>

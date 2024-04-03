@@ -64,6 +64,7 @@ export function AuthContextProvider({ children }) {
         localStorage.setItem("user", JSON.stringify(resData.data.createdUser));
       }
     } catch (err) {
+      setUser({ ...user, loading: false });
       console.error(err);
       notificationHandler(err.message);
     }
@@ -105,6 +106,7 @@ export function AuthContextProvider({ children }) {
       }
       setUser({ ...user, loading: false, inputs: reset.inputs });
     } catch (err) {
+      setUser({ ...user, loading: false });
       console.error(err);
       notificationHandler(err.message);
     }
