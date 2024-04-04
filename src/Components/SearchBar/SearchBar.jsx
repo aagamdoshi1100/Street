@@ -51,7 +51,7 @@ export default function SearchBar() {
               payload: e.target.value,
             })
           }
-          placeholder="Search in SREET"
+          placeholder="Search in STREET"
         />
         {productState.search.value.length > 0 && (
           <AiOutlineClose

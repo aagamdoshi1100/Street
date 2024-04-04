@@ -1,8 +1,8 @@
 .searchBar {
   padding: 10px;
   display: flex;
-  flex-grow: 1;
   position: relative;
+  top: 72px;
 }
 
 .results {
@@ -10,7 +10,7 @@
   flex-direction: column;
   position: absolute;
   background-color: white;
-  top: 59px;
+  top: 122px;
   margin: 0px 10px;
   box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
   border-radius: 15px;
