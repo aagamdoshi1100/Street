@@ -4,6 +4,7 @@ import styles from "./profile.module.css";
 import { MdOutlineMailOutline } from "react-icons/md";
 import NavBar from "../../Components/NavBarPage/NavBar";
 import { validateProfileInputs } from "../../Components/utils";
+import { NavLink } from "react-router-dom";
 
 function Profile() {
   const { user, setUser, updateProfile } = useAuthContext();
@@ -15,8 +16,8 @@ function Profile() {
     }
   };
 
+  const userData = JSON.parse(localStorage.getItem("user"));
   useEffect(() => {
-    const userData = JSON.parse(localStorage.getItem("user"));
     setUser({
       ...user,
       inputs: {
@@ -51,6 +52,7 @@ function Profile() {
             {user.inputs.lastname?.toUpperCase()}
           </p>
           <p className={styles.email}>{user.inputs.email}</p>
+          <NavLink to={`/users/${userData._id}/orders`}>View orders</NavLink>
         </div>
         <hr />
       </div>

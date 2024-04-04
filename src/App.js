@@ -11,6 +11,7 @@ import CheckOut from "./pages/CheckOut/CheckOut";
 import useAuthContext from "./contexts/AuthContext";
 import DetailedView from "./pages/DetailedView/DetailedView";
 import Profile from "./pages/Profile/Profile";
+import Orders from "./pages/Orders/Orders";
 
 function App() {
   const { toast, errDivRef } = useAuthContext();
@@ -58,6 +59,14 @@ function App() {
           element={
             <RequiresAuth>
               <CheckOut />
+            </RequiresAuth>
+          }
+        />
+        <Route
+          path="/users/:userId/orders"
+          element={
+            <RequiresAuth>
+              <Orders />
             </RequiresAuth>
           }
         />

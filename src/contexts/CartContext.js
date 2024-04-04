@@ -127,6 +127,54 @@ export const CartContextProvider = ({ children }) => {
     }
   };
 
+  const placeOrder = async (productIds) => {
+    try {
+      const user = JSON.parse(localStorage.getItem("user"));
+      const res = await fetch(`${API_URL}/users/${user._id}/orders`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          authorization: localStorage.getItem("token"),
+        },
+        body: JSON.stringify({ data: productIds }),
+      });
+      const resData = await res.json();
+      if (res.ok) {
+        notificationHandler("Order Placed successfully");
+      } else {
+        throw resData;
+      }
+    } catch (err) {
+      console.error(err);
+      notificationHandler(err.message);
+    }
+  };
+
+  const fetchOrders = async () => {
+    try {
+      cartDispacher({ type: "LOADING" });
+      const user = JSON.parse(localStorage.getItem("user"));
+      const res = await fetch(`${API_URL}/users/${user._id}/orders`, {
+        method: "GET",
+        headers: {
+          authorization: localStorage.getItem("token"),
+        },
+      });
+      const resData = await res.json();
+      if (res.ok) {
+        cartDispacher({ type: "LOADING" });
+        cartDispacher({ type: "FETCH_ORDERS", payload: resData.data });
+        notificationHandler("Order fetched successfully");
+      } else {
+        throw resData;
+      }
+    } catch (err) {
+      cartDispacher({ type: "LOADING" });
+      console.error(err);
+      notificationHandler(err.message);
+    }
+  };
+
   const totalBill = cartItem?.cartArray?.reduce(
     (acc, cur) => {
       acc.Price =
@@ -151,6 +199,8 @@ export const CartContextProvider = ({ children }) => {
         cartItem,
         cartDispacher,
         moveToWishlist,
+        placeOrder,
+        fetchOrders,
       }}
     >
       {children}

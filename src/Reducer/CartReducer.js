@@ -9,6 +9,9 @@ export const initialCartStatus = {
     isEnabled: false,
     productId: "",
   },
+  orderDetails: {
+    orders: [],
+  },
 };
 
 export default function CartReducer(state, action) {
@@ -69,6 +72,14 @@ export default function CartReducer(state, action) {
       };
     case "MOVEFROMWISHLIST":
       return { ...state, cartArray: action.payload };
+    case "FETCH_ORDERS":
+      return {
+        ...state,
+        orderDetails: {
+          ...state.orderDetails,
+          orders: action.payload,
+        },
+      };
     default:
       return state;
   }
