@@ -49,6 +49,9 @@
 }
 
 @media only screen and (min-width: 768px) {
+  .searchBar {
+    top: 0px;
+  }
   .results {
     top: 59px;
     width: 38vw;
