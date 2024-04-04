@@ -30,6 +30,7 @@ export const WishListContextProvider = ({ children }) => {
         headers: { "Content-Type": "application/json", authorization: token },
         body: JSON.stringify({ productId: product._id }),
       });
+      const resData = await res.json();
       if (res.ok) {
         if (wishListItem.WishListArray.find((pro) => pro._id === product._id)) {
           setWishListItem({
@@ -48,6 +49,8 @@ export const WishListContextProvider = ({ children }) => {
           productDispatcher({ type: "STATUS_WISHLIST", payload: product._id });
           notificationHandler("Product added to wishlist");
         }
+      } else {
+        throw resData;
       }
     } catch (err) {
       console.error(err);
@@ -74,8 +77,14 @@ export const WishListContextProvider = ({ children }) => {
           loading: false,
           WishListArray: wishListProducts.wishlists,
         });
+      } else {
+        throw wishListProducts;
       }
     } catch (err) {
+      setWishListItem({
+        ...wishListItem,
+        loading: false,
+      });
       console.error(err);
       notificationHandler(err.message);
     }
@@ -103,6 +112,7 @@ export const WishListContextProvider = ({ children }) => {
           headers: { authorization: token },
         }
       );
+      const resData = await res.json();
       if (res.ok) {
         setWishListItem({
           ...wishListItem,
@@ -119,9 +129,23 @@ export const WishListContextProvider = ({ children }) => {
           },
         });
         notificationHandler("Product moved to cart");
+      } else {
+        throw resData;
       }
     } catch (err) {
+      setWishListItem({
+        ...wishListItem,
+        loadingStates: {
+          ...wishListItem.loadingStates,
+          moveToCartLoading: {
+            ...wishListItem.loadingStates.moveToCartLoading,
+            isEnabled: false,
+            productId: "",
+          },
+        },
+      });
       console.error(err);
+      notificationHandler(err.message);
     }
   };
 

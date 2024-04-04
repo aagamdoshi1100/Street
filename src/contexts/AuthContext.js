@@ -54,7 +54,6 @@ export function AuthContextProvider({ children }) {
         }),
       });
       const resData = await signupResponse.json();
-      console.log(signupResponse, resData);
       if (!signupResponse.ok) {
         throw resData;
       } else {
@@ -120,10 +119,10 @@ export function AuthContextProvider({ children }) {
         method: "PUT",
         headers: {
           "Content-Type": "application/json",
+          authorization: localStorage.getItem("token"),
         },
         body: JSON.stringify({ details: user.inputs }),
       });
-      console.log(user.inputs);
       const resData = await response.json();
       if (!response.ok) {
         throw resData;
@@ -133,6 +132,7 @@ export function AuthContextProvider({ children }) {
         notificationHandler("Profile updated successfully");
       }
     } catch (err) {
+      setUser({ ...user, isEdited: false });
       console.error(err);
       notificationHandler(err.message);
     }
@@ -141,6 +141,7 @@ export function AuthContextProvider({ children }) {
   const signOutHandler = () => {
     localStorage.removeItem("token");
     localStorage.removeItem("user");
+    localStorage.removeItem("path");
     notificationHandler("Logged out");
     navigate("/login");
   };

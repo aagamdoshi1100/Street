@@ -77,16 +77,25 @@ export default function FetchContextProvider({ children }) {
     if (user) {
       try {
         const allProducts = await fetch(
-          `${API_URL}/users/${user._id}/cartAndWishlistIds`
+          `${API_URL}/users/${user._id}/cartAndWishlistIds`,
+          {
+            headers: {
+              authorization: localStorage.getItem("token"),
+            },
+          }
         );
         const responseProductData = await allProducts.json();
-        productDispatcher({
-          type: "FETCH_TO_DISPLAY",
-          payload: responseProductData,
-        });
+        if (allProducts.ok) {
+          productDispatcher({
+            type: "FETCH_TO_DISPLAY",
+            payload: responseProductData,
+          });
+        } else {
+          throw responseProductData;
+        }
       } catch (err) {
         console.error(err);
-        notificationHandler(err.message);
+        user && notificationHandler(err.message);
       }
     }
   };

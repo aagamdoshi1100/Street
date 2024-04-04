@@ -25,7 +25,6 @@ export default function Cart() {
   const cloud_name = process.env.REACT_APP_Cloud_Name;
   localStorage.setItem("path", window.location.pathname);
   const user = JSON.parse(localStorage.getItem("user"));
-  console.log(cartItem);
   return (
     <div className="cart">
       <NavBar />

@@ -50,9 +50,15 @@ export const CartContextProvider = ({ children }) => {
         },
       });
       const cartProducts = await res.json();
-      cartDispacher({ type: "LOADING" });
-      console.log(cartProducts);
-      cartDispacher({ type: "ADD_TO_CART", payload: cartProducts.cart });
+      if (res.ok) {
+        cartDispacher({ type: "LOADING" });
+        cartDispacher({
+          type: "ADD_TO_CART",
+          payload: cartProducts.cart ?? [],
+        });
+      } else {
+        throw cartProducts;
+      }
     } catch (err) {
       console.error(err);
       notificationHandler(err.message);
@@ -60,7 +66,6 @@ export const CartContextProvider = ({ children }) => {
   };
 
   const cartController = async (data) => {
-    console.log(data, "Aaa");
     try {
       const user = JSON.parse(localStorage.getItem("user"));
       const manageCartResponse = await fetch(
@@ -74,15 +79,20 @@ export const CartContextProvider = ({ children }) => {
           body: JSON.stringify(data),
         }
       );
-      if (manageCartResponse.ok && data.action === "INCREMENT") {
-        cartDispacher({ type: "INCREMENT", payload: data });
-        notificationHandler("The quantity of the product has been increased");
-      } else if (manageCartResponse.ok && data.action === "DECREMENT") {
-        cartDispacher({ type: "DECREMENT", payload: data });
-        notificationHandler("The quantity of the product has been reduced.");
+      const resData = await manageCartResponse.json();
+      if (manageCartResponse.ok) {
+        if (data.action === "INCREMENT") {
+          cartDispacher({ type: "INCREMENT", payload: data });
+          notificationHandler("The quantity of the product has been increased");
+        } else if (data.action === "DECREMENT") {
+          cartDispacher({ type: "DECREMENT", payload: data });
+          notificationHandler("The quantity of the product has been reduced.");
+        } else {
+          cartDispacher({ type: "REMOVE_FROM_CART", payload: data });
+          notificationHandler("Product removed from the cart");
+        }
       } else {
-        cartDispacher({ type: "REMOVE_FROM_CART", payload: data });
-        notificationHandler("Product removed from the cart");
+        throw resData;
       }
     } catch (err) {
       console.error(err);
@@ -102,13 +112,18 @@ export const CartContextProvider = ({ children }) => {
           headers: { authorization: token },
         }
       );
+      const resData = await res.json();
       if (res.ok) {
         cartDispacher({ type: "LOADING_MOVE_TO_WISHLIST", payload: "" });
         cartDispacher({ type: "MOVE_TO_WISHLIST", payload: product });
         notificationHandler("Product moved to wishlist");
+      } else {
+        throw resData;
       }
     } catch (err) {
+      cartDispacher({ type: "LOADING_MOVE_TO_WISHLIST", payload: "" });
       console.error(err);
+      notificationHandler(err.message);
     }
   };
 

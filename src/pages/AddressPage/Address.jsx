@@ -19,7 +19,6 @@ export default function Address() {
   useEffect(() => {
     fetchAddresses();
   }, []);
-  console.log(deliveryState, cartItem, totalBill, "DL");
   return (
     <>
       <NavBar />

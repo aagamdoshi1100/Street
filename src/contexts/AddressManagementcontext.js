@@ -3,6 +3,7 @@ import AddressManagementReducer, {
   initialAddressValue,
 } from "../Reducer/AddressReducer";
 import { API_URL } from "../constants";
+import useAuthContext from "./AuthContext";
 
 const AddressManagementContext = createContext();
 
@@ -11,21 +12,27 @@ export const AddressManagementContextProvider = ({ children }) => {
     AddressManagementReducer,
     initialAddressValue
   );
-
-  const fetchAddresses = async (productId) => {
+  const { notificationHandler } = useAuthContext();
+  const fetchAddresses = async () => {
     try {
       const user = JSON.parse(localStorage.getItem("user"));
-      const res = await fetch(`${API_URL}/users/${user._id}/addresses`);
+      const res = await fetch(`${API_URL}/users/${user._id}/addresses`, {
+        headers: {
+          authorization: localStorage.getItem("token"),
+        },
+      });
+      const resData = await res.json();
       if (res.ok) {
-        const resData = await res.json();
         deliveryDispacher({
           type: "ALL_ADDRESSES",
           payload: resData.addresses,
         });
-        console.log(resData, "add");
+      } else {
+        throw resData;
       }
     } catch (err) {
       console.error(err);
+      notificationHandler(err.message);
     }
   };
 
@@ -36,19 +43,22 @@ export const AddressManagementContextProvider = ({ children }) => {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
+          authorization: localStorage.getItem("token"),
         },
         body: JSON.stringify(deliveryState.inputs),
       });
       const resData = await res.json();
-      console.log(res, resData, "add");
       if (res.ok) {
         deliveryDispacher({
           type: "ADD_ADDRESSES",
           payload: resData.data,
         });
+      } else {
+        throw resData;
       }
     } catch (err) {
       console.error(err);
+      notificationHandler(err.message);
     }
   };
   return (
