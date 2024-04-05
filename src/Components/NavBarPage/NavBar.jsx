@@ -8,6 +8,7 @@ import { BiLogOut, BiLogIn } from "react-icons/bi";
 import { AiOutlineShoppingCart, AiOutlineHeart } from "react-icons/ai";
 import { useNavigate } from "react-router-dom";
 import { RiHome2Line } from "react-icons/ri";
+import { checkIsUserLoggedIn } from "../utils";
 
 export default function NavBar() {
   const { productDispatcher, productState } = useFetchContext();
@@ -29,7 +30,13 @@ export default function NavBar() {
           <AiOutlineShoppingCart
             size="2.0em"
             className={styles.cartIcon}
-            onClick={() => navigate(`/users/${user._id}/cart`)}
+            onClick={() =>
+              checkIsUserLoggedIn(
+                navigate,
+                `/users/${user?._id}/cart`,
+                navigate
+              )
+            }
           />
           {productState.search.isEnabled ? (
             <MdSearchOff
@@ -52,7 +59,13 @@ export default function NavBar() {
           <AiOutlineHeart
             className={styles.navIcons}
             size="2.0em"
-            onClick={() => navigate(`/users/${user._id}/wishlist`)}
+            onClick={() =>
+              checkIsUserLoggedIn(
+                navigate,
+                `/users/${user?._id}/wishlist`,
+                navigate
+              )
+            }
           />
           {localStorage.getItem("token") ? (
             <>

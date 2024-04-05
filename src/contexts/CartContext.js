@@ -26,13 +26,14 @@ export const CartContextProvider = ({ children }) => {
         const cartProducts = await res.json();
         cartDispacher({
           type: "ADD_TO_CART",
-          payload: cartProducts.cart || [],
+          payload: cartProducts.cart ?? [],
         });
         productDispatcher({ type: "STATUS_CART", payload: productId });
         cartDispacher({ type: "LOADING_ADD_TO_CART", payload: productId });
         notificationHandler("Added to the cart");
       }
     } catch (err) {
+      cartDispacher({ type: "LOADING_ADD_TO_CART", payload: productId });
       console.error(err);
       notificationHandler(err.message);
     }
@@ -60,6 +61,7 @@ export const CartContextProvider = ({ children }) => {
         throw cartProducts;
       }
     } catch (err) {
+      cartDispacher({ type: "LOADING" });
       console.error(err);
       notificationHandler(err.message);
     }
